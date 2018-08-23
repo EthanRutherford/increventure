@@ -1,0 +1,205 @@
+/* will probably move to css-loader eventually */
+
+/* reset */
+	html, body, div, span, p, a, img,
+	h1, h2, h3, h4, h5, h6,
+	b, u, i, center, ol, ul, li,
+	label, button, input, select, textarea,
+	canvas, footer, header {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		vertical-align: baseline;
+		font: inherit;
+		line-height: 1.2;
+	}
+	html {
+		font: 16px 'Germania One'
+	}
+	:focus {
+		outline: 0;
+	}
+	button {
+		background: none;
+		cursor: pointer;
+	}
+/* reset */
+
+/* root */
+	.root {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: 60px auto;
+		grid-template-areas: 
+			"header header header"
+			"party main minions"
+		;
+		height: 100%;
+		background-color: lightgrey;
+		overflow: hidden;
+	}
+	.header {
+		grid-area: header;
+		padding: 20px;
+		font-size: 20px;
+	}
+	.particles {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 1000;
+	}
+/* root */
+
+/* party */
+	.party-area {
+		grid-area: party;
+	}
+	.grass-button {
+		border: 2px outset hsl(82, 20%, 40%);
+		width: 100%;
+		height: 100px;
+		background-color: hsl(82, 40%, 30%);
+		color: white;
+		font-size: 30px;
+		text-shadow: 2px 2px black;
+	}
+	.grass-button:hover {
+		background-color: hsl(82, 40%, 40%);
+	}
+	.grass-button:active {
+		border-style: inset;
+		background-color: hsl(82, 40%, 20%);
+	}
+/* party */
+
+/* main */
+	.store-area {
+		grid-area: main;
+	}
+	.upgrade-button {
+		border: 2px outset grey;
+		padding: 20px;
+		height: 100px;
+		width: 100%;
+		background-color: hsl(240, 20%, 40%);
+		color: white;
+		text-align: left;
+		text-shadow: 2px 2px black;
+	}
+	.upgrade-button:hover:not(:disabled) {
+		background-color: hsl(240, 20%, 50%);
+	}
+	.upgrade-button:active:not(:disabled) {
+		border-style: inset;
+		background-color: hsl(240, 20%, 30%);
+	}
+	.upgrade-button:disabled {
+		filter: brightness(.5);
+	}
+	.upgrade-row, .upgrade-title-row {
+		display: flex;
+		justify-content: space-between;
+	}
+	.upgrade-title-row {
+		font-size: 30px;
+	}
+	.upgrade-cost {
+		display: flex;
+	}
+/* main */
+
+/* minions */
+	.minion-area {
+		grid-area: minions;
+	}
+	.minion-button {
+		border: 2px outset grey;
+		padding: 20px;
+		height: 100px;
+		width: 100%;
+		background-color: hsl(0, 0%, 30%);
+		color: white;
+		text-align: left;
+		text-shadow: 2px 2px black;
+	}
+	.minion-button:hover:not(:disabled) {
+		background-color: hsl(0, 0%, 40%);
+	}
+	.minion-button:active:not(:disabled) {
+		border-style: inset;
+		background-color: hsl(0, 0%, 20%);
+	}
+	.minion-button:disabled {
+		filter: brightness(.5);
+	}
+	.minion-row, .minion-title-row {
+		display: flex;
+		justify-content: space-between;
+	}
+	.minion-title-row {
+		font-size: 30px;
+	}
+	.minion-cost {
+		display: flex;
+	}
+/* minions */
+
+/* coins */
+	.coins {
+		height: 80px;
+		padding: 20px;
+	}
+	.coin-row {
+		display: flex;
+		height: 20px;
+		font-size: 20px;
+	}
+	.coin {
+		position: relative;
+		margin-right: 10px;
+		border-radius: 7px;
+		height: 20px;
+		width: 14px;
+		overflow: hidden;
+	}
+	.coin:before {
+		content: "";
+		box-sizing: border-box;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		border: 1px solid rgba(0, 0, 0, .4);
+		border-radius: 7px;
+	}
+	.coin:after {
+		content: "";
+		box-sizing: border-box;
+		position: absolute;
+		top: 4px;
+		bottom: 4px;
+		left: 4px;
+		right: 4px;
+		border: 1px solid rgba(0, 0, 0, .2);
+		border-radius: 3px;
+		background-color: rgba(0, 0, 0, .05);
+	}
+	.copper {
+		background-color: #e98d0c;
+	}
+	.silver {
+		background-color: #c0c0c0;
+	}
+	.gold {
+		background-color: #ffd700;
+	}
+	.platinum {
+		background-color: #e9e9e9;
+	}
+/* coins */

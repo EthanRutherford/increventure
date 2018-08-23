@@ -1,0 +1,23 @@
+{
+  "name": "increventure",
+  "version": "1.0.0",
+  "main": "don't be daft",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "scripts": {
+    "build": "webpack --env prod",
+    "watch": "start webpack --watch",
+    "start": "start webpack-serve"
+  },
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-jenny": "^1.1.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-serve": "^2.0.2"
+  }
+}
