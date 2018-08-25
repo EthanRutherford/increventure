@@ -1,0 +1,33 @@
+.content {
+	grid-area: minions;
+}
+.button {
+	border: 2px outset grey;
+	padding: 20px;
+	height: 100px;
+	width: 100%;
+	background-color: hsl(0, 0%, 30%);
+	color: white;
+	text-align: left;
+	text-shadow: 2px 2px black;
+}
+.button:hover:not(:disabled) {
+	background-color: hsl(0, 0%, 40%);
+}
+.button:active:not(:disabled) {
+	border-style: inset;
+	background-color: hsl(0, 0%, 20%);
+}
+.button:disabled {
+	filter: brightness(.5);
+}
+.row, .title-row {
+	display: flex;
+	justify-content: space-between;
+}
+.title-row {
+	font-size: 30px;
+}
+.cost {
+	display: flex;
+}

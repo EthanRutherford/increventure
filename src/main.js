@@ -5,11 +5,13 @@ const Party = require("./ui/party");
 const Particles = require("./ui/particles");
 const Store = require("./ui/store");
 const Minions = require("./ui/minions");
+require("./styles/reset");
+const styles = require("./styles/root");
 
 class App extends Component {
 	render() {
 		return j([Particles, {render: (createParticle) => [
-			j({div: "header"}, "Incre-venture"),
+			j({div: styles.header}, "Incre-venture"),
 			j([Party, {createParticle}]),
 			j([Store]),
 			j([Minions]),

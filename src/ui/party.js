@@ -2,6 +2,8 @@ const {Component} = require("react");
 const j = require("react-jenny");
 const game = require("../logic/game");
 const {coinKinds, parseCoins} = require("./money");
+const partyStyles = require("../styles/party");
+const coinStyles = require("../styles/coins");
 
 class Coins extends Component {
 	constructor(...args) {
@@ -20,9 +22,9 @@ class Coins extends Component {
 	}
 	render() {
 		const coins = parseCoins(this.state.money);
-		return j({div: "coins"}, coins.map((amount, index) =>
-			j({div: "coin-row"}, [
-				j({div: `${coinKinds[index]} coin`}),
+		return j({div: coinStyles.coins}, coins.map((amount, index) =>
+			j({div: coinStyles.coinRow}, [
+				j({div: `${coinStyles[coinKinds[index]]} ${coinStyles.coin}`}),
 				amount,
 			]),
 		));
@@ -42,8 +44,8 @@ module.exports = class Party extends Component {
 		this.props.createParticle(event.pageX, event.pageY);
 	}
 	render() {
-		return j({div: "party-area"}, [
-			j({button: {className: "grass-button", onClick: this.handleClick}}, [
+		return j({div: partyStyles.content}, [
+			j({button: {className: partyStyles.grassButton, onClick: this.handleClick}}, [
 				"cut grass",
 			]),
 			j([Coins]),

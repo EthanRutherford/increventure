@@ -1,0 +1,23 @@
+html, body, div, span, p, a, img,
+h1, h2, h3, h4, h5, h6,
+b, u, i, center, ol, ul, li,
+label, button, input, select, textarea,
+canvas, footer, header {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	font: inherit;
+	line-height: 1.2;
+}
+html {
+	font: 16px 'Germania One';
+}
+:focus {
+	outline: 0;
+}
+button {
+	background: none;
+	cursor: pointer;
+}

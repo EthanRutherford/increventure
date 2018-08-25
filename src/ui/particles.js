@@ -1,5 +1,6 @@
 const {Component, Fragment, createRef} = require("react");
 const j = require("react-jenny");
+const styles = require("../styles/root");
 
 // HACK: use reel svgs pls
 const particleDefs = [
@@ -136,7 +137,7 @@ module.exports = class Particles extends Component {
 	render() {
 		const {createParticle, canvas} = this;
 		return j(Fragment, [
-			j({canvas: {className: "particles", ref: canvas}}),
+			j({canvas: {className: styles.particles, ref: canvas}}),
 			...this.props.render(createParticle),
 		]);
 	}

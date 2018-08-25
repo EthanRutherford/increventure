@@ -1,0 +1,33 @@
+.content {
+	grid-area: main;
+}
+.upgrade-button {
+	border: 2px outset grey;
+	padding: 20px;
+	height: 100px;
+	width: 100%;
+	background-color: hsl(240, 20%, 40%);
+	color: white;
+	text-align: left;
+	text-shadow: 2px 2px black;
+}
+.upgrade-button:hover:not(:disabled) {
+	background-color: hsl(240, 20%, 50%);
+}
+.upgrade-button:active:not(:disabled) {
+	border-style: inset;
+	background-color: hsl(240, 20%, 30%);
+}
+.upgrade-button:disabled {
+	filter: brightness(.5);
+}
+.upgrade-row, .upgrade-title-row {
+	display: flex;
+	justify-content: space-between;
+}
+.upgrade-title-row {
+	font-size: 30px;
+}
+.upgrade-cost {
+	display: flex;
+}

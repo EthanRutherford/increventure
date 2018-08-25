@@ -3,6 +3,8 @@ const j = require("react-jenny");
 const game = require("../logic/game");
 const {upgradeList} = require("../logic/upgrades");
 const {parseCoinsShort} = require("./money");
+const storeStyles = require("../styles/store");
+const coinStyles = require("../styles/coins");
 
 class Upgrade extends Component {
 	constructor(...args) {
@@ -27,16 +29,16 @@ class Upgrade extends Component {
 	render() {
 		const coin = parseCoinsShort(this.props.upgrade.cost);
 		return j({button: {
-			className: "upgrade-button",
+			className: storeStyles.upgradeButton,
 			onClick: () => game.buyUpgrade(this.props.upgrade.id),
 			disabled: this.state.disabled,
 		}}, [
-			j({div: "upgrade-title-row"}, [
+			j({div: storeStyles.upgradeRow}, [
 				j({h2: 0}, this.props.upgrade.name),
 			]),
-			j({div: "upgrade-row"}, [
-				j({div: "upgrade-cost"}, [
-					j({div: `${coin.kind} coin`}),
+			j({div: storeStyles.upgradeRow}, [
+				j({div: storeStyles.upgradeCost}, [
+					j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
 					coin.value,
 				]),
 				j({div: 0}, this.props.upgrade.desc),
@@ -83,7 +85,7 @@ class Upgrades extends Component {
 
 module.exports = class Store extends Component {
 	render() {
-		return j({div: "store-area"}, [
+		return j({div: storeStyles.content}, [
 			j([Upgrades]),
 		]);
 	}

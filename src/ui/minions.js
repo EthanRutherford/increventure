@@ -3,6 +3,8 @@ const j = require("react-jenny");
 const game = require("../logic/game");
 const {minions, minionKinds} = require("../logic/minions");
 const {parseCoinsShort} = require("./money");
+const minionStyles = require("../styles/minions");
+const coinStyles = require("../styles/coins");
 
 class Minion extends Component {
 	constructor(...args) {
@@ -34,17 +36,17 @@ class Minion extends Component {
 	render() {
 		const coin = parseCoinsShort(game.minionCosts[this.props.kind]);
 		return j({button: {
-			className: "minion-button",
+			className: minionStyles.button,
 			onClick: game.buyMinion[this.props.kind],
 			disabled: this.state.disabled,
 		}}, [
-			j({div: "minion-title-row"}, [
+			j({div: minionStyles.titleRow}, [
 				j({h2: 0}, minions[this.props.kind].name),
 				j({h2: 0}, this.state.count),
 			]),
-			j({div: "minion-row"}, [
-				j({div: "minion-cost"}, [
-					j({div: `${coin.kind} coin`}),
+			j({div: minionStyles.row}, [
+				j({div: minionStyles.cost}, [
+					j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
 					coin.value,
 				]),
 				j({div: 0}, minions[this.props.kind].desc),
@@ -55,7 +57,7 @@ class Minion extends Component {
 
 module.exports = class Minions extends Component {
 	render() {
-		return j({div: "minion-area"}, minionKinds.map((kind) =>
+		return j({div: minionStyles.content}, minionKinds.map((kind) =>
 			j([Minion, {kind, key: kind}]),
 		));
 	}

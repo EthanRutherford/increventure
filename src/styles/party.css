@@ -1,0 +1,19 @@
+.content {
+	grid-area: party;
+}
+.grass-button {
+	border: 2px outset hsl(82, 20%, 40%);
+	width: 100%;
+	height: 100px;
+	background-color: hsl(82, 40%, 30%);
+	color: white;
+	font-size: 30px;
+	text-shadow: 2px 2px black;
+}
+.grass-button:hover {
+	background-color: hsl(82, 40%, 40%);
+}
+.grass-button:active {
+	border-style: inset;
+	background-color: hsl(82, 40%, 20%);
+}
