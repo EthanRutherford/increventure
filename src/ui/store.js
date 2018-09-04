@@ -12,13 +12,7 @@ class Upgrade extends Component {
 		this.state = {
 			disabled: game.data.inventory.money < this.props.upgrade.cost,
 		};
-		this.handleMoneyChange = this.handleMoneyChange.bind(this);
-	}
-	componentDidMount() {
-		game.watch.inventory.money(this.handleMoneyChange);
-	}
-	componentWillUnmount() {
-		game.watch.inventory.money.off(this.handleMoneyChange);
+		game.watch.inventory.money(this, this.handleMoneyChange);
 	}
 	handleMoneyChange(money) {
 		const disabled = money < this.props.upgrade.cost;
@@ -51,13 +45,7 @@ class Upgrades extends Component {
 	constructor(...args) {
 		super(...args);
 		this.state = {upgrades: this.getVisibleUpgrades()};
-		this.handleChange = this.handleChange.bind(this);
-	}
-	componentDidMount() {
-		game.watch(this.handleChange);
-	}
-	componentWillUnmount() {
-		game.watch.off(this.handleChange);
+		game.watch(this, this.handleChange);
 	}
 	getVisibleUpgrades() {
 		return upgradeList.filter((item) =>

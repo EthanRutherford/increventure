@@ -9,13 +9,7 @@ class Coins extends Component {
 	constructor(...args) {
 		super(...args);
 		this.state = {money: game.data.inventory.money};
-		this.handleMoneyChange = this.handleMoneyChange.bind(this);
-	}
-	componentDidMount() {
-		game.watch.inventory.money(this.handleMoneyChange);
-	}
-	componentWillUnmount() {
-		game.watch.inventory.money.off(this.handleMoneyChange);
+		game.watch.inventory.money(this, this.handleMoneyChange);
 	}
 	handleMoneyChange(money) {
 		this.setState({money});

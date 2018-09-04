@@ -44,57 +44,63 @@ const saveData = {
 	},
 };
 
+// set up didMount and willUnmount handlers to add/remove bound handler
+function connect(component, listener, listeners) {
+	const boundListener = listener.bind(component);
+	const didMount = component.componentDidMount;
+	const willUnmount = component.componentWillUnmount;
+	component.componentDidMount = function() {
+		listeners.add(boundListener);
+		if (didMount) didMount();
+	};
+	component.componentWillUnmount = function() {
+		listeners.delete(boundListener);
+		if (willUnmount) willUnmount();
+	};
+}
+
 // listener data
-const proxyData = {};
 const listenerMap = {base: new Set()};
-const watch = (listener) => listenerMap.base.add(listener);
-watch.off = (listener) => listenerMap.base.delete(listener);
+const proxyData = {};
+const watch = (component, listener) => connect(component, listener, listenerMap.base);
 
 // queued changes
 const queue = new Map();
-let isSet;
 function callListeners() {
 	for (const [listeners, value] of queue.entries()) {
-		for (const listener of listeners) {
-			listener(value);
+		if (listeners) {
+			for (const listener of listeners) {
+				listener(value);
+			}
 		}
-		queue.delete(listeners);
 	}
-	isSet = false;
+	queue.clear();
 }
 
 // proxy/listener/watch creation
 for (const [rootKey, rootObj] of Object.entries(saveData)) {
-	const rootData = proxyData[rootKey] = {};
 	const rootListenerMap = listenerMap[rootKey] = {};
 	const rootListeners = rootListenerMap.base = new Set();
-	const rootWatch = watch[rootKey] = (listener) => rootListeners.add(listener);
-	rootWatch.off = (listener) => rootListeners.delete(listener);
 
-	// create sub-listeners
-	for (const key of Object.keys(rootObj)) {
-		const subListeners = rootListenerMap[key] = new Set();
-		rootWatch[key] = (listener) => subListeners.add(listener);
-		rootWatch[key].off = (listener) => subListeners.delete(listener);
+	proxyData[rootKey] = new Proxy(rootObj, {
+		set(target, prop, value) {
+			saveData[rootKey][prop] = value;
 
-		// create proxy getter/setter pair
-		Object.defineProperty(rootData, key, {
-			get: () => saveData[rootKey][key],
-			set: (prop) => {
-				saveData[rootKey][key] = prop;
+			queue.set(rootListenerMap[prop], value);
+			queue.set(rootListeners, proxyData[rootKey]);
+			queue.set(listenerMap.base, proxyData);
 
-				queue.set(subListeners, prop);
-				queue.set(rootListeners, rootData);
-				queue.set(listenerMap.base, proxyData);
+			if (queue.size) setTimeout(callListeners, 0);
+			return true;
+		},
+	});
 
-				if (!isSet) {
-					setTimeout(callListeners, 0);
-					isSet = true;
-				}
-			},
-			enumerable: true,
-		});
-	}
+	watch[rootKey] = new Proxy((component, listener) => connect(component, listener, rootListeners), {
+		get(target, prop) {
+			if (rootListenerMap[prop] == null) rootListenerMap[prop] = new Set();
+			return (component, listener) => connect(component, listener, rootListenerMap[prop]);
+		},
+	});
 }
 
 module.exports = {
@@ -104,7 +110,7 @@ module.exports = {
 		localStorage.setItem("saveGame", JSON.stringify(saveData));
 	},
 	loadGame() {
-		const saveGame = localStorage.getItem("saveGame") || {};
+		const saveGame = JSON.parse(localStorage.getItem("saveGame")) || {};
 		for (const key of Object.keys(saveGame)) {
 			Object.assign(saveData[key], saveGame[key]);
 		}

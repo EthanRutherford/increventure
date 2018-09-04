@@ -13,16 +13,10 @@ class Minion extends Component {
 			count: game.data.minions[this.props.kind],
 			disabled: game.data.inventory.money < game.minionCosts[this.props.kind],
 		};
-		this.handleCountChange = this.handleCountChange.bind(this);
-		this.handleMoneyChange = this.handleMoneyChange.bind(this);
-	}
-	componentDidMount() {
-		game.watch.minions[this.props.kind](this.handleCountChange);
-		game.watch.inventory.money(this.handleMoneyChange);
-	}
-	componentWillUnmount() {
-		game.watch.minions[this.props.kind].off(this.handleCountChange);
-		game.watch.inventory.money.off(this.handleMoneyChange);
+
+
+		game.watch.minions[this.props.kind](this, this.handleCountChange);
+		game.watch.inventory.money(this, this.handleMoneyChange);
 	}
 	handleCountChange(count) {
 		this.setState({count});
