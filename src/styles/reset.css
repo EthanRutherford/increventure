@@ -8,6 +8,7 @@ canvas, footer, header {
 	padding: 0;
 	border: 0;
 	vertical-align: baseline;
+	color: inherit;
 	font: inherit;
 	line-height: 1.2;
 }

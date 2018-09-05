@@ -25,6 +25,42 @@ class Coins extends Component {
 	}
 }
 
+class Adventurer extends Component {
+	constructor(...args) {
+		super(...args);
+		this.state = {
+			...game.data[this.props.which],
+			bounceBack: false,
+		};
+
+		game.watch[this.props.which](this, this.handleChange);
+		this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
+	}
+	handleChange(value) {
+		this.setState(value);
+	}
+	handleAnimationEnd() {
+		if (this.timeout) return;
+		const waitTime = Math.random() * 2000;
+		this.timeout = window.setTimeout(() => {
+			this.setState((state) => ({bounceBack: !state.bounceBack}));
+			this.timeout = 0;
+		}, waitTime);
+	}
+	render() {
+		if (!this.state.created) return null;
+		return j({div: {
+			className: partyStyles.character,
+		}}, [
+			j({div: {
+				className: `${partyStyles.characterHead} ${this.state.bounceBack ? partyStyles.bounceBack : ""}`,
+				onAnimationEnd: this.handleAnimationEnd,
+			}}, ":)"),
+			this.state.name,
+		]);
+	}
+}
+
 module.exports = class Party extends Component {
 	constructor(...args) {
 		super(...args);
@@ -43,6 +79,10 @@ module.exports = class Party extends Component {
 				"cut grass",
 			]),
 			j([Coins]),
+			j([Adventurer, {which: "adventurer1"}]),
+			j([Adventurer, {which: "adventurer2"}]),
+			j([Adventurer, {which: "adventurer3"}]),
+			j([Adventurer, {which: "adventurer4"}]),
 		]);
 	}
 };

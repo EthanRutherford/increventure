@@ -5,6 +5,7 @@ const Party = require("./ui/party");
 const Particles = require("./ui/particles");
 const Store = require("./ui/store");
 const Minions = require("./ui/minions");
+const CharacterCreator = require("./ui/character-creator");
 require("./styles/reset");
 const styles = require("./styles/root");
 
@@ -15,6 +16,7 @@ class App extends Component {
 			j([Party, {createParticle}]),
 			j([Store]),
 			j([Minions]),
+			j([CharacterCreator]),
 		]}]);
 	}
 }

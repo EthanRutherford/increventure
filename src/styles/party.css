@@ -17,3 +17,69 @@
 	border-style: inset;
 	background-color: hsl(82, 40%, 20%);
 }
+
+.character {
+	position: relative;
+	margin: 20px;
+	padding-left: 30px;
+}
+.character-head {
+	position: absolute;
+	left: 0;
+	border-radius: 50%;
+	background-color: palegoldenrod;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	
+	animation-name: bounce-forward, rotate-forward;
+	animation-duration: .4s;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+}
+.bounce-back {
+	animation-name: bounce-back, rotate-back;
+}
+
+/* animations */
+@keyframes bounce-forward {
+	0% {
+		left: 0;
+		top: 0;
+		animation-timing-function: ease-out;
+	}
+	50% {
+		left: 2px;
+		top: -6px;
+		animation-timing-function: ease-in;
+	}
+	100% {
+		left: 4px;
+		top: 0;
+	}
+}
+@keyframes bounce-back {
+	0% {
+		left: 4px;
+		top: 0;
+		animation-timing-function: ease-out;
+	}
+	50% {
+		left: 2px;
+		top: -6px;
+		animation-timing-function: ease-in;
+	}
+	100% {
+		left: 0;
+		top: 0;
+	}
+}
+
+@keyframes rotate-forward {
+	from {transform: rotate(80deg)}
+	to {transform: rotate(100deg)}
+}
+@keyframes rotate-back {
+	from {transform: rotate(100deg)}
+	to {transform: rotate(80deg)}
+}
