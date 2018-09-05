@@ -1,4 +1,4 @@
-const skills = require("./skills");
+const {stats, skills} = require("./class-data");
 
 /*
 	stats affect a character's abilities
@@ -43,71 +43,44 @@ class Being {
 
 const adventurers = {
 	hero: {
-		str: 3,
-		dex: 3,
-		con: 3,
-		int: 3,
-		wis: 3,
-		luck: 1,
+		name: "Hero",
+		desc: "A well-rounded adventurer that can handle most any situation",
 	},
 	warrior: {
-		str: 4,
-		dex: 3,
-		con: 5,
-		int: 1,
-		wis: 2,
-		luck: 1,
+		name: "Warrior",
+		desc: "A brutish adventurer keen on smashing skulls and making mad gainz",
 	},
 	wizard: {
-		str: 1,
-		dex: 2,
-		con: 2,
-		int: 6,
-		wis: 4,
-		luck: 1,
+		name: "Wizard",
+		desc: "An adventurer skilled in the arcane arts, but lacking in athleticism",
 	},
 	cleric: {
-		str: 2,
-		dex: 1,
-		con: 3,
-		int: 4,
-		wis: 5,
-		luck: 1,
+		name: "Cleric",
+		desc: "A helpful adventurer, dedicated to keeping the party in top condition",
 	},
 	prodigy: {
-		str: 1,
-		dex: 1,
-		con: 1,
-		int: 1,
-		wis: 10,
-		luck: 2,
+		name: "Prodigy",
+		desc: "The most clever adventurer learns quickly, despite their young age",
 	},
 	savant: {
-		str: 4,
-		dex: 0,
-		con: 3,
-		int: 8,
-		wis: 0,
-		luck: 1,
+		name: "Savant",
+		desc: "An adventurer of incredible skill, but low aptitude for learning new tricks",
 	},
 };
 
 const monsters = {
 	slime: {
-		str: 1,
-		dex: 1,
-		con: 1,
-		int: 1,
-		wis: 1,
-		luck: 1,
+		name: "Slime",
+		desc: "",
 	},
 };
 
 function createNewAdventurer(data, name, kind) {
-	const baseData = adventurers[kind];
+	const baseData = stats[kind];
 	Object.assign(data, baseData);
 	data.name = name;
 	data.kind = kind;
+	data.created = true;
 	return new Being(data);
 }
 
