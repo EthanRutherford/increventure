@@ -27,7 +27,7 @@ class Upgrade extends Component {
 			onClick: () => game.buyUpgrade(this.props.upgrade.id),
 			disabled: this.state.disabled,
 		}}, [
-			j({div: storeStyles.upgradeRow}, [
+			j({div: storeStyles.upgradeTitleRow}, [
 				j({h2: 0}, this.props.upgrade.name),
 			]),
 			j({div: storeStyles.upgradeRow}, [

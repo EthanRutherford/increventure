@@ -1,11 +1,9 @@
 .coins {
-	height: 80px;
 	padding: 20px;
 }
 .coin-row {
 	display: flex;
-	height: 20px;
-	font-size: 20px;
+	align-items: center;
 }
 .coin {
 	position: relative;

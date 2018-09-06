@@ -1,3 +1,5 @@
+@import "./variables.css";
+
 .content {
 	grid-area: main;
 }
@@ -26,8 +28,9 @@
 	justify-content: space-between;
 }
 .upgrade-title-row {
-	font-size: 30px;
+	font-size: var(--large);
 }
 .upgrade-cost {
 	display: flex;
+	align-items: center;
 }

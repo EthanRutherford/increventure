@@ -1,3 +1,5 @@
+@import "./variables.css";
+
 html, body, div, span, p, a, img,
 h1, h2, h3, h4, h5, h6,
 b, u, i, center, ol, ul, li,
@@ -10,10 +12,9 @@ canvas, footer, header {
 	vertical-align: baseline;
 	color: inherit;
 	font: inherit;
-	line-height: 1.2;
 }
 html {
-	font: 16px 'Germania One';
+	font: var(--normal)/1.2 'Germania One';
 }
 :focus {
 	outline: 0;

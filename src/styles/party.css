@@ -1,39 +1,41 @@
+@import "./variables.css";
+
 .content {
 	grid-area: party;
 }
 .grass-button {
-	border: 2px outset hsl(82, 20%, 40%);
+	border: 2px outset var(--olive-pale);
 	width: 100%;
 	height: 100px;
-	background-color: hsl(82, 40%, 30%);
+	background-color: var(--olive);
 	color: white;
-	font-size: 30px;
+	font-size: var(--large);
 	text-shadow: 2px 2px black;
 }
 .grass-button:hover {
-	background-color: hsl(82, 40%, 40%);
+	background-color: var(--olive-light);
 }
 .grass-button:active {
 	border-style: inset;
-	background-color: hsl(82, 40%, 20%);
+	background-color: var(--olive-dark);
 }
 
 .character {
 	position: relative;
 	margin: 20px;
-	padding-left: 30px;
+	padding-left: 40px;
 }
 .character-head {
 	position: absolute;
 	left: 0;
 	border-radius: 50%;
 	background-color: palegoldenrod;
-	width: 20px;
-	height: 20px;
+	width: 24px;
+	height: 24px;
 	text-align: center;
 	
 	animation-name: bounce-forward, rotate-forward;
-	animation-duration: .4s;
+	animation-duration: .3s;
 	animation-fill-mode: forwards;
 	animation-timing-function: linear;
 }
@@ -49,23 +51,23 @@
 		animation-timing-function: ease-out;
 	}
 	50% {
-		left: 2px;
+		left: 3px;
 		top: -6px;
 		animation-timing-function: ease-in;
 	}
 	100% {
-		left: 4px;
+		left: 6px;
 		top: 0;
 	}
 }
 @keyframes bounce-back {
 	0% {
-		left: 4px;
+		left: 6px;
 		top: 0;
 		animation-timing-function: ease-out;
 	}
 	50% {
-		left: 2px;
+		left: 3px;
 		top: -6px;
 		animation-timing-function: ease-in;
 	}

@@ -1,3 +1,5 @@
+@import "./variables.css";
+
 .content {
 	grid-area: minions;
 }
@@ -6,17 +8,17 @@
 	padding: 20px;
 	height: 100px;
 	width: 100%;
-	background-color: hsl(0, 0%, 30%);
+	background-color: var(--slate);
 	color: white;
 	text-align: left;
 	text-shadow: 2px 2px black;
 }
 .button:hover:not(:disabled) {
-	background-color: hsl(0, 0%, 40%);
+	background-color: var(--slate-light);
 }
 .button:active:not(:disabled) {
 	border-style: inset;
-	background-color: hsl(0, 0%, 20%);
+	background-color: var(--slate-dark);
 }
 .button:disabled {
 	filter: brightness(.5);
@@ -26,8 +28,9 @@
 	justify-content: space-between;
 }
 .title-row {
-	font-size: 30px;
+	font-size: var(--large);
 }
 .cost {
 	display: flex;
+	align-items: center;
 }

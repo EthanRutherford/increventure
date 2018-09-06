@@ -1,3 +1,5 @@
+@import "./variables.css";
+
 :global(.root) {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -7,13 +9,12 @@
 		"party main minions"
 	;
 	height: 100%;
-	background-color: lightgrey;
+	background-color: var(--light-grey);
 	overflow: hidden;
 }
 .header {
 	grid-area: header;
 	padding: 20px;
-	font-size: 20px;
 }
 .particles {
 	position: fixed;

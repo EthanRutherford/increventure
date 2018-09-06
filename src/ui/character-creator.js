@@ -48,8 +48,9 @@ module.exports = class CharacterCreator extends Component {
 
 			return j({div: styles.container}, [
 				j({div: styles.popup}, [
+					j({h2: styles.title}, "Create Adventurer"),
 					j({ul: styles.list}, [
-						j({li: styles.title}, "Adventurers"),
+						j({li: styles.listTitle}, "Adventurers"),
 						...adventurerKinds.map((kind) => j({li: 0},
 							j({button: {
 								className: styles.button,

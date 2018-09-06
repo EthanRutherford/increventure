@@ -1,0 +1,18 @@
+:root {
+	/* font-sizes */
+	--normal: 20px;
+	--large: 30px;
+
+	/* greys */
+	--light-grey: hsl(0, 0%, 80%);
+	--slate: hsl(0, 0%, 30%);
+	--slate-light: hsl(0, 0%, 40%);
+	--slate-dark: hsl(0, 0%, 20%);
+	--carbon: hsl(0, 0%, 12%);
+
+	/* olive */
+	--olive: hsl(82, 40%, 30%);
+	--olive-light: hsl(82, 40%, 40%);
+	--olive-dark: hsl(82, 40%, 20%);
+	--olive-pale: hsl(82, 20%, 40%);
+}
