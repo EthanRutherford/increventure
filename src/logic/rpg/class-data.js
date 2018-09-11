@@ -1,3 +1,13 @@
+/*
+	stats affect a character's abilities
+	str: affects how much damage a character does
+	dex: affects how likely a character is to do critical hits or avoid damage
+	con: affects how much health a character has
+	int: affects how much mana a character has
+	wis: affects how quickly a character levels up
+	luck: gives a small boost to all chance-based events
+*/
+
 function randRange(min, max) {
 	const diff = max - min;
 	return Math.random() * diff + min;
@@ -168,7 +178,21 @@ const skills = {
 		},
 	],
 	// enemies
-	slime: [],
+	slime: [
+		{
+			lvl: 1,
+			name: "Goop",
+			desc: "Goops gloppity glorp on goopity gumprs",
+			target: "enemy",
+			mpCost: () => 5,
+			effect(slime) {
+				return {
+					effect: "damage",
+					amount: slime.str * 5,
+				};
+			},
+		},
+	],
 };
 
 module.exports = {stats, skills};

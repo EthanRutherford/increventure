@@ -5,27 +5,15 @@ const {upgradeList} = require("./upgrades");
 const saveData = {
 	adventurer1: {
 		created: false,
-		hp: 0,
-		mp: 0,
-		exp: 0,
 	},
 	adventurer2: {
 		created: false,
-		hp: 0,
-		mp: 0,
-		exp: 0,
 	},
 	adventurer3: {
 		created: false,
-		hp: 0,
-		mp: 0,
-		exp: 0,
 	},
 	adventurer4: {
 		created: false,
-		hp: 0,
-		mp: 0,
-		exp: 0,
 	},
 	inventory: {
 		money: 0,

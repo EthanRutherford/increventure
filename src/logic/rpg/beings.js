@@ -1,15 +1,5 @@
 const {stats, skills} = require("./class-data");
 
-/*
-	stats affect a character's abilities
-	str: affects how much damage a character does
-	dex: affects how likely a character is to do critical hits or avoid damage
-	con: affects how much health a character has
-	int: affects how much mana a character has
-	wis: affects how quickly a character levels up
-	luck: gives a small boost to all chance-based events
-*/
-
 class Being {
 	constructor(data) {
 		this.data = data;
@@ -76,11 +66,13 @@ const monsters = {
 };
 
 function createNewAdventurer(data, name, kind) {
-	const baseData = stats[kind];
-	Object.assign(data, baseData);
-	data.name = name;
-	data.kind = kind;
-	data.created = true;
+	const adventurer = new Being(Object.assign(data, stats[kind]));
+	adventurer.data.name = name;
+	adventurer.data.kind = kind;
+	adventurer.data.hp = adventurer.maxHp;
+	adventurer.data.mp = adventurer.maxMp;
+	adventurer.data.exp = 0;
+	adventurer.data.created = true;
 	return new Being(data);
 }
 
