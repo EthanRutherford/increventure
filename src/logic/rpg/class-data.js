@@ -129,7 +129,7 @@ const skills = {
 			lvl: 1,
 			name: "Cure water",
 			desc: "Heal one party member",
-			target: "party",
+			target: "ally",
 			mpCost: () => 10,
 			effect(hero) {
 				return {
