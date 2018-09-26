@@ -1,6 +1,7 @@
 const {Component} = require("react");
 const j = require("react-jenny");
 const game = require("../logic/game");
+const {randRange} = require("../logic/util");
 const {coinKinds, parseCoins} = require("./money");
 const partyStyles = require("../styles/party");
 const coinStyles = require("../styles/coins");
@@ -41,7 +42,7 @@ class Adventurer extends Component {
 	}
 	handleAnimationEnd() {
 		if (this.timeout) return;
-		const waitTime = Math.random() * 2000;
+		const waitTime = randRange(0, 2000);
 		this.timeout = window.setTimeout(() => {
 			this.setState((state) => ({bounceBack: !state.bounceBack}));
 			this.timeout = 0;

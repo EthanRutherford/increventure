@@ -1,3 +1,5 @@
+const {randRange} = require("../util");
+
 /*
 	stats affect a character's abilities
 	str: affects how much damage a character does
@@ -7,11 +9,6 @@
 	wis: affects how quickly a character levels up
 	luck: gives a small boost to all chance-based events
 */
-
-function randRange(min, max) {
-	const diff = max - min;
-	return Math.random() * diff + min;
-}
 
 const stats = {
 	// adventurers

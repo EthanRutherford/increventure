@@ -1,4 +1,4 @@
-const randItem = (list) => list[Math.floor(Math.random() * list.length)];
+const {randItem, randInt} = require("../util");
 
 function analyzeWords(words) {
 	const analysis = {
@@ -22,7 +22,7 @@ function analyzeWords(words) {
 }
 
 function createName(analysis) {
-	const wordLength = 4 + Math.floor(Math.random() * 8);
+	const wordLength = randInt(4, 12);
 
 	let name = randItem(analysis.alphabet);
 	while (name.length < wordLength) {
