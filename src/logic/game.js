@@ -1,4 +1,4 @@
-const {minionKinds, costCalculator} = require("./minions");
+const {minions, minionKinds, costCalculator} = require("./minions");
 const {upgrades, calculateMultipliers} = require("./upgrades");
 const {Being} = require("./rpg/beings");
 const {data, watch, saveGame, loadGame} = require("./save-data");
@@ -25,11 +25,9 @@ const game = {
 			game.adventurers.adventurer4 = new Being(game.data.adventurer4);
 		}
 	},
-	cutGrass(amount = 1, minions = false) {
-		if (!minions) {
-			game.data.stats.grassClicks++;
-		}
-		game.data.inventory.money += amount * game.multipliers.grass;
+	cutGrass() {
+		game.data.stats.grassClicks++;
+		game.data.inventory.money += game.multipliers.grass;
 	},
 	// minion data
 	minionCosts: minionKinds.reduce((obj, kind) => {
@@ -68,11 +66,13 @@ setInterval(function() {
 	lastTick = thisTick;
 
 	// minion logic
-	if (game.data.minions.grass) {
-		game.cutGrass(game.data.minions.grass * diff / 10, true);
-	}
-	if (game.data.minions.slime) {
-		game.data.inventory.money += game.data.minions.slime * diff;
+	for (const kind of minionKinds) {
+		if (game.data.minions[kind]) {
+			const base = minions[kind].baseRate;
+			const count = game.data.minions[kind];
+			const mult = game.multipliers[kind];
+			game.data.inventory.money += base * count * mult * diff;
+		}
 	}
 
 	// stats tracking

@@ -1,7 +1,15 @@
 .coins {
+	position: relative;
 	padding: 20px;
 }
 .coin-row {
+	display: flex;
+	align-items: center;
+}
+.coin-rate {
+	position: absolute;
+	top: 20px;
+	right: 20px;
 	display: flex;
 	align-items: center;
 }
@@ -12,6 +20,10 @@
 	height: 20px;
 	width: 14px;
 	overflow: hidden;
+}
+.reverse-margin {
+	margin-right: 0;
+	margin-left: 10px;
 }
 .coin:before {
 	content: "";

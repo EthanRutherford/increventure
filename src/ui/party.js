@@ -1,28 +1,49 @@
 const {Component} = require("react");
 const j = require("react-jenny");
 const game = require("../logic/game");
+const {minions, minionKinds} = require("../logic/minions");
 const {randRange} = require("../logic/util");
-const {coinKinds, parseCoins} = require("./money");
+const {coinKinds, parseCoins, parseCoinsShort} = require("./money");
 const partyStyles = require("../styles/party");
 const coinStyles = require("../styles/coins");
 
 class Coins extends Component {
 	constructor(...args) {
 		super(...args);
-		this.state = {money: game.data.inventory.money};
+		this.state = {
+			money: game.data.inventory.money,
+			moneyRate: this.calcMoneyRate(),
+		};
 		game.watch.inventory.money(this, this.handleMoneyChange);
+		game.watch.upgrades(this, this.handleRateChange);
+		game.watch.minions(this, this.handleRateChange);
 	}
 	handleMoneyChange(money) {
 		this.setState({money});
 	}
+	handleRateChange() {
+		this.setState({moneyRate: this.calcMoneyRate()});
+	}
+	calcMoneyRate() {
+		return minionKinds.reduce((total, kind) =>
+			total + game.data.minions[kind] * minions[kind].baseRate * game.multipliers[kind], 0,
+		);
+	}
 	render() {
 		const coins = parseCoins(this.state.money);
-		return j({div: coinStyles.coins}, coins.map((amount, index) =>
-			j({div: coinStyles.coinRow}, [
+		const rateValue = parseCoinsShort(this.state.moneyRate);
+
+		return j({div: coinStyles.coins}, [
+			...coins.map((amount, index) => j({div: coinStyles.coinRow}, [
 				j({div: `${coinStyles[coinKinds[index]]} ${coinStyles.coin}`}),
 				amount,
+			])),
+			j({div: coinStyles.coinRate}, [
+				`(${rateValue.value}`,
+				j({div: `${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`}),
+				"/s)",
 			]),
-		));
+		]);
 	}
 }
 

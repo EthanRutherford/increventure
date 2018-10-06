@@ -3,11 +3,13 @@ const minions = {
 		name: "Grass",
 		desc: "cuts grass for you",
 		baseCost: 20,
+		baseRate: .1,
 	},
 	slime: {
 		name: "Slime",
 		desc: "farms slimes for you",
 		baseCost: 100,
+		baseRate: 1,
 	},
 };
 
