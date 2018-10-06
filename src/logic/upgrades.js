@@ -1,23 +1,26 @@
-let nextId = 0;
-function upgrade(obj) {
-	obj.id = nextId++;
-	return obj;
-}
-
-const upgradeList = [
-	upgrade({
+const upgrades = {
+	scissors: {
 		name: "Safety Scissors",
 		desc: "Cutting grass is easier with something to cut with.",
 		cost: 100,
 		unlock: (data) => data.minions.grass > 0,
 		effect: (multipliers) => multipliers.grass *= 2,
-	}),
-];
-
-const upgradeMap = upgradeList.reduce((map, upgrade) => {
-	map[upgrade.id] = upgrade;
-	return map;
-}, {});
+	},
+	scythes: {
+		name: "Scythes",
+		desc: "Congrats! You've learned to use an actual grass cutting tool!",
+		cost: 500,
+		unlock: (data) => data.upgrades.scissors && data.stats.grassClicks > 1000,
+		effect: (multipliers) => multipliers.grass *= 2,
+	},
+	slimeCandy: {
+		name: "Slime Candy",
+		desc: "Attract more slimes with some slime candy",
+		cost: 1000,
+		unlock: (data) => data.minions.slime > 0,
+		effect: (multipliers) => multipliers.slime *= 2,
+	},
+};
 
 function calculateMultipliers(savedUpgrades) {
 	const base = {
@@ -27,7 +30,7 @@ function calculateMultipliers(savedUpgrades) {
 
 	for (const [id, owned] of Object.entries(savedUpgrades)) {
 		if (owned) {
-			upgradeMap[id].effect(base);
+			upgrades[id].effect(base);
 		}
 	}
 
@@ -35,7 +38,7 @@ function calculateMultipliers(savedUpgrades) {
 }
 
 module.exports = {
-	upgradeList,
-	upgradeMap,
+	upgrades,
+	upgradeIds: Object.keys(upgrades),
 	calculateMultipliers,
 };

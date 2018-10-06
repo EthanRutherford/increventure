@@ -1,5 +1,5 @@
 const {minionKinds, costCalculator} = require("./minions");
-const {upgradeMap, calculateMultipliers} = require("./upgrades");
+const {upgrades, calculateMultipliers} = require("./upgrades");
 const {Being} = require("./rpg/beings");
 const {data, watch, saveGame, loadGame} = require("./save-data");
 
@@ -51,8 +51,8 @@ const game = {
 	adventurers: {},
 	// upgrades
 	buyUpgrade(upgradeId) {
-		if (game.data.inventory.money >= upgradeMap[upgradeId].cost) {
-			game.data.inventory.money -= upgradeMap[upgradeId].cost;
+		if (game.data.inventory.money >= upgrades[upgradeId].cost) {
+			game.data.inventory.money -= upgrades[upgradeId].cost;
 			game.data.upgrades[upgradeId] = true;
 			game.multipliers = calculateMultipliers(game.data.upgrades);
 		}

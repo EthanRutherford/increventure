@@ -1,7 +1,7 @@
 const {Component} = require("react");
 const j = require("react-jenny");
 const game = require("../logic/game");
-const {upgradeList} = require("../logic/upgrades");
+const {upgrades, upgradeIds} = require("../logic/upgrades");
 const {parseCoinsShort} = require("./money");
 const storeStyles = require("../styles/store");
 const coinStyles = require("../styles/coins");
@@ -9,33 +9,34 @@ const coinStyles = require("../styles/coins");
 class Upgrade extends Component {
 	constructor(...args) {
 		super(...args);
+		this.upgrade = upgrades[this.props.upgradeId];
 		this.state = {
-			disabled: game.data.inventory.money < this.props.upgrade.cost,
+			disabled: game.data.inventory.money < this.upgrade.cost,
 		};
 		game.watch.inventory.money(this, this.handleMoneyChange);
 	}
 	handleMoneyChange(money) {
-		const disabled = money < this.props.upgrade.cost;
+		const disabled = money < this.upgrade.cost;
 		if (this.state.disabled !== disabled) {
 			this.setState({disabled});
 		}
 	}
 	render() {
-		const coin = parseCoinsShort(this.props.upgrade.cost);
+		const coin = parseCoinsShort(this.upgrade.cost);
 		return j({button: {
 			className: storeStyles.upgradeButton,
-			onClick: () => game.buyUpgrade(this.props.upgrade.id),
+			onClick: () => game.buyUpgrade(this.props.upgradeId),
 			disabled: this.state.disabled,
 		}}, [
 			j({div: storeStyles.upgradeTitleRow}, [
-				j({h2: 0}, this.props.upgrade.name),
+				j({h2: 0}, this.upgrade.name),
 			]),
 			j({div: storeStyles.upgradeRow}, [
 				j({div: storeStyles.upgradeCost}, [
 					j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
 					coin.value,
 				]),
-				j({div: 0}, this.props.upgrade.desc),
+				j({div: 0}, this.upgrade.desc),
 			]),
 		]);
 	}
@@ -44,13 +45,13 @@ class Upgrade extends Component {
 class Upgrades extends Component {
 	constructor(...args) {
 		super(...args);
-		this.state = {upgrades: this.getVisibleUpgrades()};
+		this.state = {upgradeIds: this.getVisibleUpgrades()};
 		game.watch(this, this.handleChange);
 	}
 	getVisibleUpgrades() {
-		return upgradeList.filter((item) =>
-			!game.data.upgrades[item.id] &&
-			item.unlock(game.data),
+		return upgradeIds.filter((upgradeId) =>
+			!game.data.upgrades[upgradeId] &&
+			upgrades[upgradeId].unlock(game.data),
 		);
 	}
 	checkIsEqual(list1, list2) {
@@ -60,13 +61,13 @@ class Upgrades extends Component {
 	}
 	handleChange() {
 		const visibleUpgrades = this.getVisibleUpgrades();
-		if (!this.checkIsEqual(this.state.upgrades, visibleUpgrades)) {
-			this.setState({upgrades: visibleUpgrades});
+		if (!this.checkIsEqual(this.state.upgradeIds, visibleUpgrades)) {
+			this.setState({upgradeIds: visibleUpgrades});
 		}
 	}
 	render() {
-		return this.state.upgrades.map((upgrade) =>
-			j([Upgrade, {upgrade, key: upgrade.id}]),
+		return this.state.upgradeIds.map((upgradeId) =>
+			j([Upgrade, {upgradeId, key: upgradeId}]),
 		);
 	}
 }

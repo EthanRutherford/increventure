@@ -1,5 +1,5 @@
 const {minionKinds} = require("./minions");
-const {upgradeList} = require("./upgrades");
+const {upgradeIds} = require("./upgrades");
 
 // initial saveData state
 const saveData = {
@@ -22,8 +22,8 @@ const saveData = {
 		obj[kind] = 0;
 		return obj;
 	}, {}),
-	upgrades: upgradeList.reduce((obj, upgrade) => {
-		obj[upgrade.id] = false;
+	upgrades: upgradeIds.reduce((obj, upgradeId) => {
+		obj[upgradeId] = false;
 		return obj;
 	}, {}),
 	stats: {
