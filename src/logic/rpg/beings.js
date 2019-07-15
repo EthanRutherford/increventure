@@ -7,8 +7,20 @@ class Being {
 	get name() {
 		return this.data.name;
 	}
+	get hp() {
+		return this.data.hp;
+	}
+	set hp(hp) {
+		this.data.hp = hp;
+	}
 	get maxHp() {
 		return this.data.con * this.lvl * 20;
+	}
+	get mp() {
+		return this.data.mp;
+	}
+	set mp(mp) {
+		this.data.mp = mp;
 	}
 	get maxMp() {
 		return this.data.int * this.lvl * 10;
@@ -16,8 +28,11 @@ class Being {
 	get attack() {
 		return this.data.str * this.lvl;
 	}
-	get dexRate() {
-		return 1 + (this.data * .01);
+	get critChance() {
+		return this.data.dex * .01 + this.luckBonus;
+	}
+	get luckBonus() {
+		return this.data.luck * .005;
 	}
 	get expRate() {
 		return 1 + (this.data.wis * .02);
@@ -27,7 +42,7 @@ class Being {
 	}
 	get skills() {
 		const lvl = this.lvl;
-		return skills[this.kind].filter((skill) => lvl >= skill.lvl);
+		return skills[this.data.kind].filter((skill) => lvl >= skill.lvl);
 	}
 }
 
@@ -59,6 +74,13 @@ const adventurers = {
 };
 
 const monsters = {
+	// ideas for futher monsters (which have corresponding dungeons/minions)
+	// in no particular order yet (in fact, might allow user to decide order):
+	// skeletons - nyeh!
+	// golems - perhaps even of more than one type
+	// drakes - small dragons yeh
+	// necromancers - can summon skellies
+	// chimera - cockatrice, manticore, etc. (maybe)
 	slime: {
 		name: "Slime",
 		desc: "",
@@ -67,13 +89,23 @@ const monsters = {
 
 function createNewAdventurer(data, name, kind) {
 	const adventurer = new Being(Object.assign(data, stats[kind]));
+	adventurer.data.exp = 0;
 	adventurer.data.name = name;
 	adventurer.data.kind = kind;
 	adventurer.data.hp = adventurer.maxHp;
 	adventurer.data.mp = adventurer.maxMp;
-	adventurer.data.exp = 0;
 	adventurer.data.created = true;
-	return new Being(data);
+	return adventurer;
+}
+
+function createNewMonster(data, name, kind) {
+	const monster = new Being(Object.assign(data, stats[kind]));
+	monster.data.exp = 0;
+	monster.data.name = name;
+	monster.data.kind = kind;
+	monster.data.hp = monster.maxHp;
+	monster.data.mp = monster.maxMp;
+	return monster;
 }
 
 module.exports = {
@@ -83,4 +115,5 @@ module.exports = {
 	monsters,
 	monsterKinds: Object.keys(monsters),
 	createNewAdventurer,
+	createNewMonster,
 };

@@ -57,12 +57,13 @@ function Adventurer(props) {
 		healthFraction > 1 / 3 ? ":|" :
 			healthFraction > 0 ? ":(" :
 				"xx";
+	const dead = healthFraction <= 0;
 
 	return j({div: {
 		className: partyStyles.character,
 	}}, [
 		j({div: {
-			className: `${partyStyles.characterHead} ${healthFraction ? "" : partyStyles.dead} ${bounceBack ? partyStyles.bounceBack : ""}`,
+			className: `${partyStyles.characterHead} ${dead ? partyStyles.dead : ""} ${bounceBack ? partyStyles.bounceBack : ""}`,
 			style: {filter: `grayscale(${1 - healthFraction})`},
 			onAnimationEnd: handleAnimationEnd,
 		}}, face),

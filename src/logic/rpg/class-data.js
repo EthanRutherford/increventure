@@ -81,9 +81,8 @@ const skills = {
 			target: "enemy",
 			mpCost: () => 10,
 			effect(hero) {
-				const data = hero.data;
-				const multiplier = data.str + data.dex +
-					data.con + data.int * data.wis
+				const multiplier = hero.data.str + hero.data.dex +
+					hero.data.con + hero.data.int * hero.data.wis
 				;
 				return {
 					kind: "damage",
@@ -103,7 +102,7 @@ const skills = {
 				return {
 					kind: "buff",
 					stat: "str",
-					amount: hero.con,
+					amount: hero.data.con,
 					turns: 3,
 				};
 			},
@@ -119,7 +118,7 @@ const skills = {
 			effect(hero) {
 				return {
 					kind: "damage",
-					damage: hero.int * 5,
+					damage: hero.data.int * 5,
 				};
 			},
 		},
@@ -135,7 +134,7 @@ const skills = {
 				return {
 					effect: "gain",
 					stat: "hp",
-					amount: hero.wis * 3,
+					amount: hero.data.wis * 3,
 				};
 			},
 		},
@@ -149,8 +148,8 @@ const skills = {
 			mpCost: (hero) => hero.maxMp,
 			effect(hero) {
 				const min = hero.lvl;
-				const max = hero.lvl + hero.luck;
-				const scale = hero.wis;
+				const max = hero.lvl + hero.data.luck;
+				const scale = hero.data.wis;
 				return {
 					effect: "gain",
 					stat: "exp",
@@ -169,7 +168,7 @@ const skills = {
 			effect(hero) {
 				return {
 					effect: "damage",
-					amount: hero.int * 10,
+					amount: hero.data.int * 10,
 				};
 			},
 		},
@@ -185,7 +184,7 @@ const skills = {
 			effect(slime) {
 				return {
 					effect: "damage",
-					amount: slime.str * 5,
+					amount: slime.data.str * 5,
 				};
 			},
 		},
