@@ -4,22 +4,23 @@
   "main": "don't be daft",
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "shh",
+  "repository": "shh",
   "scripts": {
     "build": "webpack --env prod",
     "watch": "start webpack --watch",
     "start": "start webpack-dev-server"
   },
   "dependencies": {
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-jenny": "^1.1.0"
   },
   "devDependencies": {
-    "css-loader": "^1.0.0",
-    "mini-css-extract-plugin": "^0.4.2",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.14"
+    "css-loader": "^1.0.1",
+    "mini-css-extract-plugin": "^0.4.5",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
   }
 }

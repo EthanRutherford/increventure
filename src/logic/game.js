@@ -1,28 +1,18 @@
 const {minions, minionKinds, costCalculator} = require("./minions");
 const {upgrades, calculateMultipliers} = require("./upgrades");
 const {Being} = require("./rpg/beings");
-const {data, watch, saveGame, loadGame} = require("./save-data");
+const {data, saveGame, loadGame} = require("./save-data");
 
 const game = {
 	data,
-	watch,
 	save() {
 		saveGame();
 	},
 	load() {
 		loadGame();
 		game.multipliers = calculateMultipliers(game.data.upgrades);
-		if (game.data.adventurer1) {
-			game.adventurers.adventurer1 = new Being(game.data.adventurer1);
-		}
-		if (game.data.adventurer2) {
-			game.adventurers.adventurer2 = new Being(game.data.adventurer2);
-		}
-		if (game.data.adventurer3) {
-			game.adventurers.adventurer3 = new Being(game.data.adventurer3);
-		}
-		if (game.data.adventurer4) {
-			game.adventurers.adventurer4 = new Being(game.data.adventurer4);
+		for (const adventurer of game.data.adventurers) {
+			game.adventurers.push(new Being(adventurer));
 		}
 	},
 	cutGrass() {
@@ -46,7 +36,7 @@ const game = {
 		return obj;
 	}, {}),
 	// adventurers
-	adventurers: {},
+	adventurers: [],
 	// upgrades
 	buyUpgrade(upgradeId) {
 		if (game.data.inventory.money >= upgrades[upgradeId].cost) {

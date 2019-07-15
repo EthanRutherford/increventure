@@ -16,9 +16,13 @@ function parseCoinsShort(amount) {
 	const coinValue = {};
 	coinValue.kind = coinKinds[amounts.length - 1];
 	coinValue.value = amounts[amounts.length - 1];
+
 	if (amounts.length > 1) {
 		coinValue.value += amounts[amounts.length - 2] / 1000;
 		coinValue.value = coinValue.value.toFixed(3);
+	} else {
+		coinValue.value += amount % 1;
+		coinValue.value = coinValue.value.toFixed(1);
 	}
 
 	return coinValue;

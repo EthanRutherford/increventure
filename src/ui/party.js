@@ -1,110 +1,91 @@
-const {Component} = require("react");
+const {useState, useCallback} = require("react");
 const j = require("react-jenny");
 const game = require("../logic/game");
+const {useSaveData} = require("../logic/save-data");
 const {minions, minionKinds} = require("../logic/minions");
 const {randRange} = require("../logic/util");
 const {coinKinds, parseCoins, parseCoinsShort} = require("./money");
 const partyStyles = require("../styles/party");
 const coinStyles = require("../styles/coins");
 
-class Coins extends Component {
-	constructor(...args) {
-		super(...args);
-		this.state = {
-			money: game.data.inventory.money,
-			moneyRate: this.calcMoneyRate(),
-		};
-		game.watch.inventory.money(this, this.handleMoneyChange);
-		game.watch.upgrades(this, this.handleRateChange);
-		game.watch.minions(this, this.handleRateChange);
-	}
-	handleMoneyChange(money) {
-		this.setState({money});
-	}
-	handleRateChange() {
-		this.setState({moneyRate: this.calcMoneyRate()});
-	}
-	calcMoneyRate() {
-		return minionKinds.reduce((total, kind) =>
-			total + game.data.minions[kind] * minions[kind].baseRate * game.multipliers[kind], 0,
-		);
-	}
-	render() {
-		const coins = parseCoins(this.state.money);
-		const rateValue = parseCoinsShort(this.state.moneyRate);
-
-		return j({div: coinStyles.coins}, [
-			...coins.map((amount, index) => j({div: coinStyles.coinRow}, [
-				j({div: `${coinStyles[coinKinds[index]]} ${coinStyles.coin}`}),
-				amount,
-			])),
-			j({div: coinStyles.coinRate}, [
-				`(${rateValue.value}`,
-				j({div: `${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`}),
-				"/s)",
-			]),
-		]);
-	}
+function calcMoneyRate() {
+	return minionKinds.reduce((total, kind) =>
+		total + game.data.minions[kind] * minions[kind].baseRate * game.multipliers[kind], 0,
+	);
 }
 
-class Adventurer extends Component {
-	constructor(...args) {
-		super(...args);
-		this.state = {
-			...game.data[this.props.which],
-			bounceBack: false,
-		};
+function Coins() {
+	useSaveData((data) => [
+		data.inventory.money,
+		data.upgrades,
+		data.minions,
+	]);
 
-		game.watch[this.props.which](this, this.handleChange);
-		this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
-	}
-	handleChange(value) {
-		this.setState(value);
-	}
-	handleAnimationEnd() {
-		if (this.timeout) return;
-		const waitTime = randRange(0, 2000);
-		this.timeout = window.setTimeout(() => {
-			this.setState((state) => ({bounceBack: !state.bounceBack}));
-			this.timeout = 0;
-		}, waitTime);
-	}
-	render() {
-		if (!this.state.created) return null;
-		return j({div: {
-			className: partyStyles.character,
-		}}, [
-			j({div: {
-				className: `${partyStyles.characterHead} ${this.state.bounceBack ? partyStyles.bounceBack : ""}`,
-				onAnimationEnd: this.handleAnimationEnd,
-			}}, ":)"),
-			this.state.name,
-		]);
-	}
+	const coins = parseCoins(game.data.inventory.money);
+	const rateValue = parseCoinsShort(calcMoneyRate());
+
+	return j({div: coinStyles.coins}, [
+		...coins.map((amount, index) => j({div: coinStyles.coinRow}, [
+			j({div: `${coinStyles[coinKinds[index]]} ${coinStyles.coin}`}),
+			amount,
+		])),
+		j({div: coinStyles.coinRate}, [
+			`(${rateValue.value}`,
+			j({div: `${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`}),
+			"/s)",
+		]),
+	]);
 }
 
-module.exports = class Party extends Component {
-	constructor(...args) {
-		super(...args);
-		this.state = {money: game.data.money};
-		this.handleClick = this.handleClick.bind(this);
+function Adventurer(props) {
+	const [bounceBack, setBounceBack] = useState(false);
+	useSaveData((data) => data.adventurers[props.which]);
+
+	const handleAnimationEnd = useCallback(() => {
+		window.setTimeout(() => {
+			setBounceBack(!bounceBack);
+		}, randRange(0, 2000));
+	}, [bounceBack]);
+
+	const adventurer = game.adventurers[props.which];
+	if (adventurer == null) {
+		 return null;
 	}
-	handleClick(event) {
+
+	const healthFraction = adventurer.hp / adventurer.maxHp;
+	const face = healthFraction > 2 / 3 ? ":)" :
+		healthFraction > 1 / 3 ? ":|" :
+			healthFraction > 0 ? ":(" :
+				"xx";
+
+	return j({div: {
+		className: partyStyles.character,
+	}}, [
+		j({div: {
+			className: `${partyStyles.characterHead} ${healthFraction ? "" : partyStyles.dead} ${bounceBack ? partyStyles.bounceBack : ""}`,
+			style: {filter: `grayscale(${1 - healthFraction})`},
+			onAnimationEnd: handleAnimationEnd,
+		}}, face),
+		adventurer.name,
+	]);
+}
+
+module.exports = function Party(props) {
+	const handleClick = useCallback((event) => {
 		game.cutGrass();
-		this.props.createParticle(event.pageX, event.pageY);
-		this.props.createParticle(event.pageX, event.pageY);
-		this.props.createParticle(event.pageX, event.pageY);
-	}
-	render() {
-		return j({div: partyStyles.content}, [
-			j({button: {className: partyStyles.grassButton, onClick: this.handleClick}}, [
-				"cut grass",
-			]),
-			j([Coins]),
-			j([Adventurer, {which: "adventurer1"}]),
-			j([Adventurer, {which: "adventurer2"}]),
-			j([Adventurer, {which: "adventurer3"}]),
-			j([Adventurer, {which: "adventurer4"}]),
-		]);
-	}
+		props.createParticle(event.pageX, event.pageY);
+		props.createParticle(event.pageX, event.pageY);
+		props.createParticle(event.pageX, event.pageY);
+	}, []);
+
+	return j({div: partyStyles.content}, [
+		j({button: {className: partyStyles.grassButton, onClick: handleClick}}, [
+			"cut grass",
+		]),
+		j([Coins]),
+		j([Adventurer, {which: 0}]),
+		j([Adventurer, {which: 1}]),
+		j([Adventurer, {which: 2}]),
+		j([Adventurer, {which: 3}]),
+	]);
 };

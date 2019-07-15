@@ -42,6 +42,9 @@
 .bounce-back {
 	animation-name: bounce-back, rotate-back;
 }
+.dead {
+	animation-name: none;
+}
 
 /* animations */
 @keyframes bounce-forward {

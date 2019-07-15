@@ -1,4 +1,4 @@
-const {Component, Fragment, createRef} = require("react");
+const {Fragment, useEffect, useRef, useCallback} = require("react");
 const j = require("react-jenny");
 const {randItem, randRange} = require("../logic/util");
 const styles = require("../styles/root");
@@ -88,67 +88,62 @@ class Particle {
 	}
 }
 
-module.exports = class Particles extends Component {
-	constructor(...args) {
-		super(...args);
+module.exports = function Particles(props) {
+	const {current: particles} = useRef(new Set());
+	const canvasRef = useRef();
 
-		this.particles = new Set();
-		this.canvas = createRef();
-
-		this.createParticle = this.createParticle.bind(this);
-		this.step = this.step.bind(this);
-		this.prev = 0;
-	}
-	componentDidMount() {
+	useEffect(() => {
 		// TODO: will probably want to switch to webgl eventually
-		this.context = this.canvas.current.getContext("2d");
-		requestAnimationFrame(this.step);
-	}
-	createParticle(x, y) {
-		this.particles.add(new Particle(x, y, performance.now()));
-	}
-	step(stamp) {
-		const diff = (stamp - this.prev) / 10;
-		this.prev = stamp;
+		const canvas = canvasRef.current;
+		const context = canvas.getContext("2d");
+		let prev = 0;
 
-		const {canvas: {current: canvas}, context, particles, step} = this;
-		if (
-			canvas.width !== canvas.clientWidth ||
-			canvas.height !== canvas.clientHeight
-		) {
-			canvas.width = canvas.clientWidth;
-			canvas.height = canvas.clientHeight;
-		}
+		function step(stamp) {
+			const diff = (stamp - prev) / 10;
+			prev = stamp;
 
-		if (particles.size) {
-			// clear the previous frame
-			context.clearRect(0, 0, canvas.width, canvas.height);
+			if (
+				canvas.width !== canvas.clientWidth ||
+				canvas.height !== canvas.clientHeight
+			) {
+				canvas.width = canvas.clientWidth;
+				canvas.height = canvas.clientHeight;
+			}
 
-			// draw each particle
-			for (const particle of particles) {
-				const age = stamp - particle.created;
-				if (age > 1000) {
-					particles.delete(particle);
-				} else {
-					particle.step(diff);
+			if (particles.size) {
+				// clear the previous frame
+				context.clearRect(0, 0, canvas.width, canvas.height);
 
-					context.save();
-					context.globalAlpha = 1 - (age / 1000);
-					context.translate(particle.x, particle.y);
-					context.rotate((particle.r / 360) * Math.PI * 2);
-					context.drawImage(particle.svg, -(particle.size / 2), -(particle.size / 2));
-					context.restore();
+				// draw each particle
+				for (const particle of particles) {
+					const age = stamp - particle.created;
+					if (age > 1000) {
+						particles.delete(particle);
+					} else {
+						particle.step(diff);
+
+						context.save();
+						context.globalAlpha = 1 - (age / 1000);
+						context.translate(particle.x, particle.y);
+						context.rotate((particle.r / 360) * Math.PI * 2);
+						context.drawImage(particle.svg, -(particle.size / 2), -(particle.size / 2));
+						context.restore();
+					}
 				}
 			}
+
+			requestAnimationFrame(step);
 		}
 
 		requestAnimationFrame(step);
-	}
-	render() {
-		const {createParticle, canvas} = this;
-		return j(Fragment, [
-			j({canvas: {className: styles.particles, ref: canvas}}),
-			...this.props.render(createParticle),
-		]);
-	}
+	}, []);
+
+	const createParticle = useCallback((x, y) => {
+		particles.add(new Particle(x, y, performance.now()));
+	}, []);
+
+	return j(Fragment, [
+		j({canvas: {className: styles.particles, ref: canvasRef}}),
+		...props.render(createParticle),
+	]);
 };

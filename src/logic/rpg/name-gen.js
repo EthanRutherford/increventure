@@ -51,3 +51,9 @@ const slimeWords = [
 	"sewage",
 	"muck",
 ];
+
+module.exports = {
+	analyzeWords,
+	createName,
+	slimeWords,
+};
