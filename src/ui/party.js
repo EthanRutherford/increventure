@@ -1,4 +1,4 @@
-const {useState, useCallback} = require("react");
+const {useState, useCallback, useRef} = require("react");
 const j = require("react-jenny");
 const game = require("../logic/game");
 const {useSaveData} = require("../logic/save-data");
@@ -21,13 +21,15 @@ function Coins() {
 		data.minions,
 	]);
 
-	const coins = parseCoins(game.data.inventory.money);
+	const coins = parseCoins(game.data.inventory.money).map((value, index) => ({
+		kind: coinKinds[index], value,
+	})).reverse();
 	const rateValue = parseCoinsShort(calcMoneyRate());
 
 	return j({div: coinStyles.coins}, [
-		...coins.map((amount, index) => j({div: coinStyles.coinRow}, [
-			j({div: `${coinStyles[coinKinds[index]]} ${coinStyles.coin}`}),
-			amount,
+		...coins.map((coin) => j({div: coinStyles.coinBox}, [
+			j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
+			j({div: coinStyles.coinValue}, coin.value),
 		])),
 		j({div: coinStyles.coinRate}, [
 			`(${rateValue.value}`,
@@ -39,11 +41,14 @@ function Coins() {
 
 function Adventurer(props) {
 	const [bounceBack, setBounceBack] = useState(false);
+	const timeout = useRef(null);
 	useSaveData((data) => data.adventurers[props.which]);
 
 	const handleAnimationEnd = useCallback(() => {
-		window.setTimeout(() => {
+		if (timeout.current) return;
+		timeout.current = window.setTimeout(() => {
 			setBounceBack(!bounceBack);
+			timeout.current = null;
 		}, randRange(0, 2000));
 	}, [bounceBack]);
 

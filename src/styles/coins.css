@@ -1,17 +1,20 @@
 .coins {
-	position: relative;
+	display: flex;
 	padding: 20px;
 }
-.coin-row {
+.coin-box {
 	display: flex;
 	align-items: center;
+	margin-right: 20px;
+}
+.coin-value {
+	flex-grow: 1;
+	width: 30px;
 }
 .coin-rate {
-	position: absolute;
-	top: 20px;
-	right: 20px;
 	display: flex;
 	align-items: center;
+	margin-left: auto;
 }
 .coin {
 	position: relative;
