@@ -28,11 +28,9 @@
 .character-head {
 	position: absolute;
 	left: 0;
-	border-radius: 50%;
-	background-color: palegoldenrod;
 	width: 24px;
 	height: 24px;
-	text-align: center;
+	color: #ffed7c;
 	
 	animation-name: bounce-forward, rotate-forward;
 	animation-duration: .3s;
@@ -41,9 +39,6 @@
 }
 .bounce-back {
 	animation-name: bounce-back, rotate-back;
-}
-.dead {
-	animation-name: none;
 }
 
 /* animations */
@@ -81,10 +76,10 @@
 }
 
 @keyframes rotate-forward {
-	from {transform: rotate(80deg)}
-	to {transform: rotate(100deg)}
+	from {transform: rotate(-10deg)}
+	to {transform: rotate(10deg)}
 }
 @keyframes rotate-back {
-	from {transform: rotate(100deg)}
-	to {transform: rotate(80deg)}
+	from {transform: rotate(10deg)}
+	to {transform: rotate(-10deg)}
 }

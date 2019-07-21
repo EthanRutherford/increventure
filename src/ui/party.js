@@ -5,6 +5,10 @@ const {useSaveData} = require("../logic/save-data");
 const {minions, minionKinds} = require("../logic/minions");
 const {randRange} = require("../logic/util");
 const {coinKinds, parseCoins, parseCoinsShort} = require("./money");
+const Happy = require("../svgs/happy");
+const Meh = require("../svgs/meh");
+const Bad = require("../svgs/bad");
+const Dead = require("../svgs/dead");
 const partyStyles = require("../styles/party");
 const coinStyles = require("../styles/coins");
 
@@ -40,38 +44,41 @@ function Coins() {
 }
 
 function Adventurer(props) {
+	const adventurer = game.adventurers[props.which];
 	const [bounceBack, setBounceBack] = useState(false);
 	const timeout = useRef(null);
 	useSaveData((data) => data.adventurers[props.which]);
 
 	const handleAnimationEnd = useCallback(() => {
 		if (timeout.current) return;
-		timeout.current = window.setTimeout(() => {
-			setBounceBack(!bounceBack);
+		timeout.current = setTimeout(() => {
 			timeout.current = null;
+			if (adventurer.hp > 0) {
+				setBounceBack((x) => !x);
+			} else {
+				handleAnimationEnd();
+			}
 		}, randRange(0, 2000));
-	}, [bounceBack]);
+	}, []);
 
-	const adventurer = game.adventurers[props.which];
 	if (adventurer == null) {
 		 return null;
 	}
 
 	const healthFraction = adventurer.hp / adventurer.maxHp;
-	const face = healthFraction > 2 / 3 ? ":)" :
-		healthFraction > 1 / 3 ? ":|" :
-			healthFraction > 0 ? ":(" :
-				"xx";
-	const dead = healthFraction <= 0;
+	const Face = healthFraction > 2 / 3 ? Happy :
+		healthFraction > 1 / 3 ? Meh :
+			healthFraction > 0 ? Bad :
+				Dead
+	;
 
 	return j({div: {
 		className: partyStyles.character,
 	}}, [
 		j({div: {
-			className: `${partyStyles.characterHead} ${dead ? partyStyles.dead : ""} ${bounceBack ? partyStyles.bounceBack : ""}`,
-			style: {filter: `grayscale(${1 - healthFraction})`},
+			className: `${partyStyles.characterHead} ${bounceBack ? partyStyles.bounceBack : ""}`,
 			onAnimationEnd: handleAnimationEnd,
-		}}, face),
+		}}, j([Face, {style: {filter: `grayscale(${1 - healthFraction})`}}])),
 		adventurer.name,
 	]);
 }

@@ -1,5 +1,11 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+function template({template}, opts, {componentName, props, jsx}) {
+	return template.ast`const React = require("react");
+const ${componentName} = (${props}) => ${jsx}
+module.exports = ${componentName}`;
+}
+
 module.exports = (env) => ({
 	entry: "./src/main.js",
 	output: {filename: "main.js"},
@@ -15,9 +21,15 @@ module.exports = (env) => ({
 					modules: true,
 				}},
 			],
+		}, {
+			test: /.svg$/,
+			use: [{
+				loader: "@svgr/webpack",
+				options: {template},
+			}],
 		}],
 	},
-	resolve: {extensions: [".js", ".json", ".css"]},
+	resolve: {extensions: [".js", ".json", ".css", ".svg"]},
 	mode: env === "prod" ? "production" : "development",
 	devtool: env === "prod" ? "" : "eval-source-map",
 	devServer: {open: true, publicPath: "/dist"},
