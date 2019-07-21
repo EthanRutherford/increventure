@@ -11,6 +11,12 @@ const minions = {
 		baseCost: 100,
 		baseRate: 1,
 	},
+	skeleton: {
+		name: "Skeleton",
+		desc: "farms skeletons for you",
+		baseCost: 12000,
+		baseRate: 8,
+	},
 };
 
 function calculateCost(base, count) {

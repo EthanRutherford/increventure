@@ -20,12 +20,23 @@ const upgrades = {
 		unlock: (data) => data.minions.slime > 0,
 		effect: (multipliers) => multipliers.slime *= 2,
 	},
+	skeletonMowers: {
+		name: "Skeleton lawn mowers",
+		desc: "Your skeleton minions will assist grass cutting",
+		cost: 100000,
+		unlock: (data) => data.minions.skeleton > 5,
+		effect: (multipliers) => multipliers.clickBonus.push((data) => {
+			return data.minions.skeleton;
+		}),
+	},
 };
 
 function calculateMultipliers(savedUpgrades) {
 	const base = {
+		clickBonus: [],
 		grass: 1,
 		slime: 1,
+		skeleton: 1,
 	};
 
 	for (const [id, owned] of Object.entries(savedUpgrades)) {

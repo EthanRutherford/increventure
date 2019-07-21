@@ -85,6 +85,10 @@ const monsters = {
 		name: "Slime",
 		desc: "",
 	},
+	skeleton: {
+		name: "Skeleton",
+		desc: "",
+	},
 };
 
 function createNewAdventurer(data, name, kind) {

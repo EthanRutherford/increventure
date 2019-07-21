@@ -17,7 +17,13 @@ const game = {
 	},
 	cutGrass() {
 		game.data.stats.grassClicks++;
-		game.data.inventory.money += game.multipliers.grass;
+
+		let amount = game.multipliers.grass;
+		for (const bonus of game.multipliers.clickBonus) {
+			amount *= bonus(game.data);
+		}
+
+		game.data.inventory.money += amount;
 	},
 	// minion data
 	minionCosts: minionKinds.reduce((obj, kind) => {

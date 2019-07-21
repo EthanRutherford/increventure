@@ -69,6 +69,14 @@ const stats = {
 		wis: 1,
 		luck: 1,
 	},
+	skeleton: {
+		str: 2,
+		dex: 1,
+		con: 1,
+		int: 1,
+		wis: 3,
+		luck: 5,
+	},
 };
 
 const skills = {
@@ -184,7 +192,22 @@ const skills = {
 			effect(slime) {
 				return {
 					effect: "damage",
-					amount: slime.data.str * 5,
+					amount: slime.data.str * 3,
+				};
+			},
+		},
+	],
+	skeleton: [
+		{
+			lvl: 1,
+			name: "Bone toss",
+			desc: "Tosses a bone at an enemy",
+			target: "enemy",
+			mpCost: () => 10,
+			effect(skeleton) {
+				return {
+					effect: "damage",
+					amount: skeleton.data.str * 4,
 				};
 			},
 		},
