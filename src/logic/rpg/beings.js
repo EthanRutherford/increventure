@@ -11,7 +11,7 @@ class Being {
 		return this.data.hp;
 	}
 	set hp(hp) {
-		this.data.hp = hp;
+		this.data.hp = Math.max(0, Math.min(this.maxHp, hp));
 	}
 	get maxHp() {
 		return this.data.con * this.lvl * 20;
@@ -20,7 +20,7 @@ class Being {
 		return this.data.mp;
 	}
 	set mp(mp) {
-		this.data.mp = mp;
+		this.data.mp = Math.max(0, Math.min(this.maxMp, mp));
 	}
 	get maxMp() {
 		return this.data.int * this.lvl * 10;
