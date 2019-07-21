@@ -1,34 +1,78 @@
-const {randItem, randInt} = require("../util");
+const {randItem, randInt, WeightedSet} = require("../util");
+
+function isVowel(letter) {
+	return "aeiouy".includes(letter);
+}
 
 function analyzeWords(words) {
-	const analysis = {
-		alphabet: [],
-		occurrences: {},
-	};
+	const consonant = new WeightedSet();
+	const vowel = new WeightedSet();
 
 	for (const word of words) {
-		analysis.alphabet.push(word[0]);
-		for (let i = 1; i < word.length; i++) {
-			const char0 = word[i - 1];
-			const char1 = word[i];
+		let i = 0;
+		while (i < word.length) {
+			const isMakingVowel = isVowel(word[i]);
+			let phoneme = "";
+			while (word[i] && isVowel(word[i]) === isMakingVowel) {
+				phoneme += word[i];
+				i++;
+			}
 
-			analysis.alphabet.push(char1);
-			analysis.occurrences[char0] = analysis.occurrences[char0] || [];
-			analysis.occurrences[char0].push(char1);
+			const phonemes = isMakingVowel ? vowel : consonant;
+			phonemes.add(phoneme);
 		}
 	}
 
-	return analysis;
+	return {consonant, vowel};
 }
 
-function createName(analysis) {
-	const wordLength = randInt(4, 12);
+function createName(phonemes) {
+	const wordLength = randInt(4, 10);
 
-	let name = randItem(analysis.alphabet);
+	let useVowel = randItem([true, false]);
+	let name = "";
+
 	while (name.length < wordLength) {
-		const lastChar = name[name.length - 1];
-		const possibles = analysis.occurrences[lastChar] || analysis.alphabet;
-		name += randItem(possibles);
+		const set = useVowel ? phonemes.vowel : phonemes.consonant;
+		name += set.getRand();
+		useVowel = !useVowel;
+	}
+
+	if (
+		name.startsWith("ck") ||
+		name.startsWith("nk") ||
+		name.startsWith("ng") ||
+		name.startsWith("dg") ||
+		name.startsWith("rb") ||
+		name.startsWith("mp") ||
+		name.startsWith("ct")
+	) {
+		if (randItem([true, false])) {
+			name = name.slice(1);
+		} else {
+			name = name[0] + name.slice(2);
+		}
+	}
+
+	if (
+		name.startsWith("lth") ||
+		name.startsWith("rsh")
+	) {
+		if (randItem([true, false])) {
+			name = name.slice(1);
+		} else {
+			name = name[0] + name.slice(3);
+		}
+	}
+
+	if (
+		(
+			name.endsWith("l") ||
+			name.endsWith("r")
+		) &&
+		!isVowel(name[name.length - 2])
+	) {
+		name += "e";
 	}
 
 	return name;
@@ -50,6 +94,21 @@ const slimeWords = [
 	"nasty",
 	"sewage",
 	"muck",
+	"gross",
+	"garbage",
+	"filth",
+	"ugliness",
+	"trash",
+	"bog",
+	"marsh",
+	"glob",
+	"blob",
+	"smear",
+	"stain",
+	"dump",
+	"grump",
+	"sleaze",
+	"ectoplasm",
 ];
 
 module.exports = {
