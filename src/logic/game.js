@@ -18,12 +18,13 @@ const game = {
 	cutGrass() {
 		game.data.stats.grassClicks++;
 
-		let amount = game.multipliers.grass;
+		const base = game.multipliers.grass;
+		let multiplier = 0;
 		for (const bonus of game.multipliers.clickBonus) {
-			amount *= bonus(game.data);
+			multiplier += bonus(game.data);
 		}
 
-		game.data.inventory.money += amount;
+		game.data.inventory.money += base * multiplier;
 	},
 	// minion data
 	minionCosts: minionKinds.reduce((obj, kind) => {

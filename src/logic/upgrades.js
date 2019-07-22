@@ -23,8 +23,8 @@ const upgrades = {
 	skeletonMowers: {
 		name: "Skeleton lawn mowers",
 		desc: "Your skeleton minions will assist grass cutting",
-		cost: 100000,
-		unlock: (data) => data.minions.skeleton > 5,
+		cost: 10000,
+		unlock: (data) => data.minions.skeleton > 0,
 		effect: (multipliers) => multipliers.clickBonus.push((data) => {
 			return data.minions.skeleton;
 		}),
