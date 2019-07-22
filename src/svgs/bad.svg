@@ -77,12 +77,16 @@
        rx="1"
        ry="2" />
     <path
-       style="fill:#f3ed40;stroke:#f3ed40;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       fill="currentColor"
+       stroke="currentColor"
+       style="stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="M 5,7 9,4 H 5 Z"
        id="path889"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#f3ed40;stroke:#f3ed40;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       fill="currentColor"
+       stroke="currentColor"
+       style="stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        d="M 15,7 C 11,4 11,4 11,4 h 4 z"
        id="path891"
        inkscape:connector-curvature="0" />
