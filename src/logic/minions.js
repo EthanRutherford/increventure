@@ -14,7 +14,7 @@ const minions = {
 	skeleton: {
 		name: "Skeleton",
 		desc: "farms skeletons for you",
-		baseCost: 12000,
+		baseCost: 500,
 		baseRate: 8,
 	},
 };
