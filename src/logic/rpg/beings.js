@@ -94,8 +94,8 @@ const monsters = {
 	},
 };
 
-function createNewAdventurer(data, name, kind) {
-	const adventurer = new Being(Object.assign(data, stats[kind]));
+function createNewAdventurer(name, kind) {
+	const adventurer = new Being({...stats[kind]});
 	adventurer.data.exp = 0;
 	adventurer.data.name = name;
 	adventurer.data.kind = kind;
@@ -105,8 +105,8 @@ function createNewAdventurer(data, name, kind) {
 	return adventurer;
 }
 
-function createNewMonster(data, name, kind) {
-	const monster = new Being(Object.assign(data, stats[kind]));
+function createNewMonster(name, kind) {
+	const monster = new Being({...stats[kind]});
 	monster.data.exp = 0;
 	monster.data.name = name;
 	monster.data.kind = kind;

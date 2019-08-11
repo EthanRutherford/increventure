@@ -16,12 +16,8 @@ module.exports = function CharacterCreator() {
 	useSaveData((data) => data.adventurers[0]);
 
 	function create() {
-		game.data.adventurers[0] = {};
-		game.adventurers[0] = createNewAdventurer(
-			game.data.adventurers[0],
-			name,
-			kind,
-		);
+		game.adventurers[0] = createNewAdventurer(name, kind);
+		game.data.adventurers[0] = game.adventurers[0].data;
 	}
 
 	// will check the conditions for each character unlock
