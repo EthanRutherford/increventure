@@ -7,6 +7,9 @@ class Being {
 	get name() {
 		return this.data.name;
 	}
+	get class() {
+		return this.data.kind;
+	}
 	get hp() {
 		return this.data.hp;
 	}

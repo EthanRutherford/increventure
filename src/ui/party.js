@@ -9,8 +9,17 @@ const Happy = require("../svgs/happy");
 const Meh = require("../svgs/meh");
 const Bad = require("../svgs/bad");
 const Dead = require("../svgs/dead");
+const WarriorHat = require("../svgs/warrior-hat");
+const WizardHat = require("../svgs/wizard-hat");
+const ClericHat = require("../svgs/cleric-hat");
 const partyStyles = require("../styles/party");
 const coinStyles = require("../styles/coins");
+
+const hatMap = {
+	warrior: j([WarriorHat, partyStyles.hat]),
+	wizard: j([WizardHat, partyStyles.wizardHat]),
+	cleric: j([ClericHat, partyStyles.hat]),
+};
 
 function calcMoneyRate() {
 	return minionKinds.reduce((total, kind) =>
@@ -78,7 +87,10 @@ function Adventurer(props) {
 		j({div: {
 			className: `${partyStyles.characterHead} ${bounceBack ? partyStyles.bounceBack : ""}`,
 			onAnimationEnd: handleAnimationEnd,
-		}}, j([Face, {style: {filter: `grayscale(${1 - healthFraction})`}}])),
+		}}, [
+			hatMap[adventurer.class],
+			j([Face, {style: {filter: `grayscale(${1 - healthFraction})`}}]),
+		]),
 		adventurer.name,
 	]);
 }

@@ -41,6 +41,19 @@
 	animation-name: bounce-back, rotate-back;
 }
 
+.hat {
+	position: absolute;
+	z-index: 1;
+}
+.wizard-hat {
+	position: absolute;
+	top: -16px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 40px;
+	z-index: 1;
+}
+
 /* animations */
 @keyframes bounce-forward {
 	0% {
