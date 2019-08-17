@@ -32,5 +32,5 @@ module.exports = (env) => ({
 	resolve: {extensions: [".js", ".json", ".css", ".svg"]},
 	mode: env === "prod" ? "production" : "development",
 	devtool: env === "prod" ? "" : "eval-source-map",
-	devServer: {open: true, publicPath: "/dist"},
+	devServer: {open: true, publicPath: "/dist", port: 8080},
 });
