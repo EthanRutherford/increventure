@@ -27,6 +27,14 @@ module.exports = (env) => ({
 				loader: "@svgr/webpack",
 				options: {template},
 			}],
+		}, {
+			test: /.png$/,
+			use: [{
+				loader: "file-loader",
+				options: {
+					publicPath: "/dist",
+				},
+			}],
 		}],
 	},
 	resolve: {extensions: [".js", ".json", ".css", ".svg"]},

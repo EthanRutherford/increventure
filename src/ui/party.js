@@ -5,17 +5,20 @@ const {useSaveData} = require("../logic/save-data");
 const {minions, minionKinds} = require("../logic/minions");
 const {randRange} = require("../logic/util");
 const {coinKinds, parseCoins, parseCoinsShort} = require("./money");
-const Happy = require("../svgs/happy");
-const Meh = require("../svgs/meh");
-const Bad = require("../svgs/bad");
-const Dead = require("../svgs/dead");
-const WarriorHat = require("../svgs/warrior-hat");
-const WizardHat = require("../svgs/wizard-hat");
-const ClericHat = require("../svgs/cleric-hat");
+const Grass = require("./grass");
+const Happy = require("../images/svgs/happy");
+const Meh = require("../images/svgs/meh");
+const Bad = require("../images/svgs/bad");
+const Dead = require("../images/svgs/dead");
+const HeroHat = require("../images/svgs/hero-hat");
+const WarriorHat = require("../images/svgs/warrior-hat");
+const WizardHat = require("../images/svgs/wizard-hat");
+const ClericHat = require("../images/svgs/cleric-hat");
 const partyStyles = require("../styles/party");
 const coinStyles = require("../styles/coins");
 
 const hatMap = {
+	hero: j([HeroHat, partyStyles.hat]),
 	warrior: j([WarriorHat, partyStyles.hat]),
 	wizard: j([WizardHat, partyStyles.wizardHat]),
 	cleric: j([ClericHat, partyStyles.hat]),
@@ -71,7 +74,7 @@ function Adventurer(props) {
 	}, []);
 
 	if (adventurer == null) {
-		 return null;
+		return null;
 	}
 
 	const healthFraction = adventurer.hp / adventurer.maxHp;
@@ -103,14 +106,17 @@ module.exports = function Party(props) {
 		props.createParticle(event.pageX, event.pageY);
 	}, []);
 
-	return j({div: partyStyles.content}, [
-		j({button: {className: partyStyles.grassButton, onClick: handleClick}}, [
-			"cut grass",
+	return j({div: partyStyles.wrapper}, [
+		j([Grass]),
+		j({div: partyStyles.content}, [
+			j({button: {className: partyStyles.grassButton, onClick: handleClick}}, [
+				"cut grass",
+			]),
+			j([Coins]),
+			j([Adventurer, {which: 0}]),
+			j([Adventurer, {which: 1}]),
+			j([Adventurer, {which: 2}]),
+			j([Adventurer, {which: 3}]),
 		]),
-		j([Coins]),
-		j([Adventurer, {which: 0}]),
-		j([Adventurer, {which: 1}]),
-		j([Adventurer, {which: 2}]),
-		j([Adventurer, {which: 3}]),
 	]);
 };

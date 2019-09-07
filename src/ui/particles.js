@@ -77,8 +77,6 @@ class Particle {
 		this.r = randRange(0, 360);
 		[this.svg, this.size] = compileSVG(randItem(particleDefs), randRange(1, 1.25));
 		this.created = created;
-
-		this.step = this.step.bind(this);
 	}
 	step(diff) {
 		this.x += this.vx * diff;

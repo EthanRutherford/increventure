@@ -1,8 +1,16 @@
 @import "./variables.css";
 
-.content {
+.wrapper {
+	position: relative;
 	grid-area: party;
 }
+.content {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+
 .grass-button {
 	border: 2px outset var(--olive-pale);
 	width: 100%;
