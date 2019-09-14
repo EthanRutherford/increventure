@@ -37,9 +37,41 @@ class WeightedSet {
 	}
 }
 
+function throttle(func, time) {
+	let latestArgs = [];
+	let lastCall = 0;
+	let timeout = null;
+	const wrapped = (...args) => {
+		latestArgs = args;
+		if (timeout) {
+			return;
+		}
+
+		const now = performance.now();
+		const elapsed = now - lastCall;
+		if (elapsed >= time) {
+			lastCall = now;
+			func(...latestArgs);
+		} else {
+			setTimeout(() => {
+				lastCall = performance.now();
+				func(...latestArgs);
+			});
+		}
+	};
+
+	wrapped.cancel = () => {
+		clearTimeout(timeout);
+		timeout = null;
+	};
+
+	return wrapped;
+}
+
 module.exports = {
 	randRange,
 	randInt,
 	randItem,
 	WeightedSet,
+	throttle,
 };

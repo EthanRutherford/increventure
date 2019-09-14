@@ -7,7 +7,7 @@ const storeStyles = require("../styles/store");
 const coinStyles = require("../styles/coins");
 
 function Upgrade(props) {
-	useSaveData((data) => data.inventory.money);
+	useSaveData((data) => data.inventory.money, 500);
 
 	const upgrade = upgrades[props.upgradeId];
 
@@ -40,7 +40,7 @@ function getVisibleUpgrades() {
 }
 
 function Upgrades() {
-	useSaveData();
+	useSaveData(null, 500);
 
 	return getVisibleUpgrades().map((upgradeId) =>
 		j([Upgrade, {upgradeId, key: upgradeId}]),

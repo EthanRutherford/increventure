@@ -7,7 +7,8 @@ const minionStyles = require("../styles/minions");
 const coinStyles = require("../styles/coins");
 
 function Minion(props) {
-	useSaveData((data) => [data.minions[props.kind], data.inventory.money]);
+	useSaveData((data) => data.minions[props.kind]);
+	useSaveData((data) => data.inventory.money, 500);
 
 	const count = game.data.minions[props.kind];
 	const disabled = game.data.inventory.money < game.minionCosts[props.kind];

@@ -1,6 +1,7 @@
 const {useState, useEffect} = require("react");
 const {minionKinds} = require("./minions");
 const {upgradeIds} = require("./upgrades");
+const {throttle} = require("./util");
 
 // initial saveData state
 const saveData = {
@@ -101,16 +102,17 @@ function saveDataEffect(getWatched, updateMe) {
 	}
 
 	return () => {
+		updateMe.cancel();
 		for (const path of paths) {
 			listenerMap[path].delete(updateMe);
 		}
 	};
 }
 
-function useSaveData(getWatched = null) {
+function useSaveData(getWatched = null, throttleTime = 0) {
 	const flipFlop = useState(true);
 	useEffect(() => {
-		const updateMe = () => flipFlop[1]((x) => !x);
+		const updateMe = throttle(() => flipFlop[1]((x) => !x), throttleTime);
 		return saveDataEffect(getWatched, updateMe);
 	}, []);
 }
