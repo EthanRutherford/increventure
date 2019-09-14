@@ -1,0 +1,44 @@
+@import "./variables.css";
+
+.content {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: orange;
+	overflow: hidden;
+	animation-name: smash-in;
+	animation-duration: .4s;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+	z-index: 10;
+}
+
+.info-lines {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	overflow: auto;
+}
+
+.action {
+	flex-shrink: 0;
+}
+
+@keyframes smash-in {
+	0% {
+		width: 50px;
+		height: 0;
+		animation-timing-function: ease-in-out;
+	}
+	45%, 55% {
+		width: 50px;
+		height: 100%;
+		animation-timing-function: ease-in-out;
+	}
+	100% {
+		width: 200%;
+		height: 100%;
+	}
+}
