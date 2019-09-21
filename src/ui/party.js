@@ -18,7 +18,7 @@ const partyStyles = require("../styles/party");
 const coinStyles = require("../styles/coins");
 
 const hatMap = {
-	hero: j([HeroHat, partyStyles.hat]),
+	hero: j([HeroHat, partyStyles.heroHat]),
 	warrior: j([WarriorHat, partyStyles.hat]),
 	wizard: j([WizardHat, partyStyles.wizardHat]),
 	cleric: j([ClericHat, partyStyles.hat]),

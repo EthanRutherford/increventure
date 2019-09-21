@@ -61,6 +61,14 @@
 	width: 40px;
 	z-index: 1;
 }
+.hero-hat {
+	position: absolute;
+	top: -12px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 32px;
+	z-index: 1;
+}
 
 /* animations */
 @keyframes bounce-forward {
