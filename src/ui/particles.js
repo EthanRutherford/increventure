@@ -100,14 +100,6 @@ module.exports = function Particles(props) {
 			const diff = (stamp - prev) / 10;
 			prev = stamp;
 
-			if (
-				canvas.width !== canvas.clientWidth ||
-				canvas.height !== canvas.clientHeight
-			) {
-				canvas.width = canvas.clientWidth;
-				canvas.height = canvas.clientHeight;
-			}
-
 			if (particles.size) {
 				// clear the previous frame
 				context.clearRect(0, 0, canvas.width, canvas.height);
@@ -134,6 +126,14 @@ module.exports = function Particles(props) {
 		}
 
 		requestAnimationFrame(step);
+
+		function resize() {
+			canvas.width = canvas.clientWidth;
+			canvas.height = canvas.clientHeight;
+		}
+
+		window.addEventListener("resize", resize);
+		resize();
 	}, []);
 
 	const createParticle = useCallback((x, y) => {

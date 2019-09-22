@@ -61,16 +61,18 @@ function Adventurer(props) {
 	const timeout = useRef(null);
 	useSaveData((data) => data.adventurers[props.which]);
 
+	const animate = useCallback(() => {
+		timeout.current = null;
+		if (adventurer.hp > 0) {
+			setBounceBack((x) => !x);
+		} else {
+			handleAnimationEnd();
+		}
+	}, []);
+
 	const handleAnimationEnd = useCallback(() => {
 		if (timeout.current) return;
-		timeout.current = setTimeout(() => {
-			timeout.current = null;
-			if (adventurer.hp > 0) {
-				setBounceBack((x) => !x);
-			} else {
-				handleAnimationEnd();
-			}
-		}, randRange(0, 2000));
+		timeout.current = setTimeout(animate, randRange(0, 2000));
 	}, []);
 
 	if (adventurer == null) {
