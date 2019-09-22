@@ -5,8 +5,11 @@ const Particles = require("./ui/particles");
 const Store = require("./ui/store");
 const Minions = require("./ui/minions");
 const CharacterCreator = require("./ui/character-creator");
-require("./styles/reset");
+const Combat = require("./ui/combat");
 const styles = require("./styles/root");
+
+require("./styles/reset");
+require("./logic/game-loop");
 
 function App() {
 	return j([Particles, {render: (createParticle) => [
@@ -15,6 +18,7 @@ function App() {
 		j([Store]),
 		j([Minions]),
 		j([CharacterCreator]),
+		j([Combat]),
 	]}]);
 }
 

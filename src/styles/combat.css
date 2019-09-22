@@ -1,9 +1,13 @@
 @import "./variables.css";
 
+.container {
+	grid-area: main;
+	z-index: 10;
+}
+
 .content {
 	display: flex;
 	flex-direction: column;
-	position: absolute;
 	top: 0;
 	left: 0;
 	background-color: orange;
@@ -12,7 +16,6 @@
 	animation-duration: .4s;
 	animation-fill-mode: forwards;
 	animation-timing-function: linear;
-	z-index: 10;
 }
 
 .info-lines {

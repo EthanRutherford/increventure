@@ -12,18 +12,18 @@ const encounterStates = {
 };
 
 class Encounter {
-	constructor() {
+	constructor({onVictory, onDefeat}) {
 		const enemyName = createName(analyzeWords(slimeWords));
 		this.enemy = createNewMonster(enemyName, "slime");
 		this.ai = new AI(this.enemy, randItem([...Object.values(personalities)]));
+		this.turn = 0;
 		this.turnOrder = [
 			encounterStates.playerTurn,
 			encounterStates.enemyTurn,
 		];
-		this.turn = 0;
 
-		// temporary, heal the player
-		game.adventurers[0].hp = game.adventurers[0].maxHp;
+		this.onVictory = onVictory;
+		this.onDefeat = onDefeat;
 	}
 	advanceTurn() {
 		if (this.enemy.hp === 0) {

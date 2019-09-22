@@ -6,7 +6,8 @@ const {
 	useMemo,
 } = require("react");
 const j = require("react-jenny");
-const {encounterStates, Encounter} = require("../logic/rpg/combat");
+const game = require("../logic/game");
+const {encounterStates} = require("../logic/rpg/combat");
 const styles = require("../styles/combat.css");
 
 const dodgeText = (name) => `, but ${name} dodged the attack!`;
@@ -35,8 +36,7 @@ function parseAction(action) {
 	return `${source.name} does nothing.`;
 }
 
-module.exports = function CombatUI(props) {
-	const encounter = useMemo(() => new Encounter(), []);
+function CombatUI({encounter}) {
 	const lineElems = useRef();
 	const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 	const [lines, setLines] = useState(() => [
@@ -53,12 +53,16 @@ module.exports = function CombatUI(props) {
 		setIsPlayerTurn(turn === encounterStates.playerTurn);
 
 		if (turn === encounterStates.victory) {
-			props.onVictory();
+			// temporary
+			setLines((lines) => [...lines, "you win!"]);
+			setTimeout(encounter.onVictory, 1000);
 			return;
 		}
 
 		if (turn === encounterStates.defeat) {
-			props.onDefeat();
+			// temporary
+			setLines((lines) => [...lines, "you win!"]);
+			setTimeout(encounter.onDefeat, 1000);
 			return;
 		}
 
@@ -77,7 +81,7 @@ module.exports = function CombatUI(props) {
 		advance();
 	});
 
-	return j({div: styles.content}, [
+	return j({div: styles.container}, j({div: styles.content}, [
 		j({div: {className: styles.infoLines, ref: lineElems}},
 			lines.map((line) => j({div: styles.infoLine}, line)),
 		),
@@ -85,5 +89,15 @@ module.exports = function CombatUI(props) {
 			className: styles.action,
 			onClick: attack,
 		}}, "Attack!"),
-	]);
+	]));
+}
+
+module.exports = function Combat() {
+	game.useEncounter();
+
+	if (game.encounter == null) {
+		return null;
+	}
+
+	return j([CombatUI, {encounter: game.encounter}]);
 };

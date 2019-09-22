@@ -1,4 +1,5 @@
-const {minions, minionKinds, costCalculator} = require("./minions");
+const {useState} = require("react");
+const {minionKinds, costCalculator} = require("./minions");
 const {upgrades, calculateMultipliers} = require("./upgrades");
 const {Being} = require("./rpg/beings");
 const {data, saveGame, loadGame} = require("./save-data");
@@ -52,31 +53,13 @@ const game = {
 			game.multipliers = calculateMultipliers(game.data.upgrades);
 		}
 	},
+	// encounter hook, only to be used by combatUI
+	useEncounter() {
+		const [encounter, setEncounter] = useState(null);
+		game.encounter = encounter;
+		game.setEncounter = setEncounter;
+	},
 };
-
-// main logic loop
-let lastTick = performance.now();
-setInterval(function() {
-	// timing logic
-	const thisTick = performance.now();
-	const diff = (thisTick - lastTick) / 1000;
-	lastTick = thisTick;
-
-	// minion logic
-	for (const kind of minionKinds) {
-		if (game.data.minions[kind]) {
-			const base = minions[kind].baseRate;
-			const count = game.data.minions[kind];
-			const mult = game.multipliers[kind];
-			game.data.inventory.money += base * count * mult * diff;
-		}
-	}
-
-	// stats tracking
-	if (game.data.inventory.money > game.data.stats.mostMoney) {
-		game.data.stats.mostMoney = game.data.money;
-	}
-}, 50);
 
 // load game
 game.load();
