@@ -5,7 +5,7 @@ const Particles = require("./ui/particles");
 const Store = require("./ui/store");
 const Minions = require("./ui/minions");
 const CharacterCreator = require("./ui/character-creator");
-const Combat = require("./ui/combat");
+const Overlay = require("./ui/overlay");
 const styles = require("./styles/root");
 
 require("./styles/reset");
@@ -18,7 +18,7 @@ function App() {
 		j([Store]),
 		j([Minions]),
 		j([CharacterCreator]),
-		j([Combat]),
+		j([Overlay]),
 	]}]);
 }
 

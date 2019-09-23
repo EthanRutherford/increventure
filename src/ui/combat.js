@@ -3,10 +3,8 @@ const {
 	useLayoutEffect,
 	useCallback,
 	useRef,
-	useMemo,
 } = require("react");
 const j = require("react-jenny");
-const game = require("../logic/game");
 const {encounterStates} = require("../logic/rpg/combat");
 const styles = require("../styles/combat.css");
 
@@ -36,7 +34,7 @@ function parseAction(action) {
 	return `${source.name} does nothing.`;
 }
 
-function CombatUI({encounter}) {
+module.exports = function CombatUI({encounter}) {
 	const lineElems = useRef();
 	const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 	const [lines, setLines] = useState(() => [
@@ -81,7 +79,7 @@ function CombatUI({encounter}) {
 		advance();
 	});
 
-	return j({div: styles.container}, j({div: styles.content}, [
+	return j({div: styles.content}, [
 		j({div: {className: styles.infoLines, ref: lineElems}},
 			lines.map((line) => j({div: styles.infoLine}, line)),
 		),
@@ -89,15 +87,5 @@ function CombatUI({encounter}) {
 			className: styles.action,
 			onClick: attack,
 		}}, "Attack!"),
-	]));
-}
-
-module.exports = function Combat() {
-	game.useEncounter();
-
-	if (game.encounter == null) {
-		return null;
-	}
-
-	return j([CombatUI, {encounter: game.encounter}]);
+	]);
 };

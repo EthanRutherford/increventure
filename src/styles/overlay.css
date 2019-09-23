@@ -1,0 +1,13 @@
+@import "./variables.css";
+
+.content {
+	grid-area: main;
+	position: relative;
+}
+
+.overlay {
+	position: absolute;
+	width: 200%;
+	height: 100%;
+	z-index: 10;
+}
