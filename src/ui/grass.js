@@ -1,7 +1,8 @@
+const {useState, useEffect} = require("react");
 const j = require("react-jenny");
 const styles = require("../styles/grass.css");
 
-const grassKinds = [
+const grassUrls = [
 	require("../images/pngs/grass-1.png"),
 	require("../images/pngs/grass-2.png"),
 	require("../images/pngs/grass-3.png"),
@@ -9,25 +10,50 @@ const grassKinds = [
 	require("../images/pngs/grass-5.png"),
 ];
 
-const grasses = [];
+function loadImage(url) {
+	return new Promise((resolve, reject) => {
+		const image = new Image();
+		image.onload = () => resolve(image);
+		image.onerror = reject;
+		image.src = url;
+	});
+}
 
-for (let i = 0; i < 1000; i++) {
-	const x = Math.random();
-	if (x <= .05) {
-		grasses.push(grassKinds[4]);
-	} else if (x <= .1) {
-		grasses.push(grassKinds[3]);
-	} else if (x <= .15) {
-		grasses.push(grassKinds[2]);
-	} else if (x <= .2) {
-		grasses.push(grassKinds[1]);
-	} else {
-		grasses.push(grassKinds[0]);
+async function createGrass() {
+	const grassPromises = grassUrls.map(loadImage);
+	const grasses = await Promise.all(grassPromises);
+
+	const width = 23;
+	const height = 45;
+	const imageSize = 16;
+	const canvas = document.createElement("canvas");
+	const context = canvas.getContext("2d");
+	canvas.width = width * imageSize;
+	canvas.height = height * imageSize;
+
+	for (let i = 0; i < width; i++) {
+		for (let j = 0; j < height; j++) {
+			const x = Math.random();
+			if (x <= .05) {
+				context.drawImage(grasses[4], i * imageSize, j * imageSize);
+			} else if (x <= .1) {
+				context.drawImage(grasses[3], i * imageSize, j * imageSize);
+			} else if (x <= .15) {
+				context.drawImage(grasses[2], i * imageSize, j * imageSize);
+			} else if (x <= .2) {
+				context.drawImage(grasses[1], i * imageSize, j * imageSize);
+			} else {
+				context.drawImage(grasses[0], i * imageSize, j * imageSize);
+			}
+		}
 	}
+
+	return canvas.toDataURL();
 }
 
 module.exports = function Grass() {
-	return j({div: styles.grass}, grasses.map((url) =>
-		j({img: {className: styles.image, src: url}}),
-	));
+	const [src, setSrc] = useState(null);
+	useEffect(() => {createGrass().then(setSrc);}, []);
+
+	return j({img: {className: styles.grass, src}});
 };

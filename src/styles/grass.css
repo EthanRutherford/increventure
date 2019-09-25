@@ -3,12 +3,6 @@
 .grass {
 	position: absolute;
 	top: 0;
-	display: grid;
-	grid-template-columns: repeat(23, 1fr);
-	width: 100%;
-}
-
-.image {
 	width: 100%;
 	image-rendering: pixelated;
 }
