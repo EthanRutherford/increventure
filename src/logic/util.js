@@ -1,8 +1,8 @@
-const randRange = (min, max) => min + Math.random() * (max - min);
-const randInt = (min, max) => Math.floor(randRange(min, max));
-const randItem = (list) => list[randInt(0, list.length)];
+export const randRange = (min, max) => min + Math.random() * (max - min);
+export const randInt = (min, max) => Math.floor(randRange(min, max));
+export const randItem = (list) => list[randInt(0, list.length)];
 
-class WeightedSet {
+export class WeightedSet {
 	constructor() {
 		this.items = new Map();
 		this.total = 0;
@@ -37,7 +37,7 @@ class WeightedSet {
 	}
 }
 
-function throttle(func, time) {
+export function throttle(func, time) {
 	let latestArgs = [];
 	let lastCall = 0;
 	let timeout = null;
@@ -67,11 +67,3 @@ function throttle(func, time) {
 
 	return wrapped;
 }
-
-module.exports = {
-	randRange,
-	randInt,
-	randItem,
-	WeightedSet,
-	throttle,
-};

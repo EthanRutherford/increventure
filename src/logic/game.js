@@ -1,10 +1,10 @@
-const {useState} = require("react");
-const {minionKinds, costCalculator} = require("./minions");
-const {upgrades, calculateMultipliers} = require("./upgrades");
-const {Being} = require("./rpg/beings");
-const {data, saveGame, loadGame} = require("./save-data");
+import {useState} from "react";
+import {minionKinds, costCalculator} from "./minions";
+import {upgrades, calculateMultipliers} from "./upgrades";
+import {Being} from "./rpg/beings";
+import {data, saveGame, loadGame} from "./save-data";
 
-const game = {
+export const game = {
 	data,
 	save() {
 		saveGame();
@@ -63,4 +63,3 @@ const game = {
 
 // load game
 game.load();
-module.exports = game;

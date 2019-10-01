@@ -1,7 +1,7 @@
-const {useState, useEffect} = require("react");
-const {minionKinds} = require("./minions");
-const {upgradeIds} = require("./upgrades");
-const {throttle} = require("./util");
+import {useState, useEffect} from "react";
+import {minionKinds} from "./minions";
+import {upgradeIds} from "./upgrades";
+import {throttle} from "./util";
 
 // initial saveData state
 const saveData = {
@@ -109,7 +109,9 @@ function saveDataEffect(getWatched, updateMe) {
 	};
 }
 
-function useSaveData(getWatched = null, throttleTime = 0) {
+export const data = proxify(saveData, "data");
+
+export function useSaveData(getWatched = null, throttleTime = 0) {
 	const flipFlop = useState(true);
 	useEffect(() => {
 		const updateMe = throttle(() => flipFlop[1]((x) => !x), throttleTime);
@@ -117,16 +119,13 @@ function useSaveData(getWatched = null, throttleTime = 0) {
 	}, []);
 }
 
-module.exports = {
-	data: proxify(saveData, "data"),
-	useSaveData,
-	saveGame() {
-		localStorage.setItem("saveGame", JSON.stringify(saveData));
-	},
-	loadGame() {
-		const saveGame = JSON.parse(localStorage.getItem("saveGame")) || {};
-		for (const key of Object.keys(saveGame)) {
-			Object.assign(saveData[key], saveGame[key]);
-		}
-	},
-};
+export function saveGame() {
+	localStorage.setItem("saveGame", JSON.stringify(saveData));
+}
+
+export function loadGame() {
+	const saveGame = JSON.parse(localStorage.getItem("saveGame")) || {};
+	for (const key of Object.keys(saveGame)) {
+		Object.assign(saveData[key], saveGame[key]);
+	}
+}

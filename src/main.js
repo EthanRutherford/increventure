@@ -1,15 +1,14 @@
-const {render} = require("react-dom");
-const j = require("react-jenny");
-const Party = require("./ui/party");
-const Particles = require("./ui/particles");
-const Store = require("./ui/store");
-const Minions = require("./ui/minions");
-const CharacterCreator = require("./ui/character-creator");
-const Overlay = require("./ui/overlay");
-const styles = require("./styles/root");
-
-require("./styles/reset");
-require("./logic/game-loop");
+import {render} from "react-dom";
+import j from "react-jenny";
+import {Party} from "./ui/party";
+import {Particles} from "./ui/particles";
+import {Store} from "./ui/store";
+import {Minions} from "./ui/minions";
+import {CharacterCreator} from "./ui/character-creator";
+import {Overlay} from "./ui/overlay";
+import styles from "./styles/root";
+import "./logic/game-loop";
+import "./styles/reset";
 
 function App() {
 	return j([Particles, {render: (createParticle) => [

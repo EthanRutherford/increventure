@@ -1,4 +1,4 @@
-const upgrades = {
+export const upgrades = {
 	scissors: {
 		name: "Safety Scissors",
 		desc: "Cutting grass is easier with something to cut with.",
@@ -31,7 +31,9 @@ const upgrades = {
 	},
 };
 
-function calculateMultipliers(savedUpgrades) {
+export const upgradeIds = Object.keys(upgrades);
+
+export function calculateMultipliers(savedUpgrades) {
 	const base = {
 		clickBonus: [],
 		grass: 1,
@@ -48,8 +50,3 @@ function calculateMultipliers(savedUpgrades) {
 	return base;
 }
 
-module.exports = {
-	upgrades,
-	upgradeIds: Object.keys(upgrades),
-	calculateMultipliers,
-};

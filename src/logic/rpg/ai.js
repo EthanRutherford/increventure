@@ -1,4 +1,4 @@
-const {randItem} = require("../util");
+import {randItem} from "../util";
 
 /*
 	ai will likely evolve over development, but the base idea is
@@ -13,7 +13,21 @@ const {randItem} = require("../util");
 	attributes and skills of the controlled being to produce an action to perform.
 */
 
-class AI {
+// personalities are collections of decision weights
+export const personalities = {
+	aggressive: {
+		useSkill: 10,
+		attack: 1,
+	},
+	docile: {
+		useSkill: 1,
+		attack: 10,
+	},
+	// more to come...
+	// cooperative, timid, stalwart, etc.
+};
+
+export class AI {
 	constructor(being, personality) {
 		this.being = being;
 		this.personality = personality;
@@ -46,22 +60,3 @@ class AI {
 		return {action: "attack", target: randItem(enemies)};
 	}
 }
-
-// personalities are collections of decision weights
-const personalities = {
-	aggressive: {
-		useSkill: 10,
-		attack: 1,
-	},
-	docile: {
-		useSkill: 1,
-		attack: 10,
-	},
-	// more to come...
-	// cooperative, timid, stalwart, etc.
-};
-
-module.exports = {
-	AI,
-	personalities,
-};

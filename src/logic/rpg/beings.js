@@ -1,6 +1,6 @@
-const {stats, skills} = require("./class-data");
+import {stats, skills} from "./class-data";
 
-class Being {
+export class Being {
 	constructor(data) {
 		this.data = data;
 	}
@@ -49,7 +49,7 @@ class Being {
 	}
 }
 
-const adventurers = {
+export const adventurers = {
 	hero: {
 		name: "Hero",
 		desc: "A well-rounded adventurer that can handle most any situation",
@@ -76,7 +76,9 @@ const adventurers = {
 	},
 };
 
-const monsters = {
+export const adventurerKinds = Object.keys(adventurers);
+
+export const monsters = {
 	// ideas for futher monsters (which have corresponding dungeons/minions)
 	// in no particular order yet (in fact, might allow user to decide order):
 	// skeletons - nyeh!
@@ -94,7 +96,9 @@ const monsters = {
 	},
 };
 
-function createNewAdventurer(name, kind) {
+export const monsterKinds = Object.keys(monsters);
+
+export function createNewAdventurer(name, kind) {
 	const adventurer = new Being({...stats[kind]});
 	adventurer.data.exp = 0;
 	adventurer.data.name = name;
@@ -105,7 +109,7 @@ function createNewAdventurer(name, kind) {
 	return adventurer;
 }
 
-function createNewMonster(name, kind) {
+export function createNewMonster(name, kind) {
 	const monster = new Being({...stats[kind]});
 	monster.data.exp = 0;
 	monster.data.name = name;
@@ -114,13 +118,3 @@ function createNewMonster(name, kind) {
 	monster.data.mp = monster.maxMp;
 	return monster;
 }
-
-module.exports = {
-	Being,
-	adventurers,
-	adventurerKinds: Object.keys(adventurers),
-	monsters,
-	monsterKinds: Object.keys(monsters),
-	createNewAdventurer,
-	createNewMonster,
-};

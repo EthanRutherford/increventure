@@ -1,6 +1,6 @@
-const coinKinds = ["copper", "silver", "gold", "platinum"];
+export const coinKinds = ["copper", "silver", "gold", "platinum"];
 
-function parseCoins(amount) {
+export function parseCoins(amount) {
 	const amounts = [Math.floor(amount)];
 
 	for (let i = 1; i < coinKinds.length && amounts[i - 1] >= 1000; i++) {
@@ -11,7 +11,7 @@ function parseCoins(amount) {
 	return amounts;
 }
 
-function parseCoinsShort(amount) {
+export function parseCoinsShort(amount) {
 	const amounts = parseCoins(amount);
 	const coinValue = {};
 	coinValue.kind = coinKinds[amounts.length - 1];
@@ -27,9 +27,3 @@ function parseCoinsShort(amount) {
 
 	return coinValue;
 }
-
-module.exports = {
-	coinKinds,
-	parseCoins,
-	parseCoinsShort,
-};

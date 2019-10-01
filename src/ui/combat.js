@@ -1,12 +1,7 @@
-const {
-	useState,
-	useLayoutEffect,
-	useCallback,
-	useRef,
-} = require("react");
-const j = require("react-jenny");
-const {encounterStates} = require("../logic/rpg/combat");
-const styles = require("../styles/combat.css");
+import {useState, useLayoutEffect, useCallback, useRef} from "react";
+import j from "react-jenny";
+import {encounterStates} from "../logic/rpg/combat";
+import styles from "../styles/combat.css";
 
 const dodgeText = (name) => `, but ${name} dodged the attack!`;
 function parseAction(action) {
@@ -34,7 +29,7 @@ function parseAction(action) {
 	return `${source.name} does nothing.`;
 }
 
-module.exports = function CombatUI({encounter}) {
+export function CombatUI({encounter}) {
 	const lineElems = useRef();
 	const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 	const [lines, setLines] = useState(() => [
@@ -88,4 +83,4 @@ module.exports = function CombatUI({encounter}) {
 			onClick: attack,
 		}}, "Attack!"),
 	]);
-};
+}

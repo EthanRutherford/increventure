@@ -1,4 +1,4 @@
-const minions = {
+export const minions = {
 	grass: {
 		name: "Grass",
 		desc: "cuts grass for you",
@@ -19,17 +19,13 @@ const minions = {
 	},
 };
 
+export const minionKinds = Object.keys(minions);
+
 function calculateCost(base, count) {
 	return Math.round(base * (1.15 ** count));
 }
 
-const costCalculator = Object.entries(minions).reduce((obj, [kind, data]) => {
+export const costCalculator = Object.entries(minions).reduce((obj, [kind, data]) => {
 	obj[kind] = (count) => calculateCost(data.baseCost, count);
 	return obj;
 }, {});
-
-module.exports = {
-	minions,
-	minionKinds: Object.keys(minions),
-	costCalculator,
-};

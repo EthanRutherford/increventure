@@ -1,17 +1,17 @@
-const game = require("../game");
-const {randItem} = require("../util");
-const {createNewMonster} = require("./beings");
-const {analyzeWords, createName, slimeWords} = require("./name-gen");
-const {AI, personalities} = require("./ai");
+import {game} from "../game";
+import {randItem} from "../util";
+import {createNewMonster} from "./beings";
+import {analyzeWords, createName, slimeWords} from "./name-gen";
+import {AI, personalities} from "./ai";
 
-const encounterStates = {
+export const encounterStates = {
 	playerTurn: "player",
 	enemyTurn: "enemy",
 	defeat: "defeat",
 	victory: "victory",
 };
 
-class Encounter {
+export class Encounter {
 	constructor({onVictory, onDefeat}) {
 		const enemyName = createName(analyzeWords(slimeWords));
 		this.enemy = createNewMonster(enemyName, "slime");
@@ -97,8 +97,3 @@ class Encounter {
 		};
 	}
 }
-
-module.exports = {
-	encounterStates,
-	Encounter,
-};

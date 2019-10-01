@@ -1,13 +1,13 @@
-const j = require("react-jenny");
-const game = require("../logic/game");
-const CombatUI = require("./combat");
-const styles = require("../styles/overlay.css");
+import j from "react-jenny";
+import {game} from "../logic/game";
+import {CombatUI} from "./combat";
+import styles from "../styles/overlay.css";
 
 function renderOverlay(children) {
 	return j({div: styles.content}, j({div: styles.overlay}, children));
 }
 
-module.exports = function Overlay() {
+export function Overlay() {
 	game.useEncounter();
 
 	if (game.encounter != null) {
@@ -17,4 +17,4 @@ module.exports = function Overlay() {
 	}
 
 	return null;
-};
+}

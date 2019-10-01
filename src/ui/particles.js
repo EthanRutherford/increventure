@@ -1,7 +1,7 @@
-const {Fragment, useEffect, useRef, useCallback} = require("react");
-const j = require("react-jenny");
-const {randItem, randRange} = require("../logic/util");
-const styles = require("../styles/root");
+import {Fragment, useEffect, useRef, useCallback} from "react";
+import j from "react-jenny";
+import {randItem, randRange} from "../logic/util";
+import styles from "../styles/root";
 
 function createSVG(size, inside) {
 	return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">${inside}</svg>`;
@@ -86,7 +86,7 @@ class Particle {
 	}
 }
 
-module.exports = function Particles(props) {
+export function Particles(props) {
 	const {current: particles} = useRef(new Set());
 	const canvasRef = useRef();
 
@@ -144,4 +144,4 @@ module.exports = function Particles(props) {
 		j({canvas: {className: styles.particles, ref: canvasRef}}),
 		...props.render(createParticle),
 	]);
-};
+}

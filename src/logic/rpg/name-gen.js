@@ -1,10 +1,10 @@
-const {randItem, randInt, WeightedSet} = require("../util");
+import {randItem, randInt, WeightedSet} from "../util";
 
 function isVowel(letter) {
 	return "aeiouy".includes(letter);
 }
 
-function analyzeWords(words) {
+export function analyzeWords(words) {
 	const consonant = new WeightedSet();
 	const vowel = new WeightedSet();
 
@@ -26,7 +26,7 @@ function analyzeWords(words) {
 	return {consonant, vowel};
 }
 
-function createName(phonemes) {
+export function createName(phonemes) {
 	const wordLength = randInt(4, 10);
 
 	let useVowel = randItem([true, false]);
@@ -78,7 +78,7 @@ function createName(phonemes) {
 	return name;
 }
 
-const slimeWords = [
+export const slimeWords = [
 	"slime",
 	"goo",
 	"gunk",
@@ -110,9 +110,3 @@ const slimeWords = [
 	"sleaze",
 	"ectoplasm",
 ];
-
-module.exports = {
-	analyzeWords,
-	createName,
-	slimeWords,
-};

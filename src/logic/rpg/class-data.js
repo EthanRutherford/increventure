@@ -1,4 +1,4 @@
-const {randRange} = require("../util");
+import {randRange} from "../util";
 
 /*
 	stats affect a character's abilities
@@ -10,7 +10,7 @@ const {randRange} = require("../util");
 	luck: gives a small boost to all chance-based events
 */
 
-const stats = {
+export const stats = {
 	// adventurers
 	hero: {
 		str: 3,
@@ -79,7 +79,7 @@ const stats = {
 	},
 };
 
-const skills = {
+export const skills = {
 	// adventurers
 	hero: [
 		{
@@ -213,5 +213,3 @@ const skills = {
 		},
 	],
 };
-
-module.exports = {stats, skills};

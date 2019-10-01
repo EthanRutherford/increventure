@@ -1,6 +1,6 @@
-const game = require("./game");
-const {minions, minionKinds} = require("./minions");
-const {Encounter} = require("./rpg/combat");
+import {game} from "./game";
+import {minions, minionKinds} from "./minions";
+import {Encounter} from "./rpg/combat";
 
 function doRandomEncounter() {
 	const encounter = new Encounter({

@@ -1,16 +1,16 @@
-const {useState} = require("react");
-const j = require("react-jenny");
-const game = require("../logic/game");
-const {useSaveData} = require("../logic/save-data");
-const {adventurerKinds, adventurers, createNewAdventurer} = require("../logic/rpg/beings");
-const {stats} = require("../logic/rpg/class-data");
-const styles = require("../styles/character-creator");
+import {useState} from "react";
+import j from "react-jenny";
+import {game} from "../logic/game";
+import {useSaveData} from "../logic/save-data";
+import {adventurerKinds, adventurers, createNewAdventurer} from "../logic/rpg/beings";
+import {stats} from "../logic/rpg/class-data";
+import styles from "../styles/character-creator";
 
 function shouldCreateFirst() {
 	return game.data.adventurers[0] == null;
 }
 
-module.exports = function CharacterCreator() {
+export function CharacterCreator() {
 	const [name, setName] = useState("");
 	const [kind, setKind] = useState(adventurerKinds[0]);
 	useSaveData((data) => data.adventurers[0]);
@@ -85,4 +85,4 @@ module.exports = function CharacterCreator() {
 	}
 
 	return null;
-};
+}

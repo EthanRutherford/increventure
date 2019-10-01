@@ -1,10 +1,10 @@
-const j = require("react-jenny");
-const game = require("../logic/game");
-const {useSaveData} = require("../logic/save-data");
-const {upgrades, upgradeIds} = require("../logic/upgrades");
-const {parseCoinsShort} = require("./money");
-const storeStyles = require("../styles/store");
-const coinStyles = require("../styles/coins");
+import j from "react-jenny";
+import {game} from "../logic/game";
+import {useSaveData} from "../logic/save-data";
+import {upgrades, upgradeIds} from "../logic/upgrades";
+import {parseCoinsShort} from "./money";
+import storeStyles from "../styles/store";
+import coinStyles from "../styles/coins";
 
 function Upgrade(props) {
 	useSaveData((data) => data.inventory.money, 500);
@@ -47,8 +47,8 @@ function Upgrades() {
 	);
 }
 
-module.exports = function Store() {
+export function Store() {
 	return j({div: storeStyles.content}, [
 		j([Upgrades]),
 	]);
-};
+}

@@ -1,21 +1,21 @@
-const {useState, useCallback, useRef} = require("react");
-const j = require("react-jenny");
-const game = require("../logic/game");
-const {useSaveData} = require("../logic/save-data");
-const {minions, minionKinds} = require("../logic/minions");
-const {randRange} = require("../logic/util");
-const {coinKinds, parseCoins, parseCoinsShort} = require("./money");
-const Grass = require("./grass");
-const Happy = require("../images/svgs/happy");
-const Meh = require("../images/svgs/meh");
-const Bad = require("../images/svgs/bad");
-const Dead = require("../images/svgs/dead");
-const HeroHat = require("../images/svgs/hero-hat");
-const WarriorHat = require("../images/svgs/warrior-hat");
-const WizardHat = require("../images/svgs/wizard-hat");
-const ClericHat = require("../images/svgs/cleric-hat");
-const partyStyles = require("../styles/party");
-const coinStyles = require("../styles/coins");
+import {useState, useCallback, useRef} from "react";
+import j from "react-jenny";
+import {game} from "../logic/game";
+import {useSaveData} from "../logic/save-data";
+import {minions, minionKinds} from "../logic/minions";
+import {randRange} from "../logic/util";
+import {coinKinds, parseCoins, parseCoinsShort} from "./money";
+import {Grass} from "./grass";
+import Happy from "../images/svgs/happy";
+import Meh from "../images/svgs/meh";
+import Bad from "../images/svgs/bad";
+import Dead from "../images/svgs/dead";
+import HeroHat from "../images/svgs/hero-hat";
+import WarriorHat from "../images/svgs/warrior-hat";
+import WizardHat from "../images/svgs/wizard-hat";
+import ClericHat from "../images/svgs/cleric-hat";
+import partyStyles from "../styles/party";
+import coinStyles from "../styles/coins";
 
 const hatMap = {
 	hero: j([HeroHat, partyStyles.heroHat]),
@@ -100,7 +100,7 @@ function Adventurer(props) {
 	]);
 }
 
-module.exports = function Party(props) {
+export function Party(props) {
 	const handleClick = useCallback((event) => {
 		game.cutGrass();
 		props.createParticle(event.pageX, event.pageY);
@@ -121,4 +121,4 @@ module.exports = function Party(props) {
 			j([Adventurer, {which: 3}]),
 		]),
 	]);
-};
+}

@@ -1,10 +1,10 @@
-const j = require("react-jenny");
-const game = require("../logic/game");
-const {useSaveData} = require("../logic/save-data");
-const {minions, minionKinds} = require("../logic/minions");
-const {parseCoinsShort} = require("./money");
-const minionStyles = require("../styles/minions");
-const coinStyles = require("../styles/coins");
+import j from "react-jenny";
+import {game} from "../logic/game";
+import {useSaveData} from "../logic/save-data";
+import {minions, minionKinds} from "../logic/minions";
+import {parseCoinsShort} from "./money";
+import minionStyles from "../styles/minions";
+import coinStyles from "../styles/coins";
 
 function Minion(props) {
 	useSaveData((data) => data.minions[props.kind]);
@@ -33,8 +33,8 @@ function Minion(props) {
 	]);
 }
 
-module.exports = function Minions() {
+export function Minions() {
 	return j({div: minionStyles.content}, minionKinds.map((kind) =>
 		j([Minion, {kind, key: kind}]),
 	));
-};
+}

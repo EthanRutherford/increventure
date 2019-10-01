@@ -1,13 +1,18 @@
-const {useState, useEffect} = require("react");
-const j = require("react-jenny");
-const styles = require("../styles/grass.css");
+import {useState, useEffect} from "react";
+import j from "react-jenny";
+import styles from "../styles/grass.css";
+import grass1 from "../images/pngs/grass-1.png";
+import grass2 from "../images/pngs/grass-2.png";
+import grass3 from "../images/pngs/grass-3.png";
+import grass4 from "../images/pngs/grass-4.png";
+import grass5 from "../images/pngs/grass-5.png";
 
 const grassUrls = [
-	require("../images/pngs/grass-1.png"),
-	require("../images/pngs/grass-2.png"),
-	require("../images/pngs/grass-3.png"),
-	require("../images/pngs/grass-4.png"),
-	require("../images/pngs/grass-5.png"),
+	grass1,
+	grass2,
+	grass3,
+	grass4,
+	grass5,
 ];
 
 function loadImage(url) {
@@ -51,9 +56,9 @@ async function createGrass() {
 	return canvas.toDataURL();
 }
 
-module.exports = function Grass() {
+export function Grass() {
 	const [src, setSrc] = useState(null);
 	useEffect(() => {createGrass().then(setSrc);}, []);
 
 	return j({img: {className: styles.grass, src}});
-};
+}
