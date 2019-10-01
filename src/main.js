@@ -8,6 +8,7 @@ import {CharacterCreator} from "./ui/character-creator";
 import {Overlay} from "./ui/overlay";
 import styles from "./styles/root";
 import "./logic/game-loop";
+import "./ui/keyboard-handler";
 import "./styles/reset";
 
 function App() {

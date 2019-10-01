@@ -3,11 +3,13 @@ import {minionKinds, costCalculator} from "./minions";
 import {upgrades, calculateMultipliers} from "./upgrades";
 import {Being} from "./rpg/beings";
 import {data, saveGame, loadGame} from "./save-data";
+import {logInfo} from "./log";
 
 export const game = {
 	data,
 	save() {
 		saveGame();
+		logInfo("game saved");
 	},
 	load() {
 		loadGame();
