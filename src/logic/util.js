@@ -38,31 +38,33 @@ export class WeightedSet {
 }
 
 export function throttle(func, time) {
-	let latestArgs = [];
-	let lastCall = 0;
-	let timeout = null;
+	const context = {
+		latestArgs: [],
+		lastCall: 0,
+		timeout: null,
+	};
+	const invoke = () => {
+		context.lastCall = performance.now();
+		func(...context.latestArgs);
+	};
+
 	const wrapped = (...args) => {
-		latestArgs = args;
-		if (timeout) {
+		context.latestArgs = args;
+		if (context.timeout) {
 			return;
 		}
 
-		const now = performance.now();
-		const elapsed = now - lastCall;
+		const elapsed = performance.now() - context.lastCall;
 		if (elapsed >= time) {
-			lastCall = now;
-			func(...latestArgs);
+			invoke();
 		} else {
-			setTimeout(() => {
-				lastCall = performance.now();
-				func(...latestArgs);
-			});
+			setTimeout(invoke, time - elapsed);
 		}
 	};
 
 	wrapped.cancel = () => {
-		clearTimeout(timeout);
-		timeout = null;
+		clearTimeout(context.timeout);
+		context.timeout = null;
 	};
 
 	return wrapped;
