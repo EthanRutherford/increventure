@@ -24,35 +24,28 @@ const saveData = {
 };
 
 // queued updates
-const listenerMap = {"": new Set()};
+const listenerMap = {};
 let timeout;
 const queue = new Set();
 
-function getAllListeners(key) {
-	const listeners = listenerMap[key] || new Set();
+function addListener(path, listener) {
+	if (listenerMap[path] == null) {
+		listenerMap[path] = new Set([listener]);
+	} else {
+		listenerMap[path].add(listener);
+	}
+}
 
-	let index;
-	while ((index = key.lastIndexOf(".", index)) !== -1) {
-		key = key.substring(0, index);
-		for (const listener of listenerMap[key] || []) {
+function doUpdates() {
+	const listeners = new Set();
+	for (const update of queue) {
+		for (const listener of listenerMap[update] || []) {
 			listeners.add(listener);
 		}
 	}
 
-	for (const listener of listenerMap[""]) {
-		listeners.add(listener);
-	}
-
-	return listeners;
-}
-
-function doUpdates() {
-	for (const update of queue) {
-		const listeners = getAllListeners(update);
-
-		for (const listener of listeners) {
-			listener();
-		}
+	for (const listener of listeners) {
+		listener();
 	}
 
 	queue.clear();
@@ -78,33 +71,36 @@ function proxify(data, path) {
 }
 
 const dummy = function() {};
-function keyMaker(path) {
+const toggler = (x) => !x;
+function keyMaker(array) {
 	return new Proxy(dummy, {
 		get(_, prop) {
-			return keyMaker(`${path}.${prop}`);
+			const prev = array[array.length - 1];
+			return keyMaker([...array, `${prev}.${prop}`]);
 		},
 		apply() {
-			return path;
+			return array;
 		},
 	});
 }
 
 function saveDataEffect(getWatched, updateMe) {
-	const maker = keyMaker("data");
-	const keyPath = getWatched == null ? maker : getWatched(maker);
-	const paths = (keyPath instanceof Array ? keyPath : [keyPath]).map((x) => x());
+	const maker = keyMaker(["data"]);
+	const result = getWatched == null ? maker : getWatched(maker);
+	const proxies = result instanceof Array ? result : [result];
+	const paths = proxies.map((x) => x());
 	for (const path of paths) {
-		if (listenerMap[path] == null) {
-			listenerMap[path] = new Set([updateMe]);
-		} else {
-			listenerMap[path].add(updateMe);
+		for (const piece of path) {
+			addListener(piece, updateMe);
 		}
 	}
 
 	return () => {
 		updateMe.cancel();
 		for (const path of paths) {
-			listenerMap[path].delete(updateMe);
+			for (const piece of path) {
+				listenerMap[piece].delete(updateMe);
+			}
 		}
 	};
 }
@@ -112,9 +108,9 @@ function saveDataEffect(getWatched, updateMe) {
 export const data = proxify(saveData, "data");
 
 export function useSaveData(getWatched = null, throttleTime = 0) {
-	const flipFlop = useState(true);
+	const [, flipFlop] = useState(true);
 	useEffect(() => {
-		const updateMe = throttle(() => flipFlop[1]((x) => !x), throttleTime);
+		const updateMe = throttle(() => flipFlop(toggler), throttleTime);
 		return saveDataEffect(getWatched, updateMe);
 	}, []);
 }
