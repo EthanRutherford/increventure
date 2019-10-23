@@ -17,7 +17,7 @@
     "react-jenny": "^1.1.0"
   },
   "devDependencies": {
-    "@svgr/webpack": "^4.3.2",
+    "@svgr/webpack": "^4.3.3",
     "css-loader": "^1.0.1",
     "file-loader": "^4.2.0",
     "mini-css-extract-plugin": "^0.4.5",

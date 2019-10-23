@@ -1,9 +1,11 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-function template({template}, opts, {componentName, props, jsx}) {
-	return template.ast`import React from "react";
-const ${componentName} = (${props}) => ${jsx}
-export default ${componentName}`;
+function template({template}, _, {componentName, props, jsx}) {
+	return template.ast`
+		import React from "react";
+		const ${componentName} = (${props}) => ${jsx};
+		export default ${componentName};
+	`;
 }
 
 module.exports = (env) => ({
