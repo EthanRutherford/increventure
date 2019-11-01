@@ -1,0 +1,24 @@
+@import "./variables.css";
+
+.content {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--slate);
+	width: 100%;
+	height: 100%;
+}
+
+.row {
+	display: flex;
+}
+
+.room, .empty {
+	width: 100px;
+	height: 100px;
+}
+
+.room {
+	border-style: solid;
+	border-color: black;
+	background-color: green;
+}

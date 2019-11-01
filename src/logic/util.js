@@ -8,7 +8,8 @@ export class WeightedSet {
 		this.total = 0;
 	}
 	add(item) {
-		this.items.set(item, (this.items.get(item) || 0) + 1);
+		const count = this.items.get(item) || 0;
+		this.items.set(item, count + 1);
 		this.total++;
 	}
 	remove(item) {
@@ -22,6 +23,17 @@ export class WeightedSet {
 		}
 
 		this.total--;
+	}
+	set(item, count) {
+		const oldCount = this.items.get(item) || 0;
+		const newCount = Math.max(count, 0);
+		if (newCount === 0) {
+			this.items.delete(item);
+		} else {
+			this.items.set(item, newCount);
+		}
+
+		this.total += newCount - oldCount;
 	}
 	getRand() {
 		const which = randInt(0, this.total);
