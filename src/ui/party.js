@@ -1,6 +1,7 @@
-import {memo, useState, useCallback, useRef} from "react";
+import {memo, useState, useEffect, useCallback, useRef} from "react";
 import j from "react-jenny";
 import {game} from "../logic/game";
+import {animationSteps} from "../logic/game-loop";
 import {useSaveData} from "../logic/save-data";
 import {randRange} from "../logic/util";
 import {coinKinds, parseCoins, parseCoinsShort} from "./money";
@@ -39,9 +40,18 @@ const CoinRate = memo(function CoinRate() {
 });
 
 function Coins() {
-	useSaveData((data) => [data.inventory.money]);
+	const [money, setMoney] = useState(game.data.inventory.money);
+	useEffect(() => {
+		function step(a, b, diff) {
+			setMoney(game.data.inventory.money + (game.moneyRate * diff));
+		}
 
-	const coins = parseCoins(game.data.inventory.money).map((value, index) => ({
+		animationSteps.add(step);
+
+		return () => animationSteps.delete(step);
+	}, []);
+
+	const coins = parseCoins(money).map((value, index) => ({
 		kind: coinKinds[index], value,
 	})).reverse();
 

@@ -1,5 +1,6 @@
 import {Fragment, useEffect, useRef, useCallback} from "react";
 import j from "react-jenny";
+import {animationSteps} from "../logic/game-loop";
 import {randItem, randRange} from "../logic/util";
 import styles from "../styles/root";
 
@@ -72,17 +73,19 @@ class Particle {
 	constructor(x, y, created) {
 		this.x = x;
 		this.y = y;
-		this.vx = randRange(-1, 1);
-		this.vy = -2;
 		this.r = randRange(0, 360);
+		this.vx = randRange(-100, 100);
+		this.vy = -200;
+		this.vr = this.vx * 5;
+		this.ay = 1000;
 		[this.svg, this.size] = compileSVG(randItem(particleDefs), randRange(1, 1.25));
 		this.created = created;
 	}
 	step(diff) {
 		this.x += this.vx * diff;
 		this.y += this.vy * diff;
-		this.r += this.vx * diff * 5;
-		this.vy += .1 * diff;
+		this.r += this.vr * diff;
+		this.vy += this.ay * diff;
 	}
 }
 
@@ -94,12 +97,8 @@ export function Particles({render}) {
 		// TODO: will probably want to switch to webgl eventually
 		const canvas = canvasRef.current;
 		const context = canvas.getContext("2d");
-		let prev = 0;
 
-		function step(stamp) {
-			const diff = (stamp - prev) / 10;
-			prev = stamp;
-
+		function step(stamp, diff) {
 			if (particles.size) {
 				// clear the previous frame
 				context.clearRect(0, 0, canvas.width, canvas.height);
@@ -121,19 +120,21 @@ export function Particles({render}) {
 					}
 				}
 			}
-
-			requestAnimationFrame(step);
 		}
-
-		requestAnimationFrame(step);
 
 		function resize() {
 			canvas.width = canvas.clientWidth;
 			canvas.height = canvas.clientHeight;
 		}
 
+		animationSteps.add(step);
 		window.addEventListener("resize", resize);
 		resize();
+
+		return () => {
+			animationSteps.delete(step);
+			window.removeEventListener("resize", resize);
+		};
 	}, []);
 
 	const createParticle = useCallback((x, y) => {
