@@ -24,12 +24,6 @@ const hatMap = {
 	cleric: j([ClericHat, partyStyles.hat]),
 };
 
-function calcMoneyRate() {
-	return minionKinds.reduce((total, kind) =>
-		total + game.data.minions[kind] * minions[kind].baseRate * game.multipliers[kind], 0,
-	);
-}
-
 function Coins() {
 	useSaveData((data) => [
 		data.inventory.money,
@@ -40,7 +34,7 @@ function Coins() {
 	const coins = parseCoins(game.data.inventory.money).map((value, index) => ({
 		kind: coinKinds[index], value,
 	})).reverse();
-	const rateValue = parseCoinsShort(calcMoneyRate());
+	const rateValue = parseCoinsShort(game.moneyRate);
 
 	return j({div: coinStyles.coins}, [
 		...coins.map((coin) => j({div: coinStyles.coinBox}, [

@@ -1,10 +1,19 @@
 import {useState} from "react";
-import {minionKinds, costCalculator} from "./minions";
+import {minions, minionKinds, costCalculator} from "./minions";
 import {upgrades, calculateMultipliers} from "./upgrades";
 import {Being} from "./rpg/beings";
 import {data, saveGame, loadGame} from "./save-data";
 import {logInfo} from "./log";
 
+
+function calculateRate(data, multipliers) {
+	return minionKinds.reduce(
+		(total, kind) => total + data.minions[kind] * minions[kind].baseRate * multipliers[kind],
+		0,
+	);
+}
+
+const privates = {};
 export const game = {
 	data,
 	save() {
@@ -14,6 +23,7 @@ export const game = {
 	load() {
 		loadGame();
 		game.multipliers = calculateMultipliers(game.data.upgrades);
+		privates.moneyRate = calculateRate(game.data, game.multipliers);
 		for (const adventurer of game.data.adventurers) {
 			game.adventurers.push(new Being(adventurer));
 		}
@@ -41,6 +51,7 @@ export const game = {
 			if (game.data.inventory.money >= game.minionCosts[kind]) {
 				game.data.inventory.money -= game.minionCosts[kind];
 				game.data.minions[kind]++;
+				privates.moneyRate = calculateRate(game.data, game.multipliers);
 			}
 		};
 		return obj;
@@ -53,8 +64,11 @@ export const game = {
 			game.data.inventory.money -= upgrades[upgradeId].cost;
 			game.data.upgrades[upgradeId] = true;
 			game.multipliers = calculateMultipliers(game.data.upgrades);
+			privates.moneyRate = calculateRate(game.data, game.multipliers);
 		}
 	},
+	// getters
+	get moneyRate() {return privates.moneyRate;},
 	// encounter hook, only to be used by combatUI
 	useEncounter() {
 		const [encounter, setEncounter] = useState(null);

@@ -1,5 +1,4 @@
 import {game} from "./game";
-import {minions, minionKinds} from "./minions";
 import {Encounter} from "./rpg/combat";
 
 function doRandomEncounter() {
@@ -29,15 +28,8 @@ setInterval(function() {
 	const diff = (thisTick - lastTick) / 1000;
 	lastTick = thisTick;
 
-	// minion logic
-	for (const kind of minionKinds) {
-		if (game.data.minions[kind]) {
-			const base = minions[kind].baseRate;
-			const count = game.data.minions[kind];
-			const mult = game.multipliers[kind];
-			game.data.inventory.money += base * count * mult * diff;
-		}
-	}
+	// update money
+	game.data.inventory.money += game.moneyRate * diff;
 
 	// stats tracking
 	if (game.data.inventory.money > game.data.stats.mostMoney) {
