@@ -54,11 +54,11 @@ function Coins() {
 	]);
 }
 
-function Adventurer(props) {
-	const adventurer = game.adventurers[props.which];
+function Adventurer({which}) {
+	const adventurer = game.adventurers[which];
 	const [bounceBack, setBounceBack] = useState(false);
 	const timeout = useRef(null);
-	useSaveData((data) => data.adventurers[props.which]);
+	useSaveData((data) => data.adventurers[which]);
 
 	const animate = useCallback(() => {
 		timeout.current = null;
@@ -99,12 +99,12 @@ function Adventurer(props) {
 	]);
 }
 
-export function Party(props) {
+export function Party({createParticle}) {
 	const handleClick = useCallback((event) => {
 		game.cutGrass();
-		props.createParticle(event.pageX, event.pageY);
-		props.createParticle(event.pageX, event.pageY);
-		props.createParticle(event.pageX, event.pageY);
+		createParticle(event.pageX, event.pageY);
+		createParticle(event.pageX, event.pageY);
+		createParticle(event.pageX, event.pageY);
 	}, []);
 
 	return j({div: partyStyles.wrapper}, [

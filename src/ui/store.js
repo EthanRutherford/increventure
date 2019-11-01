@@ -6,17 +6,17 @@ import {parseCoinsShort} from "./money";
 import storeStyles from "../styles/store";
 import coinStyles from "../styles/coins";
 
-function Upgrade(props) {
+function Upgrade({upgradeId}) {
 	useSaveData((data) => data.inventory.money, 500);
 
-	const upgrade = upgrades[props.upgradeId];
+	const upgrade = upgrades[upgradeId];
 
 	const disabled = game.data.inventory.money < upgrade.cost;
 	const coin = parseCoinsShort(upgrade.cost);
 
 	return j({button: {
 		className: storeStyles.upgradeButton,
-		onClick: () => game.buyUpgrade(props.upgradeId),
+		onClick: () => game.buyUpgrade(upgradeId),
 		disabled,
 	}}, [
 		j({div: storeStyles.upgradeTitleRow}, [

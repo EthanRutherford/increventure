@@ -86,7 +86,7 @@ class Particle {
 	}
 }
 
-export function Particles(props) {
+export function Particles({render}) {
 	const {current: particles} = useRef(new Set());
 	const canvasRef = useRef();
 
@@ -142,6 +142,6 @@ export function Particles(props) {
 
 	return j(Fragment, [
 		j({canvas: {className: styles.particles, ref: canvasRef}}),
-		...props.render(createParticle),
+		...render(createParticle),
 	]);
 }
