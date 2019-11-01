@@ -33,7 +33,7 @@ setInterval(function() {
 
 	// stats tracking
 	if (game.data.inventory.money > game.data.stats.mostMoney) {
-		game.data.stats.mostMoney = game.data.money;
+		game.data.stats.mostMoney = game.data.inventory.money;
 	}
 
 	// random encounters
