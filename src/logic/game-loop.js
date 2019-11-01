@@ -2,7 +2,7 @@ import {game} from "./game";
 import {Encounter} from "./rpg/combat";
 
 function doRandomEncounter() {
-	const encounter = new Encounter({
+	game.encounter = new Encounter({
 		onVictory() {
 			// temporary, heal the player
 			game.adventurers[0].hp = game.adventurers[0].maxHp;
@@ -14,8 +14,6 @@ function doRandomEncounter() {
 			game.setEncounter(null);
 		},
 	});
-
-	game.setEncounter(encounter);
 }
 
 // main logic loop

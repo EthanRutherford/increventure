@@ -1,8 +1,8 @@
-import {useState} from "react";
 import {minions, minionKinds, costCalculator} from "./minions";
 import {upgrades, calculateMultipliers} from "./upgrades";
 import {Being} from "./rpg/beings";
 import {data, saveGame, loadGame} from "./save-data";
+import {createGameHook} from "./game-hook";
 import {logInfo} from "./log";
 
 
@@ -69,13 +69,9 @@ export const game = {
 	},
 	// getters
 	get moneyRate() {return privates.moneyRate;},
-	// encounter hook, only to be used by combatUI
-	useEncounter() {
-		const [encounter, setEncounter] = useState(null);
-		game.encounter = encounter;
-		game.setEncounter = setEncounter;
-	},
 };
+
+game.useEncounter = createGameHook(game, "encounter", null);
 
 // load game
 game.load();
