@@ -49,4 +49,3 @@ export function calculateMultipliers(savedUpgrades) {
 
 	return base;
 }
-

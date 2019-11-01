@@ -1,8 +1,7 @@
-import {useState, useCallback, useRef} from "react";
+import {memo, useState, useCallback, useRef} from "react";
 import j from "react-jenny";
 import {game} from "../logic/game";
 import {useSaveData} from "../logic/save-data";
-import {minions, minionKinds} from "../logic/minions";
 import {randRange} from "../logic/util";
 import {coinKinds, parseCoins, parseCoinsShort} from "./money";
 import {Grass} from "./grass";
@@ -24,28 +23,34 @@ const hatMap = {
 	cleric: j([ClericHat, partyStyles.hat]),
 };
 
-function Coins() {
+const CoinRate = memo(function CoinRate() {
 	useSaveData((data) => [
-		data.inventory.money,
 		data.upgrades,
 		data.minions,
 	]);
 
+	const rateValue = parseCoinsShort(game.moneyRate);
+
+	return j({div: coinStyles.coinRate}, [
+		`(${rateValue.value}`,
+		j({div: `${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`}),
+		"/s)",
+	]);
+});
+
+function Coins() {
+	useSaveData((data) => [data.inventory.money]);
+
 	const coins = parseCoins(game.data.inventory.money).map((value, index) => ({
 		kind: coinKinds[index], value,
 	})).reverse();
-	const rateValue = parseCoinsShort(game.moneyRate);
 
 	return j({div: coinStyles.coins}, [
 		...coins.map((coin) => j({div: coinStyles.coinBox}, [
 			j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
 			j({div: coinStyles.coinValue}, coin.value),
 		])),
-		j({div: coinStyles.coinRate}, [
-			`(${rateValue.value}`,
-			j({div: `${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`}),
-			"/s)",
-		]),
+		j([CoinRate]),
 	]);
 }
 
