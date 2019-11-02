@@ -4,6 +4,7 @@ import {game} from "../logic/game";
 import {useSaveData} from "../logic/save-data";
 import {minions, minionKinds} from "../logic/minions";
 import {parseCoinsShort} from "./money";
+import rootStyles from "../styles/root";
 import minionStyles from "../styles/minions";
 import coinStyles from "../styles/coins";
 
@@ -33,11 +34,14 @@ const Minion = memo(function Minion({kind, disabled}) {
 
 export function Minions() {
 	useSaveData((data) => data.inventory.money, 500);
-	return j({div: minionStyles.content}, minionKinds.map((kind) =>
-		j([Minion, {
-			kind,
-			disabled: game.data.inventory.money < game.minionCosts[kind],
-			key: kind,
-		}]),
-	));
+	return j({div: minionStyles.content}, [
+		j({div: rootStyles.title}, "Minions"),
+		...minionKinds.map((kind) =>
+			j([Minion, {
+				kind,
+				disabled: game.data.inventory.money < game.minionCosts[kind],
+				key: kind,
+			}]),
+		),
+	]);
 }

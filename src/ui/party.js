@@ -14,6 +14,7 @@ import HeroHat from "../images/svgs/hero-hat";
 import WarriorHat from "../images/svgs/warrior-hat";
 import WizardHat from "../images/svgs/wizard-hat";
 import ClericHat from "../images/svgs/cleric-hat";
+import rootStyles from "../styles/root";
 import partyStyles from "../styles/party";
 import coinStyles from "../styles/coins";
 
@@ -120,6 +121,7 @@ export function Party({createParticle}) {
 	return j({div: partyStyles.wrapper}, [
 		j([Grass]),
 		j({div: partyStyles.content}, [
+			j({div: rootStyles.title}, "Party"),
 			j({button: {className: partyStyles.grassButton, onClick: handleClick}}, [
 				"cut grass",
 			]),

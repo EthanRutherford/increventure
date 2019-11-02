@@ -3,6 +3,7 @@ import {game} from "../logic/game";
 import {useSaveData} from "../logic/save-data";
 import {upgrades, upgradeIds} from "../logic/upgrades";
 import {parseCoinsShort} from "./money";
+import rootStyles from "../styles/root";
 import storeStyles from "../styles/store";
 import coinStyles from "../styles/coins";
 
@@ -49,6 +50,7 @@ function Upgrades() {
 
 export function Store() {
 	return j({div: storeStyles.content}, [
+		j({div: rootStyles.title}, "Store"),
 		j([Upgrades]),
 	]);
 }

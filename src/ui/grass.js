@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import j from "react-jenny";
-import styles from "../styles/grass.css";
+import styles from "../styles/party.css";
 import grass1 from "../images/pngs/grass-1.png";
 import grass2 from "../images/pngs/grass-2.png";
 import grass3 from "../images/pngs/grass-3.png";

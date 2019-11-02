@@ -2,11 +2,11 @@
 
 :global(.root) {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 60px auto;
-	grid-template-areas: 
-		"header header header"
-		"party main minions"
+	grid-template-columns: 1fr 10px 1fr 10px 1fr;
+	grid-template-rows: 40px auto;
+	grid-template-areas:
+		"header header header header header"
+		"party divider1 main divider2 minions"
 	;
 	height: 100%;
 	background-color: var(--light-grey);
@@ -14,7 +14,21 @@
 }
 .header {
 	grid-area: header;
-	padding: 20px;
+	border-bottom: 1px solid black;
+	padding: 10px;
+	color: var(--platinum);
+	background: linear-gradient(to bottom, var(--slate-dark) 85%, var(--slate));
+	line-height: 1;
+	text-shadow: 2px 2px black;
+}
+.divider1 {
+	grid-area: divider1;
+}
+.divider2 {
+	grid-area: divider2;
+}
+.divider1, .divider2 {
+	background: linear-gradient(to right, var(--slate), var(--slate-light), var(--slate));
 }
 .particles {
 	position: fixed;
@@ -24,4 +38,29 @@
 	height: 100%;
 	pointer-events: none;
 	z-index: 1000;
+}
+
+.title {
+	padding: 10px;
+	color: white;
+	/* from: https://css-tricks.com/easing-linear-gradients/ */
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, .6) 0%,
+		rgba(0, 0, 0, .443) 19%,
+		rgba(0, 0, 0, .325) 34%,
+		rgba(0, 0, 0, .229) 47%,
+		rgba(0, 0, 0, .167) 56.5%,
+		rgba(0, 0, 0, .116) 65%,
+		rgba(0, 0, 0, .076) 73%,
+		rgba(0, 0, 0, .045) 80.2%,
+		rgba(0, 0, 0, .025) 86.1%,
+		rgba(0, 0, 0, .013) 91%,
+		rgba(0, 0, 0, .005) 95.2%,
+		rgba(0, 0, 0, .001) 98.2%,
+		rgba(0, 0, 0, 0) 100%
+	);
+	font-size: var(--large);
+	text-shadow: 2px 2px black;
+	text-align: center;
 }

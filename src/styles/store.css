@@ -2,6 +2,7 @@
 
 .content {
 	grid-area: main;
+	box-shadow: 0 1px 3px 1px rgb(0, 0, 0, .5) inset;
 }
 .upgrade-button {
 	border: 2px outset grey;

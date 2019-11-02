@@ -15,7 +15,9 @@ function App() {
 	return j([Particles, {render: (createParticle) => [
 		j({div: styles.header}, "Incre-venture"),
 		j([Party, {createParticle}]),
+		j({div: styles.divider1}),
 		j([Store]),
+		j({div: styles.divider2}),
 		j([Minions]),
 		j([CharacterCreator]),
 		j([Overlay]),

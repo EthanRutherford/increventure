@@ -3,6 +3,8 @@
 	--normal: 20px;
 	--large: 30px;
 
+	--platinum: hsl(240, 15%, 90%);
+
 	/* greys */
 	--light-grey: hsl(0, 0%, 80%);
 	--slate: hsl(0, 0%, 30%);

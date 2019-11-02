@@ -22,4 +22,5 @@ html {
 button {
 	background: none;
 	cursor: pointer;
+	transition: all 100ms;
 }
