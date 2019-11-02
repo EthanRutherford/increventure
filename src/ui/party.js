@@ -66,12 +66,12 @@ function Coins() {
 }
 
 function Adventurer({which}) {
-	const adventurer = game.adventurers[which];
 	const [bounceBack, setBounceBack] = useState(false);
 	const timeout = useRef(null);
 	useSaveData((data) => data.adventurers[which]);
 
 	const animate = useCallback(() => {
+		const adventurer = game.adventurers[which];
 		timeout.current = null;
 		if (adventurer.hp > 0) {
 			setBounceBack((x) => !x);
@@ -85,28 +85,49 @@ function Adventurer({which}) {
 		timeout.current = setTimeout(animate, randRange(0, 2000));
 	}, []);
 
+	const adventurer = game.adventurers[which];
 	if (adventurer == null) {
 		return null;
 	}
 
-	const healthFraction = adventurer.hp / adventurer.maxHp;
-	const Face = healthFraction > 2 / 3 ? Happy :
-		healthFraction > 1 / 3 ? Meh :
-			healthFraction > 0 ? Bad :
+	const hpRatio = adventurer.hp / adventurer.maxHp;
+	const mpRatio = adventurer.mp / adventurer.maxMp;
+	const Face = hpRatio > 2 / 3 ? Happy :
+		hpRatio > 1 / 3 ? Meh :
+			hpRatio > 0 ? Bad :
 				Dead
 	;
 
-	return j({div: {
-		className: partyStyles.character,
-	}}, [
-		j({div: {
-			className: `${partyStyles.characterHead} ${bounceBack ? partyStyles.bounceBack : ""}`,
-			onAnimationEnd: handleAnimationEnd,
-		}}, [
-			hatMap[adventurer.class],
-			j([Face, {style: {filter: `grayscale(${1 - healthFraction})`}}]),
+	return j({div: partyStyles.character}, [
+		j({div: partyStyles.characterTitle}, [
+			j({div: {
+				className: `${partyStyles.characterHead} ${bounceBack ? partyStyles.bounceBack : ""}`,
+				onAnimationEnd: handleAnimationEnd,
+			}}, [
+				hatMap[adventurer.class],
+				j([Face, {style: {filter: `grayscale(${1 - hpRatio})`}}]),
+			]),
+			adventurer.name,
 		]),
-		adventurer.name,
+		j({div: partyStyles.characterClass}, adventurer.class),
+		j({div: partyStyles.characterDetails}, [
+			j({div: partyStyles.characterBar}, [
+				j({div: {
+					className: partyStyles.characterHp,
+					style: {width: `${hpRatio * 100}%`},
+				}}),
+			]),
+			j({div: partyStyles.characterBar}, [
+				j({div: {
+					className: partyStyles.characterMp,
+					style: {width: `${mpRatio * 100}%`},
+				}}),
+			]),
+		]),
+		j({div: partyStyles.characterLevel}, [
+			"level ",
+			adventurer.lvl,
+		]),
 	]);
 }
 
