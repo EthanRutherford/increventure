@@ -13,34 +13,44 @@ module.exports = (env) => ({
 	output: {filename: "main.js"},
 	plugins: [new MiniCssExtractPlugin({filename: "styles.css"})],
 	module: {
-		rules: [{
-			test: /\.css$/,
-			use: [
-				MiniCssExtractPlugin.loader,
-				{loader: "css-loader", options: {
-					camelCase: "only",
-					localIdentName: "[name]__[local]--[hash:base64:5]",
-					modules: true,
-				}},
-			],
-		}, {
-			test: /.svg$/,
-			use: [{
-				loader: "@svgr/webpack",
-				options: {template},
-			}],
-		}, {
-			test: /.png$/,
-			use: [{
-				loader: "file-loader",
-				options: {
-					publicPath: "/dist",
-				},
-			}],
-		}],
+		rules: [
+			{
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					"cache-loader",
+					{
+						loader: "css-loader", options: {
+							camelCase: "only",
+							localIdentName: "[name]__[local]--[hash:base64:5]",
+							modules: true,
+						},
+					},
+				],
+			}, {
+				test: /.svg$/,
+				use: [
+					"cache-loader",
+					{
+						loader: "@svgr/webpack",
+						options: {template},
+					},
+				],
+			}, {
+				test: /.png$/,
+				use: [
+					{
+						loader: "file-loader",
+						options: {
+							publicPath: "/dist",
+						},
+					},
+				],
+			},
+		],
 	},
 	resolve: {extensions: [".js", ".json", ".css", ".svg"]},
 	mode: env === "prod" ? "production" : "development",
-	devtool: env === "prod" ? "" : "eval-source-map",
+	devtool: env === "prod" ? "" : "cheap-eval-source-map",
 	devServer: {open: true, publicPath: "/dist", port: 8080},
 });
