@@ -1,4 +1,5 @@
-import {useState, useEffect} from "react";
+import {useEffect} from "react";
+import {useUpdater} from "./util";
 import {minionKinds} from "./minions";
 import {upgradeIds} from "./upgrades";
 import {throttle} from "./util";
@@ -71,7 +72,6 @@ function proxify(data, path) {
 }
 
 const dummy = function() {};
-const toggler = (x) => !x;
 function keyMaker(array) {
 	return new Proxy(dummy, {
 		get(_, prop) {
@@ -108,9 +108,9 @@ function saveDataEffect(getWatched, updateMe) {
 export const data = proxify(saveData, "data");
 
 export function useSaveData(getWatched = null, throttleTime = 0) {
-	const [, flipFlop] = useState(true);
+	const updater = useUpdater();
 	useEffect(() => {
-		const updateMe = throttle(() => flipFlop(toggler), throttleTime);
+		const updateMe = throttle(updater, throttleTime);
 		return saveDataEffect(getWatched, updateMe);
 	}, []);
 }
@@ -120,8 +120,11 @@ export function saveGame() {
 }
 
 export function loadGame() {
-	const saveGame = JSON.parse(localStorage.getItem("saveGame")) || {};
+	const savedData = localStorage.getItem("saveGame");
+	const saveGame = JSON.parse(savedData) || {};
 	for (const key of Object.keys(saveGame)) {
 		Object.assign(saveData[key], saveGame[key]);
 	}
+
+	return savedData != null;
 }

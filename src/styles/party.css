@@ -125,7 +125,7 @@
 .character:hover .character-title {
 	padding-left: 50px;
 	width: 100%;
-	font-size: 25px;
+	font-size: var(--medium);
 	line-height: 32px;
 }
 .character:hover .character-class {
@@ -147,7 +147,7 @@
 .character:hover .character-class, .character:hover .character-level {
 	padding-right: 10px;
 	color: black;
-	font-size: 25px;
+	font-size: var(--medium);
 }
 
 .hat {

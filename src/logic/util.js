@@ -1,3 +1,11 @@
+import {useState} from "react";
+
+const invert = (x) => !x;
+export function useUpdater() {
+	const [, setter] = useState(true);
+	return () => setter(invert);
+}
+
 export const randRange = (min, max) => min + Math.random() * (max - min);
 export const randInt = (min, max) => Math.floor(randRange(min, max));
 export const randItem = (list) => list[randInt(0, list.length)];

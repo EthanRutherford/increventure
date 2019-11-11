@@ -1,0 +1,57 @@
+@import "./variables.css";
+
+.manager {
+	box-shadow: 0 1px 4px 2px rgba(0, 0, 0, .5);
+	position: fixed;
+	bottom: 0;
+	width: 400px;
+	left: calc(50% - 200px);
+	z-index: 100;
+}
+
+.toast {
+	display: grid;
+	grid-template-columns: auto 24px;
+	grid-template-areas:
+		"title close"
+		"desc close"
+	;
+	border: 1px solid black;
+	box-shadow: inset 0 0 3px 3px var(--slate);
+	padding: 5px 8px 5px 10px;
+	background-color: var(--slate-light);
+	color: white;
+}
+
+.title {
+	grid-area: title;
+	font-size: var(--normal);
+	text-shadow: 2px 2px black;
+}
+
+.desc {
+	grid-area: desc;
+	font-size: var(--small);
+	text-shadow: 1px 1px black;
+}
+
+.close-button {
+	grid-area: close;
+	border-radius: 12px;
+	width: 24px;
+	height: 24px;
+}
+.close-button:hover {
+	box-shadow: 0 0 4px 2px grey; 
+	background-color: grey;
+}
+.close-button:active {
+	box-shadow: 0 0 4px 2px var(--slate); 
+	background-color: var(--slate);
+	color: var(--light-grey);
+}
+
+.close-icon {
+	width: 20px;
+	height: 20px;
+}

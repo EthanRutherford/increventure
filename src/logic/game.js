@@ -4,7 +4,7 @@ import {Being} from "./rpg/beings";
 import {data, saveGame, loadGame} from "./save-data";
 import {createGameHook} from "./game-hook";
 import {logInfo} from "./log";
-
+import {addToast} from "./use-toasts";
 
 function calculateRate(data, multipliers) {
 	return minionKinds.reduce(
@@ -19,13 +19,18 @@ export const game = {
 	save() {
 		saveGame();
 		logInfo("game saved");
+		addToast({title: "Game saved"});
 	},
 	load() {
-		loadGame();
+		const didLoad = loadGame();
 		game.multipliers = calculateMultipliers(game.data.upgrades);
 		privates.moneyRate = calculateRate(game.data, game.multipliers);
 		for (const adventurer of game.data.adventurers) {
 			game.adventurers.push(new Being(adventurer));
+		}
+
+		if (didLoad) {
+			addToast({title: "Game loaded", desc: "welcome back!", ttl: 0});
 		}
 	},
 	cutGrass() {

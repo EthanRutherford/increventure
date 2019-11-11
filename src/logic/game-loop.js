@@ -48,7 +48,7 @@ setInterval(function() {
 	}
 
 	// save game
-	if (thisTick - lastSave > 30000) {
+	if (thisTick - lastSave > 60000) {
 		lastSave = thisTick;
 		game.save();
 	}

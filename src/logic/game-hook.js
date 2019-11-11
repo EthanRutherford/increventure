@@ -1,9 +1,8 @@
-import {useState, useEffect} from "react";
-
-const invert = (x) => !x;
+import {useEffect} from "react";
+import {useUpdater} from "./util";
 
 export function createGameHook(game, name, value) {
-	const setters = new Set();
+	const updaters = new Set();
 
 	Object.defineProperty(game, name, {
 		get() {
@@ -11,17 +10,17 @@ export function createGameHook(game, name, value) {
 		},
 		set(v) {
 			value = v;
-			for (const setter of setters) {
-				setter(invert);
+			for (const updater of updaters) {
+				updater();
 			}
 		},
 	});
 
 	return () => {
-		const [, setter] = useState(false);
+		const updater = useUpdater();
 		useEffect(() => {
-			setters.add(setter);
-			return () => setters.delete(setter);
+			updaters.add(updater);
+			return () => updaters.delete(updater);
 		}, []);
 	};
 }

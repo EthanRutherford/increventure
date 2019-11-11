@@ -6,6 +6,7 @@ import {Store} from "./ui/store";
 import {Minions} from "./ui/minions";
 import {CharacterCreator} from "./ui/character-creator";
 import {Overlay} from "./ui/overlay";
+import {ToastManager} from "./ui/toast-manager";
 import styles from "./styles/root";
 import "./logic/game-loop";
 import "./ui/keyboard-handler";
@@ -21,6 +22,7 @@ function App() {
 		j([Minions]),
 		j([CharacterCreator]),
 		j([Overlay]),
+		j([ToastManager]),
 	]}]);
 }
 

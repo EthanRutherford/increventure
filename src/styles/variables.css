@@ -1,6 +1,9 @@
 :root {
 	/* font-sizes */
+	--tiny: 10px;
+	--small: 15px;
 	--normal: 20px;
+	--medium: 25px;
 	--large: 30px;
 
 	--platinum: hsl(240, 15%, 90%);

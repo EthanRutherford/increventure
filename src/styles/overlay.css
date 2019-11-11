@@ -7,7 +7,7 @@
 
 .overlay {
 	position: absolute;
-	width: 200%;
+	width: calc(200% + 10px);
 	height: 100%;
 	z-index: 10;
 }
