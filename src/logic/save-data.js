@@ -53,18 +53,22 @@ function doUpdates() {
 	timeout = null;
 }
 
-function proxify(data, path) {
+function proxify(data, array) {
+	const prev = array[array.length - 1];
 	return new Proxy(data, {
 		set(target, prop, value) {
 			target[prop] = value;
-			queue.add(`${path}.${prop}`);
+			for (const path of array) {
+				queue.add(path);
+			}
+			queue.add(`${prev}.${prop}`);
 			if (timeout == null) timeout = setTimeout(doUpdates, 0);
 			return true;
 		},
 		get(target, prop) {
 			const value = target[prop];
 			return value && typeof value === "object" ?
-				proxify(value, `${path}.${prop}`) :
+				proxify(value, array.concat(`${prev}.${prop}`)) :
 				value
 			;
 		},
@@ -72,40 +76,35 @@ function proxify(data, path) {
 }
 
 const dummy = function() {};
-function keyMaker(array) {
+function keyMaker(path) {
 	return new Proxy(dummy, {
 		get(_, prop) {
-			const prev = array[array.length - 1];
-			return keyMaker([...array, `${prev}.${prop}`]);
+			return keyMaker(`${path}.${prop}`);
 		},
 		apply() {
-			return array;
+			return path;
 		},
 	});
 }
 
 function saveDataEffect(getWatched, updateMe) {
-	const maker = keyMaker(["data"]);
+	const maker = keyMaker("data");
 	const result = getWatched == null ? maker : getWatched(maker);
 	const proxies = result instanceof Array ? result : [result];
 	const paths = proxies.map((x) => x());
 	for (const path of paths) {
-		for (const piece of path) {
-			addListener(piece, updateMe);
-		}
+		addListener(path, updateMe);
 	}
 
 	return () => {
 		updateMe.cancel();
 		for (const path of paths) {
-			for (const piece of path) {
-				listenerMap[piece].delete(updateMe);
-			}
+			listenerMap[path].delete(updateMe);
 		}
 	};
 }
 
-export const data = proxify(saveData, "data");
+export const data = proxify(saveData, ["data"]);
 
 export function useSaveData(getWatched = null, throttleTime = 0) {
 	const updater = useUpdater();
