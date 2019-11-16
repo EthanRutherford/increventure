@@ -59,7 +59,7 @@ function Coins() {
 	return j({div: coinStyles.coins}, [
 		...coins.map((coin) => j({div: coinStyles.coinBox}, [
 			j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
-			j({div: coinStyles.coinValue}, coin.value),
+			j({div: coinStyles.coinValue}, [coin.value]),
 		])),
 		j([CoinRate]),
 	]);

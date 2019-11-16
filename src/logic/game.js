@@ -37,7 +37,7 @@ export const game = {
 		game.data.stats.grassClicks++;
 
 		const base = game.multipliers.grass;
-		let multiplier = 0;
+		let multiplier = 1;
 		for (const bonus of game.multipliers.clickBonus) {
 			multiplier += bonus(game.data);
 		}
