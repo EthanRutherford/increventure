@@ -94,7 +94,6 @@ export function Particles({render}) {
 	const canvasRef = useRef();
 
 	useEffect(() => {
-		// TODO: will probably want to switch to webgl eventually
 		const canvas = canvasRef.current;
 		const context = canvas.getContext("2d");
 

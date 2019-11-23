@@ -1,8 +1,7 @@
-import {useEffect} from "react";
+import {useRef, useEffect} from "react";
 import {useUpdater} from "./util";
 import {minionKinds} from "./minions";
 import {upgradeIds} from "./upgrades";
-import {throttle} from "./util";
 
 // initial saveData state
 const saveData = {
@@ -89,7 +88,7 @@ function keyMaker(path) {
 
 function saveDataEffect(getWatched, updateMe) {
 	const maker = keyMaker("data");
-	const result = getWatched == null ? maker : getWatched(maker);
+	const result = getWatched(maker);
 	const proxies = result instanceof Array ? result : [result];
 	const paths = proxies.map((x) => x());
 	for (const path of paths) {
@@ -97,7 +96,6 @@ function saveDataEffect(getWatched, updateMe) {
 	}
 
 	return () => {
-		updateMe.cancel();
 		for (const path of paths) {
 			listenerMap[path].delete(updateMe);
 		}
@@ -106,12 +104,28 @@ function saveDataEffect(getWatched, updateMe) {
 
 export const data = proxify(saveData, ["data"]);
 
-export function useSaveData(getWatched = null, throttleTime = 0) {
+export function useSaveData(getWatched) {
 	const updater = useUpdater();
+	useEffect(() => saveDataEffect(getWatched, updater), []);
+}
+
+export function useDerivedData(getWatched, getDerived) {
+	const updater = useUpdater();
+	const derived = useRef(getDerived());
+
 	useEffect(() => {
-		const updateMe = throttle(updater, throttleTime);
+		const updateMe = () => {
+			const current = getDerived();
+			if (current !== derived.current) {
+				derived.current = current;
+				updater();
+			}
+		};
+
 		return saveDataEffect(getWatched, updateMe);
 	}, []);
+
+	return derived.current;
 }
 
 export function saveGame() {

@@ -56,36 +56,3 @@ export class WeightedSet {
 		throw "this should not happen";
 	}
 }
-
-export function throttle(func, time) {
-	const context = {
-		latestArgs: [],
-		lastCall: 0,
-		timeout: null,
-	};
-	const invoke = () => {
-		context.lastCall = performance.now();
-		func(...context.latestArgs);
-	};
-
-	const wrapped = (...args) => {
-		context.latestArgs = args;
-		if (context.timeout) {
-			return;
-		}
-
-		const elapsed = performance.now() - context.lastCall;
-		if (elapsed >= time) {
-			invoke();
-		} else {
-			setTimeout(invoke, time - elapsed);
-		}
-	};
-
-	wrapped.cancel = () => {
-		clearTimeout(context.timeout);
-		context.timeout = null;
-	};
-
-	return wrapped;
-}

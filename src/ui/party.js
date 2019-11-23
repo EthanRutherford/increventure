@@ -26,10 +26,7 @@ const hatMap = {
 };
 
 const CoinRate = memo(function CoinRate() {
-	useSaveData((data) => [
-		data.upgrades,
-		data.minions,
-	]);
+	useSaveData((data) => [data.upgrades, data.minions]);
 
 	const rateValue = parseCoinsShort(game.moneyRate);
 

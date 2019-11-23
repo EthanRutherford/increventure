@@ -1,15 +1,18 @@
-import {memo} from "react";
 import j from "react-jenny";
 import {game} from "../logic/game";
-import {useSaveData} from "../logic/save-data";
+import {useSaveData, useDerivedData} from "../logic/save-data";
 import {minions, minionKinds} from "../logic/minions";
 import {parseCoinsShort} from "./money";
 import rootStyles from "../styles/root";
 import minionStyles from "../styles/minions";
 import coinStyles from "../styles/coins";
 
-const Minion = memo(function Minion({kind, disabled}) {
+const Minion = function Minion({kind}) {
 	useSaveData((data) => data.minions[kind]);
+	const disabled = useDerivedData(
+		(data) => data.inventory.money,
+		() => game.data.inventory.money < game.minionCosts[kind],
+	);
 
 	const count = game.data.minions[kind];
 	const coin = parseCoinsShort(game.minionCosts[kind]);
@@ -30,16 +33,14 @@ const Minion = memo(function Minion({kind, disabled}) {
 			j({div: 0}, minions[kind].desc),
 		]),
 	]);
-});
+};
 
 export function Minions() {
-	useSaveData((data) => data.inventory.money, 500);
 	return j({div: minionStyles.content}, [
 		j({div: rootStyles.title}, "Minions"),
 		...minionKinds.map((kind) =>
 			j([Minion, {
 				kind,
-				disabled: game.data.inventory.money < game.minionCosts[kind],
 				key: kind,
 			}]),
 		),
