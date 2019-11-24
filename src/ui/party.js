@@ -130,10 +130,19 @@ function Adventurer({which}) {
 
 export function Party({createParticle}) {
 	const handleClick = useCallback((event) => {
-		game.cutGrass();
-		createParticle(event.pageX, event.pageY);
-		createParticle(event.pageX, event.pageY);
-		createParticle(event.pageX, event.pageY);
+		const gain = game.cutGrass();
+		const pretty = Math.round(gain * 10) / 10;
+
+		createParticle({
+			kind: "text",
+			text: `+${pretty}`,
+			x: event.pageX,
+			y: event.pageY,
+		});
+		const grassData = {kind: "grass", x: event.pageX, y: event.pageY};
+		createParticle(grassData);
+		createParticle(grassData);
+		createParticle(grassData);
 	}, []);
 
 	return j({div: partyStyles.wrapper}, [

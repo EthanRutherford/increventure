@@ -70,22 +70,48 @@ const particleDefs = [
 ];
 
 class Particle {
-	constructor(x, y, created) {
-		this.x = x;
-		this.y = y;
-		this.r = randRange(0, 360);
-		this.vx = randRange(-100, 100);
-		this.vy = -200;
-		this.vr = this.vx * 5;
-		this.ay = 1000;
-		[this.svg, this.size] = compileSVG(randItem(particleDefs), randRange(1, 1.25));
+	constructor(data, created) {
+		this.kind = data.kind;
+		this.x = data.x;
+		this.y = data.y;
+		this.r = 0;
+		this.vx = 0;
+		this.vy = 0;
+		this.vr = 0;
+		this.ay = 0;
 		this.created = created;
+
+		if (this.kind === "text") {
+			this.x += randRange(-2.5, 2.5);
+			this.vy = -100;
+			this.text = data.text;
+		} else if (this.kind === "grass") {
+			this.r = randRange(0, 360);
+			this.vx = randRange(-100, 100);
+			this.vy = -200;
+			this.vr = this.vx * 5;
+			this.ay = 1000;
+			[this.svg, this.size] = compileSVG(randItem(particleDefs), randRange(1, 1.25));
+		}
 	}
 	step(diff) {
 		this.x += this.vx * diff;
 		this.y += this.vy * diff;
 		this.r += this.vr * diff;
 		this.vy += this.ay * diff;
+	}
+	draw(context, age) {
+		context.globalAlpha = 1 - (age / 1000) ** 2;
+
+		if (this.kind === "text") {
+			context.font = "20px 'Germania One'";
+			context.textAlign = "center";
+			context.fillText(this.text, this.x, this.y);
+		} else if (this.kind === "grass") {
+			context.translate(this.x, this.y);
+			context.rotate((this.r / 360) * Math.PI * 2);
+			context.drawImage(this.svg, -(this.size / 2), -(this.size / 2));
+		}
 	}
 }
 
@@ -111,10 +137,7 @@ export function Particles({render}) {
 						particle.step(diff);
 
 						context.save();
-						context.globalAlpha = 1 - (age / 1000);
-						context.translate(particle.x, particle.y);
-						context.rotate((particle.r / 360) * Math.PI * 2);
-						context.drawImage(particle.svg, -(particle.size / 2), -(particle.size / 2));
+						particle.draw(context, age);
 						context.restore();
 					}
 				}
@@ -136,8 +159,8 @@ export function Particles({render}) {
 		};
 	}, []);
 
-	const createParticle = useCallback((x, y) => {
-		particles.add(new Particle(x, y, performance.now()));
+	const createParticle = useCallback((data) => {
+		particles.add(new Particle(data, performance.now()));
 	}, []);
 
 	return j(Fragment, [
