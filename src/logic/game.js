@@ -38,11 +38,15 @@ export const game = {
 
 		const base = game.multipliers.grass;
 		let multiplier = 1;
-		for (const bonus of game.multipliers.clickBonus) {
-			multiplier += bonus(game.data);
+		for (const kind of minionKinds) {
+			const bonus = game.multipliers.clickBonus[kind];
+			multiplier += game.data.minions[kind] * bonus;
 		}
 
-		game.data.inventory.money += base * multiplier;
+		const amount = base * multiplier;
+		game.data.inventory.money += amount;
+		game.data.stats.totalMoney += amount;
+		return amount;
 	},
 	// minion data
 	minionCosts: minionKinds.reduce((obj, kind) => {

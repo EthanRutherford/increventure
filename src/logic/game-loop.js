@@ -32,6 +32,7 @@ setInterval(function() {
 	game.data.inventory.money += game.moneyRate * diff;
 
 	// stats tracking
+	game.data.stats.totalMoney += game.moneyRate * diff;
 	if (game.data.inventory.money > game.data.stats.mostMoney) {
 		game.data.stats.mostMoney = game.data.inventory.money;
 	}

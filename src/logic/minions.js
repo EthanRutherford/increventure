@@ -2,7 +2,7 @@ export const minions = {
 	grass: {
 		name: "Grass",
 		desc: "cuts grass for you",
-		baseCost: 20,
+		baseCost: 10,
 		baseRate: .1,
 	},
 	slime: {
@@ -14,7 +14,7 @@ export const minions = {
 	skeleton: {
 		name: "Skeleton",
 		desc: "farms skeletons for you",
-		baseCost: 500,
+		baseCost: 1000,
 		baseRate: 8,
 	},
 };
