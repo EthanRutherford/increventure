@@ -8,8 +8,8 @@ import coinStyles from "../../styles/coins";
 
 function Upgrade({upgradeId}) {
 	const upgrade = upgrades[upgradeId];
-	const showUpgrade = useDerivedData(
-		(data) => data,
+	const shouldShow = useDerivedData(
+		upgrade.getDeps,
 		() => !game.data.upgrades[upgradeId] && upgrade.unlock(game.data),
 	);
 	const disabled = useDerivedData(
@@ -17,7 +17,7 @@ function Upgrade({upgradeId}) {
 		() => game.data.inventory.money < upgrade.cost,
 	);
 
-	if (!showUpgrade) {
+	if (!shouldShow) {
 		return null;
 	}
 
