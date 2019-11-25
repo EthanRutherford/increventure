@@ -2,7 +2,7 @@ import {render} from "react-dom";
 import j from "react-jenny";
 import {Party} from "./ui/party";
 import {Particles} from "./ui/particles";
-import {Store} from "./ui/store";
+import {Store} from "./ui/store/store";
 import {Minions} from "./ui/minions";
 import {CharacterCreator} from "./ui/character-creator";
 import {Overlay} from "./ui/overlay";

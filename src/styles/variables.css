@@ -10,8 +10,8 @@
 
 	/* greys */
 	--light-grey: hsl(0, 0%, 80%);
-	--slate: hsl(0, 0%, 30%);
 	--slate-light: hsl(0, 0%, 40%);
+	--slate: hsl(0, 0%, 30%);
 	--slate-dark: hsl(0, 0%, 20%);
 	--carbon: hsl(0, 0%, 12%);
 

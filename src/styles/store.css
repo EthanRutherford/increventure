@@ -4,6 +4,34 @@
 	grid-area: main;
 	box-shadow: 0 1px 3px 1px rgb(0, 0, 0, .5) inset;
 }
+.tabs {
+	display: flex;
+}
+.tab {
+	flex: 1 1 0;
+	text-shadow: 2px 2px black;
+}
+.tab:after {
+	content: "";
+	display: block;
+	margin: 0 auto;
+	width: 0;
+	height: 2px;
+	background-color: grey;
+	transition: all 100ms;
+}
+.tab:hover:after {
+	width: 60%;
+}
+.selected-tab.selected-tab:after {
+	width: 80%;
+	background-color: var(--slate-dark);
+}
+
+.wip {
+	text-align: center;
+}
+
 .upgrade-button {
 	border: 2px outset grey;
 	padding: 20px;

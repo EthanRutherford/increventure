@@ -24,8 +24,9 @@ function loadImage(url) {
 	});
 }
 
+const grassPromises = grassUrls.map(loadImage);
+
 async function createGrass() {
-	const grassPromises = grassUrls.map(loadImage);
 	const grasses = await Promise.all(grassPromises);
 
 	const width = 23;
