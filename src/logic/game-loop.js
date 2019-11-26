@@ -29,7 +29,14 @@ setInterval(function() {
 	lastTick = thisTick;
 
 	// update money
-	game.data.inventory.money += game.moneyRate * diff;
+	let total = 0;
+	for (const rate of game.moneyRates) {
+		const amount = rate.amount * diff;
+		game.data.stats.minionMoney[rate.kind] += amount;
+		total += amount;
+	}
+
+	game.data.inventory.money += total;
 
 	// stats tracking
 	game.data.stats.totalMoney += game.moneyRate * diff;

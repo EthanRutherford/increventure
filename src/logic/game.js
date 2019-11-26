@@ -6,11 +6,11 @@ import {createGameHook} from "./game-hook";
 import {logInfo} from "./log";
 import {addToast} from "./use-toasts";
 
-function calculateRate(data, multipliers) {
-	return minionKinds.reduce(
-		(total, kind) => total + data.minions[kind] * minions[kind].baseRate * multipliers[kind],
-		0,
-	);
+function calculateRates(data, multipliers) {
+	return minionKinds.map((kind) => ({
+		kind,
+		amount: data.minions[kind] * minions[kind].baseRate * multipliers[kind],
+	}));
 }
 
 const privates = {};
@@ -24,7 +24,7 @@ export const game = {
 	load() {
 		const didLoad = loadGame();
 		game.multipliers = calculateMultipliers(game.data.upgrades);
-		privates.moneyRate = calculateRate(game.data, game.multipliers);
+		privates.moneyRates = calculateRates(game.data, game.multipliers);
 		for (const adventurer of game.data.adventurers) {
 			game.adventurers.push(new Being(adventurer));
 		}
@@ -46,6 +46,7 @@ export const game = {
 		const amount = base * multiplier;
 		game.data.inventory.money += amount;
 		game.data.stats.totalMoney += amount;
+		game.data.stats.clickMoney += amount;
 		return amount;
 	},
 	// minion data
@@ -60,7 +61,7 @@ export const game = {
 			if (game.data.inventory.money >= game.minionCosts[kind]) {
 				game.data.inventory.money -= game.minionCosts[kind];
 				game.data.minions[kind]++;
-				privates.moneyRate = calculateRate(game.data, game.multipliers);
+				privates.moneyRates = calculateRates(game.data, game.multipliers);
 			}
 		};
 		return obj;
@@ -73,11 +74,11 @@ export const game = {
 			game.data.inventory.money -= upgrades[upgradeId].cost;
 			game.data.upgrades[upgradeId] = true;
 			game.multipliers = calculateMultipliers(game.data.upgrades);
-			privates.moneyRate = calculateRate(game.data, game.multipliers);
+			privates.moneyRates = calculateRates(game.data, game.multipliers);
 		}
 	},
 	// getters
-	get moneyRate() {return privates.moneyRate;},
+	get moneyRates() {return privates.moneyRates;},
 };
 
 game.useEncounter = createGameHook(game, "encounter", null);

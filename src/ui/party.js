@@ -28,7 +28,8 @@ const hatMap = {
 const CoinRate = memo(function CoinRate() {
 	useSaveData((data) => [data.upgrades, data.minions]);
 
-	const rateValue = parseCoinsShort(game.moneyRate);
+	const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
+	const rateValue = parseCoinsShort(rateAmount);
 
 	return j({div: coinStyles.coinRate}, [
 		`(${rateValue.value}`,
@@ -41,7 +42,8 @@ function Coins() {
 	const [money, setMoney] = useState(game.data.inventory.money);
 	useEffect(() => {
 		function step(a, b, diff) {
-			setMoney(game.data.inventory.money + (game.moneyRate * diff));
+			const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
+			setMoney(game.data.inventory.money + (rateAmount * diff));
 		}
 
 		animationSteps.add(step);

@@ -9,7 +9,7 @@ import {Overlay} from "./ui/overlay";
 import {ToastManager} from "./ui/toast-manager";
 import styles from "./styles/root";
 import "./logic/game-loop";
-import "./ui/keyboard-handler";
+import "./ui/global-handlers";
 import "./styles/reset";
 
 function App() {
