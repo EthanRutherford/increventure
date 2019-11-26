@@ -11,6 +11,7 @@ export function parseCoins(amount) {
 	return amounts;
 }
 
+const simplifier = /\.?0+$/;
 export function parseCoinsShort(amount) {
 	const amounts = parseCoins(amount);
 	const coinValue = {};
@@ -19,10 +20,10 @@ export function parseCoinsShort(amount) {
 
 	if (amounts.length > 1) {
 		coinValue.value += amounts[amounts.length - 2] / 1000;
-		coinValue.value = coinValue.value.toFixed(3);
+		coinValue.value = coinValue.value.toFixed(2).replace(simplifier, "");
 	} else {
 		coinValue.value += amount % 1;
-		coinValue.value = coinValue.value.toFixed(1);
+		coinValue.value = coinValue.value.toFixed(1).replace(simplifier, "");
 	}
 
 	return coinValue;
