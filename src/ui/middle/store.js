@@ -13,13 +13,13 @@ const tabs = {
 
 function renderSection(tab) {
 	if (tab === tabs.shop.id) {
-		return j({div: storeStyles.wip}, "WIP");
+		return j({div: storeStyles.wip}, "Coming soon");
 	}
 	if (tab === tabs.upgrade.id) {
 		return j([Upgrades]);
 	}
 	if (tab === tabs.dungeon.id) {
-		return j({div: storeStyles.wip}, "WIP");
+		return j({div: storeStyles.wip}, "Coming soon");
 	}
 
 	return "you should never see this";

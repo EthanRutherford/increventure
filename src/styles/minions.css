@@ -12,7 +12,7 @@
 	background-color: var(--slate);
 	color: white;
 	text-align: left;
-	text-shadow: 2px 2px black;
+	text-shadow: var(--text-shadow);
 }
 .button:hover:not(:disabled) {
 	background-color: var(--slate-light);

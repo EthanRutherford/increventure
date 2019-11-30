@@ -26,13 +26,13 @@
 .title {
 	grid-area: title;
 	font-size: var(--normal);
-	text-shadow: 2px 2px black;
+	text-shadow: var(--text-shadow);
 }
 
 .desc {
 	grid-area: desc;
 	font-size: var(--small);
-	text-shadow: 1px 1px black;
+	text-shadow: var(--text-shadow-small);
 }
 
 .close-button {

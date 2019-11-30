@@ -1,0 +1,68 @@
+@import "./variables.css";
+
+.content {
+	grid-area: main;
+	box-shadow: 0 1px 3px 1px rgb(0, 0, 0, .5) inset;
+	background-color: var(--slate-dark);
+	color: white;
+	z-index: 1;
+}
+
+.header {
+	position: relative;
+	padding: 10px 20px;
+}
+
+.title {
+	font-size: var(--large);
+	text-shadow: var(--text-shadow);
+	text-align: center;
+}
+
+.close-button {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	border-radius: 12px;
+	width: 24px;
+	height: 24px;
+}
+.close-button:hover {
+	box-shadow: 0 0 4px 2px var(--slate-light);
+	background-color: var(--slate-light);
+}
+.close-button:active {
+	box-shadow: 0 0 4px 2px var(--slate-dark);
+	background-color: var(--slate-dark);
+	color: var(--light-grey);
+}
+
+.close-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.wipe-border, .wipe-border-40 {
+	height: 1px;
+	background: linear-gradient(to right, transparent, grey 30%, grey 70%, transparent);
+}
+.wipe-border-40 {
+	width: 40%;
+}
+
+.section-header {
+	padding: 10px 20px;
+	font-size: var(--medium);
+	text-shadow: var(--text-shadow);
+}
+
+.section {
+	padding: 10px 20px;
+	font-size: var(--small);
+	line-height: 1.5;
+	text-shadow: var(--text-shadow-small);
+}
+
+.grey {
+	color: var(--light-grey);
+}

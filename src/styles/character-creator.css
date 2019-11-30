@@ -30,7 +30,7 @@
 	max-height: 500px;
 	background-color: var(--carbon);
 	color: white;
-	text-shadow: 2px 2px black;
+	text-shadow: var(--text-shadow);
 }
 
 .title {
@@ -92,13 +92,13 @@
 
 .create-button {
 	grid-area: create;
-	border: 2px outset hsl(82, 20%, 40%);
-	background-color: hsl(82, 40%, 30%);
+	border: 2px outset var(--olive-pale);
+	background-color: var(--olive);
 }
 .create-button:hover {
-	background-color: hsl(82, 40%, 40%);
+	background-color: var(--olive-light);
 }
 .create-button:active {
 	border-style: inset;
-	background-color: hsl(82, 40%, 20%);
+	background-color: var(--olive-dark);
 }

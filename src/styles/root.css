@@ -12,15 +12,6 @@
 	background-color: var(--light-grey);
 	overflow: hidden;
 }
-.header {
-	grid-area: header;
-	border-bottom: 1px solid black;
-	padding: 10px;
-	color: var(--platinum);
-	background: linear-gradient(to bottom, var(--slate-dark) 85%, var(--slate));
-	line-height: 1;
-	text-shadow: 2px 2px black;
-}
 .divider1 {
 	grid-area: divider1;
 }
@@ -61,6 +52,6 @@
 		rgba(0, 0, 0, 0) 100%
 	);
 	font-size: var(--large);
-	text-shadow: 2px 2px black;
+	text-shadow: var(--text-shadow);
 	text-align: center;
 }

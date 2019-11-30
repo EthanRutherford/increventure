@@ -37,9 +37,9 @@ setInterval(function() {
 	}
 
 	game.data.inventory.money += total;
+	game.data.stats.totalMoney += total;
 
 	// stats tracking
-	game.data.stats.totalMoney += game.moneyRate * diff;
 	if (game.data.inventory.money > game.data.stats.mostMoney) {
 		game.data.stats.mostMoney = game.data.inventory.money;
 	}

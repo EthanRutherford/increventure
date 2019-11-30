@@ -1,0 +1,30 @@
+@import "./variables.css";
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	grid-area: header;
+	border-bottom: 1px solid black;
+	background: linear-gradient(to bottom, var(--slate-dark) 85%, var(--slate));
+}
+
+.title {
+	padding: 10px;
+	color: var(--platinum);
+	line-height: 1;
+	text-shadow: var(--text-shadow);
+	user-select: none;
+}
+
+.button {
+	padding: 10px;
+	color: var(--platinum);
+	line-height: 1;
+	text-shadow: var(--text-shadow);
+}
+.button:hover {
+	color: white;
+}
+.button:active {
+	color: var(--platinum-dark);
+}

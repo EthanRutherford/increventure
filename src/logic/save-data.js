@@ -20,13 +20,13 @@ const saveData = {
 	stats: {
 		totalMoney: 0,
 		mostMoney: 0,
+		grassClicks: 0,
 		clickMoney: 0,
+		mouseDistance: 0,
 		minionMoney: minionKinds.reduce((obj, kind) => {
 			obj[kind] = 0;
 			return obj;
 		}, {}),
-		grassClicks: 0,
-		mouseDistance: 0,
 	},
 };
 

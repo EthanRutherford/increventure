@@ -8,13 +8,17 @@
 	display: flex;
 }
 .tab {
+	position: relative;
 	flex: 1 1 0;
-	text-shadow: 2px 2px black;
+	text-shadow: var(--text-shadow);
 }
 .tab:after {
 	content: "";
 	display: block;
-	margin: 0 auto;
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
 	width: 0;
 	height: 2px;
 	background-color: grey;
@@ -33,21 +37,21 @@
 }
 
 .upgrade-button {
-	border: 2px outset grey;
+	border: 2px outset var(--steel-blue-pale);
 	padding: 20px;
 	height: 100px;
 	width: 100%;
-	background-color: hsl(240, 20%, 40%);
+	background-color: var(--steel-blue);
 	color: white;
 	text-align: left;
-	text-shadow: 2px 2px black;
+	text-shadow: var(--text-shadow);
 }
 .upgrade-button:hover:not(:disabled) {
-	background-color: hsl(240, 20%, 50%);
+	background-color: var(--steel-blue-light);
 }
 .upgrade-button:active:not(:disabled) {
 	border-style: inset;
-	background-color: hsl(240, 20%, 30%);
+	background-color: var(--steel-blue-dark);
 }
 .upgrade-button:disabled {
 	filter: brightness(.5);

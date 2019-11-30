@@ -6,7 +6,13 @@
 	--medium: 25px;
 	--large: 30px;
 
+	/* shared-stuff */
+	--text-shadow-small: 1px 1px black;
+	--text-shadow: 2px 2px black;
+
+	/* header-colors */
 	--platinum: hsl(240, 15%, 90%);
+	--platinum-dark: hsl(240, 15%, 80%);
 
 	/* greys */
 	--light-grey: hsl(0, 0%, 80%);
@@ -16,8 +22,16 @@
 	--carbon: hsl(0, 0%, 12%);
 
 	/* olive */
-	--olive: hsl(82, 40%, 30%);
-	--olive-light: hsl(82, 40%, 40%);
-	--olive-dark: hsl(82, 40%, 20%);
 	--olive-pale: hsl(82, 20%, 40%);
+	--olive-light: hsl(82, 40%, 40%);
+	--olive: hsl(82, 40%, 30%);
+	--olive-dark: hsl(82, 40%, 20%);
+
+	/* blues */
+	--navy: hsl(220, 100%, 20%);
+
+	--steel-blue-pale: hsl(220, 15%, 30%);
+	--steel-blue-light: hsl(220, 30%, 40%);
+	--steel-blue: hsl(220, 40%, 30%);
+	--steel-blue-dark: hsl(220, 30%, 20%);
 }
