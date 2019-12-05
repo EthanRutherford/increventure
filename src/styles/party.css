@@ -49,6 +49,7 @@
 	margin: 20px;
 	background: transparent;
 	transition: all 200ms ease-out;
+	will-change: transform;
 }
 .character-title {
 	grid-area: title;

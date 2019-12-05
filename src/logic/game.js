@@ -1,7 +1,7 @@
 import {minions, minionKinds, costCalculator} from "./minions";
 import {upgrades, calculateMultipliers} from "./upgrades";
 import {Being} from "./rpg/beings";
-import {data, saveGame, loadGame} from "./save-data";
+import {data, saveGame, loadGame, deleteGame} from "./save-data";
 import {createGameHook} from "./game-hook";
 import {logInfo} from "./log";
 import {addToast} from "./use-toasts";
@@ -32,6 +32,9 @@ export const game = {
 		if (didLoad) {
 			addToast({title: "Game loaded", desc: "welcome back!", ttl: 0});
 		}
+	},
+	delete() {
+		deleteGame();
 	},
 	cutGrass() {
 		game.data.stats.grassClicks++;

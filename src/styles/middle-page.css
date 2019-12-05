@@ -5,6 +5,7 @@
 	box-shadow: 0 1px 3px 1px rgb(0, 0, 0, .5) inset;
 	background-color: var(--slate-dark);
 	color: white;
+	will-change: transform;
 	z-index: 1;
 }
 
@@ -65,4 +66,28 @@
 
 .grey {
 	color: var(--light-grey);
+}
+
+.button-row:not(:last-child) {
+	margin-bottom: 5px;
+}
+.button {
+	margin-right: 10px;
+	border: 1px outset grey;
+	padding: 0 10px;
+	background-color: var(--slate);
+	color: white;
+	text-align: left;
+	text-shadow: var(--text-shadow);
+}
+.button:hover {
+	background-color: var(--slate-light);
+}
+.button:active {
+	border-style: inset;
+	background-color: var(--carbon);
+}
+.red {
+	border-color: red;
+	color: red;
 }

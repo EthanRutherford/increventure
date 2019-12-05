@@ -148,3 +148,8 @@ export function loadGame() {
 
 	return savedData != null;
 }
+
+export function deleteGame() {
+	localStorage.removeItem("saveGame");
+	location.reload();
+}
