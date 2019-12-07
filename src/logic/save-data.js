@@ -18,6 +18,7 @@ const saveData = {
 		return obj;
 	}, {}),
 	stats: {
+		gameStarted: Date.now(),
 		totalMoney: 0,
 		mostMoney: 0,
 		grassClicks: 0,
