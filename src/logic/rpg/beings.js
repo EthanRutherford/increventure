@@ -3,6 +3,7 @@ import {stats, skills} from "./class-data";
 export class Being {
 	constructor(data) {
 		this.data = data;
+		this.buffs = new Set();
 	}
 	get name() {
 		return this.data.name;
@@ -17,7 +18,7 @@ export class Being {
 		this.data.hp = Math.max(0, Math.min(this.maxHp, hp));
 	}
 	get maxHp() {
-		return this.data.con * this.lvl * 20;
+		return this.con * this.lvl * 20;
 	}
 	get mp() {
 		return this.data.mp;
@@ -26,19 +27,19 @@ export class Being {
 		this.data.mp = Math.max(0, Math.min(this.maxMp, mp));
 	}
 	get maxMp() {
-		return this.data.int * this.lvl * 10;
+		return this.int * this.lvl * 10;
 	}
 	get attack() {
-		return this.data.str * this.lvl;
+		return this.str * this.lvl;
 	}
 	get critChance() {
-		return this.data.dex * .01 + this.luckBonus;
+		return this.dex * .01 + this.luckBonus;
 	}
 	get luckBonus() {
-		return this.data.luck * .005;
+		return this.luck * .005;
 	}
 	get expRate() {
-		return 1 + (this.data.wis * .02);
+		return 1 + (this.wis * .02);
 	}
 	get lvl() {
 		return Math.max(1, Math.floor(Math.log2(this.data.exp / 100)) + 2);
@@ -47,6 +48,22 @@ export class Being {
 		const lvl = this.lvl;
 		return skills[this.data.kind].filter((skill) => lvl >= skill.lvl);
 	}
+}
+
+// this is a bit messy, but hey
+for (const stat of Object.keys(stats.hero)) {
+	Object.defineProperty(Being.prototype, stat, {
+		get() {
+			let amount = this.data[stat];
+			for (const buff of this.buffs) {
+				if (buff.stat === stat) {
+					amount += buff.amount;
+				}
+			}
+
+			return amount;
+		},
+	});
 }
 
 export const adventurers = {

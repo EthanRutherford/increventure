@@ -6,12 +6,12 @@ function doRandomEncounter() {
 		onVictory() {
 			// temporary, heal the player
 			game.adventurers[0].hp = game.adventurers[0].maxHp;
-			game.setEncounter(null);
+			game.encounter = null;
 		},
 		onDefeat() {
 			// temporary, heal the player
 			game.adventurers[0].hp = game.adventurers[0].maxHp;
-			game.setEncounter(null);
+			game.encounter = null;
 		},
 	});
 }

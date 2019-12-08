@@ -1,32 +1,51 @@
 import {useState, useLayoutEffect, useCallback, useRef} from "react";
 import j from "react-jenny";
 import {encounterStates} from "../logic/rpg/combat";
+import {actionKinds, skillKinds} from "../logic/rpg/actions";
 import styles from "../styles/combat.css";
 
-const dodgeText = (name) => `, but ${name} dodged the attack!`;
-function parseAction(action) {
-	const {source, target, type} = action;
+function parseResult(result) {
+	const {source, kind, values} = result;
+	const lines = [];
 
-	if (type === "attack") {
+	if (kind === actionKinds.attack) {
 		const prefix = `${source.name} attacks`;
-		if (action.dodged) {
-			return prefix + dodgeText(target.name);
-		}
+		for (const {target, dodged, damage} of values) {
+			if (dodged) {
+				lines.push(`${prefix}, but ${target.name} dodges!`);
+				continue;
+			}
 
-		return `${prefix} ${target.name} for ${action.damage} damage!`;
+			lines.push(`${prefix} ${target.name} for ${damage} damage!`);
+		}
+	} else if (kind === actionKinds.skill) {
+		const skill = result.skill;
+		lines.push(`${source.name} used ${skill.name}!`);
+
+		if (skill.kind === skillKinds.damage) {
+			for (const {target, dodged, damage} of values) {
+				if (dodged) {
+					lines.push(`${target.name} avoids the attack!`);
+					continue;
+				}
+
+				lines.push(`${target.name} takes ${damage} damage!`);
+			}
+		} else if (skill.kind === skillKinds.restore) {
+			for (const {target, stat, amount} of values) {
+				lines.push(`${target.name} restoring ${amount} ${stat}.`);
+			}
+		} else if (skill.kind === skillKinds.buff) {
+			for (const {target, stat, amount} of values) {
+				const effect = amount > 0 ? "increased" : "reduced";
+				lines.push(`${target.name}'s ${stat} is temporarily ${effect}.`);
+			}
+		}
+	} else {
+		lines.push(`${source.name} does nothing.`);
 	}
 
-	if (type === "skill") {
-		const skill = action.skill;
-		const prefix = `${source.name} used ${skill.name}`;
-		if (action.dodged) {
-			return prefix + dodgeText(target.name);
-		}
-
-		return `${prefix} on ${target.name} for ${action.damage} damage!`;
-	}
-
-	return `${source.name} does nothing.`;
+	return lines;
 }
 
 export function CombatUI({encounter}) {
@@ -61,16 +80,16 @@ export function CombatUI({encounter}) {
 
 		if (turn === encounterStates.enemyTurn) {
 			setTimeout(() => {
-				const nextLine = parseAction(encounter.enemyTurn());
-				setLines((lines) => [...lines, nextLine]);
+				const nextLines = parseResult(encounter.enemyTurn());
+				setLines((lines) => [...lines, ...nextLines]);
 				setTimeout(advance, 1000);
 			}, 1000);
 		}
 	});
 
 	const attack = useCallback(() => {
-		const nextLine = parseAction(encounter.playerTurn());
-		setLines((lines) => [...lines, nextLine]);
+		const nextLines = parseResult(encounter.playerTurn());
+		setLines((lines) => [...lines, ...nextLines]);
 		advance();
 	});
 

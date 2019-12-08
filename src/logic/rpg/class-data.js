@@ -1,4 +1,5 @@
 import {randRange} from "../util";
+import {targetKinds, skillKinds} from "./actions";
 
 /*
 	stats affect a character's abilities
@@ -86,14 +87,14 @@ export const skills = {
 			lvl: 1,
 			name: "Heroic effort",
 			desc: "Damages an enemy using everything you've got",
-			target: "enemy",
+			kind: skillKinds.damage,
+			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(hero) {
-				const multiplier = hero.data.str + hero.data.dex +
-					hero.data.con + hero.data.int * hero.data.wis
+				const multiplier = hero.str + hero.dex +
+					hero.con + hero.int * hero.wis
 				;
 				return {
-					kind: "damage",
 					damage: multiplier,
 				};
 			},
@@ -104,13 +105,13 @@ export const skills = {
 			lvl: 1,
 			name: "Buff up",
 			desc: "Throw more of your weight into your attacks for a few turns",
-			target: "self",
+			kind: skillKinds.buff,
+			target: targetKinds.self,
 			mpCost: () => 10,
 			effect(hero) {
 				return {
-					kind: "buff",
 					stat: "str",
-					amount: hero.data.con,
+					amount: hero.con,
 					turns: 3,
 				};
 			},
@@ -121,12 +122,12 @@ export const skills = {
 			lvl: 1,
 			name: "Magic Missile",
 			desc: "The classic spell that never misses",
-			target: "enemy",
+			kind: skillKinds.damage,
+			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(hero) {
 				return {
-					kind: "damage",
-					damage: hero.data.int * 5,
+					damage: hero.int * 5,
 				};
 			},
 		},
@@ -136,13 +137,13 @@ export const skills = {
 			lvl: 1,
 			name: "Cure water",
 			desc: "Heal one party member",
-			target: "ally",
+			kind: skillKinds.restore,
+			target: targetKinds.ally,
 			mpCost: () => 10,
 			effect(hero) {
 				return {
-					effect: "gain",
 					stat: "hp",
-					amount: hero.data.wis * 3,
+					amount: hero.wis * 3,
 				};
 			},
 		},
@@ -150,16 +151,16 @@ export const skills = {
 	prodigy: [
 		{
 			lvl: 1,
-			name: "Tinker",
-			desc: "Fiddle around with stuff and maybe learn something new",
-			target: "self",
+			name: "Study",
+			desc: "Observe your enemy closely",
+			kind: skillKinds.restore,
+			target: targetKinds.self,
 			mpCost: (hero) => hero.maxMp,
 			effect(hero) {
 				const min = hero.lvl;
-				const max = hero.lvl + hero.data.luck;
-				const scale = hero.data.wis;
+				const max = hero.lvl + hero.luck;
+				const scale = hero.wis;
 				return {
-					effect: "gain",
 					stat: "exp",
 					amount: Math.floor(randRange(min, max) * scale),
 				};
@@ -171,12 +172,12 @@ export const skills = {
 			lvl: 1,
 			name: "Fire",
 			desc: "Cast fire from your fingertips",
-			target: "all enemies",
+			kind: skillKinds.damage,
+			target: targetKinds.enemies,
 			mpCost: () => 10,
 			effect(hero) {
 				return {
-					effect: "damage",
-					amount: hero.data.int * 10,
+					amount: hero.int * 10,
 				};
 			},
 		},
@@ -187,12 +188,12 @@ export const skills = {
 			lvl: 1,
 			name: "Goop",
 			desc: "Goops gloppity glorp on goopity gumprs",
-			target: "enemy",
+			kind: skillKinds.damage,
+			target: targetKinds.enemy,
 			mpCost: () => 5,
 			effect(slime) {
 				return {
-					effect: "damage",
-					amount: slime.data.str * 3,
+					amount: slime.str * 3,
 				};
 			},
 		},
@@ -202,12 +203,12 @@ export const skills = {
 			lvl: 1,
 			name: "Bone toss",
 			desc: "Tosses a bone at an enemy",
-			target: "enemy",
+			kind: skillKinds.damage,
+			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(skeleton) {
 				return {
-					effect: "damage",
-					amount: skeleton.data.str * 4,
+					amount: skeleton.str * 4,
 				};
 			},
 		},

@@ -1,4 +1,5 @@
 import {randItem} from "../util";
+import {actionKinds, mapTarget} from "./actions";
 
 /*
 	ai will likely evolve over development, but the base idea is
@@ -46,17 +47,12 @@ export class AI {
 			);
 
 			if (skill != null) {
-				let target;
-				if (skill.target === "enemy") {
-					target = randItem(enemies);
-				} else if (skill.target === "ally") {
-					target = randItem([...allies, this.being]);
-				} // else null; target is either self, all allies, or all enemies
-
-				return {action: "skill", skill, target};
+				const {options, all} = mapTarget(skill.target, this.being, allies, enemies);
+				const targets = all ? options : [randItem(options)];
+				return {kind: actionKinds.skill, skill, targets};
 			}
 		}
 
-		return {action: "attack", target: randItem(enemies)};
+		return {kind: actionKinds.attack, targets: [randItem(enemies)]};
 	}
 }
