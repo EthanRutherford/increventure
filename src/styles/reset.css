@@ -24,3 +24,6 @@ button {
 	cursor: pointer;
 	transition: all 100ms;
 }
+::-moz-focus-inner {
+	border: 0;
+}

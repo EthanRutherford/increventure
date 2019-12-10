@@ -53,20 +53,19 @@ function createTwoBlade(size) {
 	return createSVG(size, `<defs>${mask1}${mask2}</defs>${ellipse1}${ellipse2}`);
 }
 
-function compileSVG(def, scale) {
-	const size = def.baseSize * scale;
+function compileSVG(create, size) {
 	const img = new Image();
-	img.src = "data:image/svg+xml," + encodeURIComponent(def.create(size));
+	img.src = "data:image/svg+xml," + encodeURIComponent(create(size));
 	return [img, size];
 }
 
 const particleDefs = [
-	{baseSize: 20, create: createToenail},
-	{baseSize: 25, create: createBlade},
-	{baseSize: 12, create: createDirt},
-	{baseSize: 20, create: createTwoNail},
-	{baseSize: 20, create: createThinToenail},
-	{baseSize: 20, create: createTwoBlade},
+	compileSVG(createToenail, 20),
+	compileSVG(createBlade, 25),
+	compileSVG(createDirt, 12),
+	compileSVG(createTwoNail, 20),
+	compileSVG(createThinToenail, 20),
+	compileSVG(createTwoBlade, 20),
 ];
 
 class Particle {
@@ -91,7 +90,8 @@ class Particle {
 			this.vy = -200;
 			this.vr = this.vx * 5;
 			this.ay = 1000;
-			[this.svg, this.size] = compileSVG(randItem(particleDefs), randRange(1, 1.25));
+			[this.svg, this.size] = randItem(particleDefs);
+			this.size *= randRange(1, 1.25);
 		}
 	}
 	step(diff) {
@@ -110,7 +110,8 @@ class Particle {
 		} else if (this.kind === "grass") {
 			context.translate(this.x, this.y);
 			context.rotate((this.r / 360) * Math.PI * 2);
-			context.drawImage(this.svg, -(this.size / 2), -(this.size / 2));
+			const dxy = -(this.size / 2);
+			context.drawImage(this.svg, dxy, dxy, this.size, this.size);
 		}
 	}
 }
