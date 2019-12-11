@@ -17,10 +17,10 @@ export function generate(roomCount) {
 	const rooms = [root];
 
 	while (rooms.length < roomCount) {
-		const set = new WeightedSet();
-		for (const room of rooms) {
-			set.set(room, getWeight(map, room));
-		}
+		const set = new WeightedSet(rooms.map((room) => ({
+			item: room,
+			weight: getWeight(map, room),
+		})));
 
 		const room = set.getRand();
 		const walls = map.getValidWalls(room);

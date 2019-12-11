@@ -7,13 +7,21 @@ export function useUpdater() {
 }
 
 export const randRange = (min, max) => min + Math.random() * (max - min);
-export const randInt = (min, max) => Math.floor(randRange(min, max));
-export const randItem = (list) => list[randInt(0, list.length)];
+export const randInt = (min, max) => Math.round(randRange(min, max));
+export const randItem = (list) => list[randInt(0, list.length - 1)];
 
 export class WeightedSet {
-	constructor() {
+	constructor(items = []) {
 		this.items = new Map();
 		this.total = 0;
+
+		for (const item of items) {
+			if (item.item && item.weight) {
+				this.set(item.item, item.weight);
+			} else {
+				this.add(item);
+			}
+		}
 	}
 	add(item) {
 		const count = this.items.get(item) || 0;
@@ -54,5 +62,26 @@ export class WeightedSet {
 		}
 
 		throw "this should not happen";
+	}
+	getFilteredRand(filter) {
+		const filtered = [];
+		let subTotal = 0;
+		for (const [value, weight] of this.items.entries()) {
+			if (filter(value)) {
+				filtered.push([value, weight]);
+				subTotal += weight;
+			}
+		}
+
+		const which = randInt(0, subTotal);
+		let counter = 0;
+		for (const [value, weight] of filtered) {
+			counter += weight;
+			if (counter >= which) {
+				return value;
+			}
+		}
+
+		return null;
 	}
 }

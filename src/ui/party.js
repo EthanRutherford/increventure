@@ -5,7 +5,7 @@ import {animationSteps} from "../logic/game-loop";
 import {useSaveData} from "../logic/save-data";
 import {randRange} from "../logic/util";
 import {coinKinds, parseCoins, parseCoinsShort} from "./money";
-import {Grass} from "./grass";
+import {TiledBg} from "./tiled-bg";
 import Happy from "../images/svgs/happy";
 import Meh from "../images/svgs/meh";
 import Bad from "../images/svgs/bad";
@@ -17,6 +17,19 @@ import ClericHat from "../images/svgs/cleric-hat";
 import rootStyles from "../styles/root";
 import partyStyles from "../styles/party";
 import coinStyles from "../styles/coins";
+
+import grass1 from "../images/pngs/grass-1.png";
+import grass2 from "../images/pngs/grass-2.png";
+import grass3 from "../images/pngs/grass-3.png";
+import grass4 from "../images/pngs/grass-4.png";
+import grass5 from "../images/pngs/grass-5.png";
+const tiles = [
+	{url: grass1, weight: 16},
+	{url: grass2, weight: 1},
+	{url: grass3, weight: 1},
+	{url: grass4, weight: 1},
+	{url: grass5, weight: 1},
+];
 
 const hatMap = {
 	hero: j([HeroHat, partyStyles.heroHat]),
@@ -148,7 +161,12 @@ export function Party({createParticle}) {
 	}, []);
 
 	return j({div: partyStyles.wrapper}, [
-		j([Grass]),
+		j([TiledBg, {
+			className: partyStyles.grass,
+			tiles,
+			width: 23,
+			tileSize: 16,
+		}]),
 		j({div: partyStyles.content}, [
 			j({div: rootStyles.title}, "Party"),
 			j({button: {className: partyStyles.grassButton, onClick: handleClick}}, [
