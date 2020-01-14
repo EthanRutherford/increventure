@@ -47,7 +47,6 @@ export function Store() {
 			className: storeStyles.wood,
 			tiles,
 			width: 20,
-			tileSize: 16,
 		}]),
 		j({div: storeStyles.content}, [
 			j({div: `${rootStyles.title} ${storeStyles.tabs}`},

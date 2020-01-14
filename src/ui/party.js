@@ -165,7 +165,6 @@ export function Party({createParticle}) {
 			className: partyStyles.grass,
 			tiles,
 			width: 23,
-			tileSize: 16,
 		}]),
 		j({div: partyStyles.content}, [
 			j({div: rootStyles.title}, "Party"),
