@@ -1,5 +1,5 @@
 import {randRange} from "../util";
-import {targetKinds, skillKinds} from "./actions";
+import {targetKinds, effectKinds, statKinds} from "./effects";
 
 /*
 	stats affect a character's abilities
@@ -87,7 +87,7 @@ export const skills = {
 			lvl: 1,
 			name: "Heroic effort",
 			desc: "Damages an enemy using everything you've got",
-			kind: skillKinds.damage,
+			kind: effectKinds.damage,
 			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(hero) {
@@ -105,12 +105,12 @@ export const skills = {
 			lvl: 1,
 			name: "Buff up",
 			desc: "Throw more of your weight into your attacks for a few turns",
-			kind: skillKinds.buff,
+			kind: effectKinds.buff,
 			target: targetKinds.self,
+			stat: statKinds.str,
 			mpCost: () => 10,
 			effect(hero) {
 				return {
-					stat: "str",
 					amount: hero.con,
 					turns: 3,
 				};
@@ -122,7 +122,7 @@ export const skills = {
 			lvl: 1,
 			name: "Magic Missile",
 			desc: "The classic spell that never misses",
-			kind: skillKinds.damage,
+			kind: effectKinds.damage,
 			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(hero) {
@@ -137,12 +137,12 @@ export const skills = {
 			lvl: 1,
 			name: "Cure water",
 			desc: "Heal one party member",
-			kind: skillKinds.restore,
+			kind: effectKinds.restore,
 			target: targetKinds.ally,
+			stat: statKinds.hp,
 			mpCost: () => 10,
 			effect(hero) {
 				return {
-					stat: "hp",
 					amount: hero.wis * 3,
 				};
 			},
@@ -153,15 +153,15 @@ export const skills = {
 			lvl: 1,
 			name: "Study",
 			desc: "Observe your enemy closely",
-			kind: skillKinds.restore,
+			kind: effectKinds.restore,
 			target: targetKinds.self,
+			stat: statKinds.xp,
 			mpCost: (hero) => hero.maxMp,
 			effect(hero) {
 				const min = hero.lvl;
 				const max = hero.lvl + hero.luck;
 				const scale = hero.wis;
 				return {
-					stat: "exp",
 					amount: Math.floor(randRange(min, max) * scale),
 				};
 			},
@@ -172,7 +172,7 @@ export const skills = {
 			lvl: 1,
 			name: "Fire",
 			desc: "Cast fire from your fingertips",
-			kind: skillKinds.damage,
+			kind: effectKinds.damage,
 			target: targetKinds.enemies,
 			mpCost: () => 10,
 			effect(hero) {
@@ -188,7 +188,7 @@ export const skills = {
 			lvl: 1,
 			name: "Goop",
 			desc: "Goops gloppity glorp on goopity gumprs",
-			kind: skillKinds.damage,
+			kind: effectKinds.damage,
 			target: targetKinds.enemy,
 			mpCost: () => 5,
 			effect(slime) {
@@ -203,7 +203,7 @@ export const skills = {
 			lvl: 1,
 			name: "Bone toss",
 			desc: "Tosses a bone at an enemy",
-			kind: skillKinds.damage,
+			kind: effectKinds.damage,
 			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(skeleton) {

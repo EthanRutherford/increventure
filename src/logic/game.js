@@ -26,7 +26,7 @@ export const game = {
 		game.multipliers = calculateMultipliers(game.data.upgrades);
 		privates.moneyRates = calculateRates(game.data, game.multipliers);
 		for (const adventurer of game.data.adventurers) {
-			game.adventurers.push(new Being(adventurer));
+			game.adventurers.push(new Being(adventurer, game.data.inventory.items));
 		}
 
 		if (didLoad) {

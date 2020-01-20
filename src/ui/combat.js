@@ -1,7 +1,8 @@
 import {useState, useLayoutEffect, useCallback, useRef} from "react";
 import j from "react-jenny";
 import {encounterStates} from "../logic/rpg/combat";
-import {actionKinds, skillKinds} from "../logic/rpg/actions";
+import {actionKinds} from "../logic/rpg/actions";
+import {effectKinds} from "../logic/rpg/effects";
 import styles from "../styles/combat.css";
 
 function parseResult(result) {
@@ -22,7 +23,7 @@ function parseResult(result) {
 		const skill = result.skill;
 		lines.push(`${source.name} used ${skill.name}!`);
 
-		if (skill.kind === skillKinds.damage) {
+		if (skill.kind === effectKinds.damage) {
 			for (const {target, dodged, damage} of values) {
 				if (dodged) {
 					lines.push(`${target.name} avoids the attack!`);
@@ -31,11 +32,11 @@ function parseResult(result) {
 
 				lines.push(`${target.name} takes ${damage} damage!`);
 			}
-		} else if (skill.kind === skillKinds.restore) {
+		} else if (skill.kind === effectKinds.restore) {
 			for (const {target, stat, amount} of values) {
 				lines.push(`${target.name} restoring ${amount} ${stat}.`);
 			}
-		} else if (skill.kind === skillKinds.buff) {
+		} else if (skill.kind === effectKinds.buff) {
 			for (const {target, stat, amount} of values) {
 				const effect = amount > 0 ? "increased" : "reduced";
 				lines.push(`${target.name}'s ${stat} is temporarily ${effect}.`);

@@ -1,8 +1,10 @@
+import {statKinds} from "./effects";
 import {stats, skills} from "./class-data";
 
 export class Being {
-	constructor(data) {
+	constructor(data, items) {
 		this.data = data;
+		this.items = items;
 		this.buffs = new Set();
 	}
 	get name() {
@@ -11,17 +13,11 @@ export class Being {
 	get class() {
 		return this.data.kind;
 	}
-	get hp() {
-		return this.data.hp;
-	}
 	set hp(hp) {
 		this.data.hp = Math.max(0, Math.min(this.maxHp, hp));
 	}
 	get maxHp() {
 		return this.con * this.lvl * 20;
-	}
-	get mp() {
-		return this.data.mp;
 	}
 	set mp(mp) {
 		this.data.mp = Math.max(0, Math.min(this.maxMp, mp));
@@ -42,7 +38,7 @@ export class Being {
 		return 1 + (this.wis * .02);
 	}
 	get lvl() {
-		return Math.max(1, Math.floor(Math.log2(this.data.exp / 100)) + 2);
+		return Math.max(1, Math.floor(Math.log2(this.data.xp / 100)) + 2);
 	}
 	get skills() {
 		const lvl = this.lvl;
@@ -51,7 +47,7 @@ export class Being {
 }
 
 // this is a bit messy, but hey
-for (const stat of Object.keys(stats.hero)) {
+for (const stat of Object.keys(statKinds)) {
 	Object.defineProperty(Being.prototype, stat, {
 		get() {
 			let amount = this.data[stat];
@@ -115,20 +111,19 @@ export const monsters = {
 
 export const monsterKinds = Object.keys(monsters);
 
-export function createNewAdventurer(name, kind) {
-	const adventurer = new Being({...stats[kind]});
-	adventurer.data.exp = 0;
+export function createNewAdventurer(name, kind, items) {
+	const adventurer = new Being({...stats[kind]}, items);
+	adventurer.data.xp = 0;
 	adventurer.data.name = name;
 	adventurer.data.kind = kind;
 	adventurer.data.hp = adventurer.maxHp;
 	adventurer.data.mp = adventurer.maxMp;
-	adventurer.data.created = true;
 	return adventurer;
 }
 
-export function createNewMonster(name, kind) {
-	const monster = new Being({...stats[kind]});
-	monster.data.exp = 0;
+export function createNewMonster(name, kind, items) {
+	const monster = new Being({...stats[kind]}, items);
+	monster.data.xp = 0;
 	monster.data.name = name;
 	monster.data.kind = kind;
 	monster.data.hp = monster.maxHp;

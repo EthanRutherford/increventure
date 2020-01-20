@@ -8,6 +8,7 @@ const saveData = {
 	adventurers: [],
 	inventory: {
 		money: 0,
+		items: {},
 	},
 	minions: minionKinds.reduce((obj, kind) => {
 		obj[kind] = 0;

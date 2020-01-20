@@ -29,7 +29,7 @@ function expireBuffs(being) {
 export class Encounter {
 	constructor({onVictory, onDefeat}) {
 		const enemyName = createName(analyzeWords(slimeWords));
-		this.enemy = createNewMonster(enemyName, "slime");
+		this.enemy = createNewMonster(enemyName, "slime", {});
 		this.ai = new AI(this.enemy, randItem([...Object.values(personalities)]));
 		this.turn = 0;
 		this.turnOrder = [

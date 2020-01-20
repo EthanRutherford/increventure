@@ -11,7 +11,7 @@ function CreatorPopup({which}) {
 	const [kind, setKind] = useState(adventurerKinds[which]);
 
 	function create() {
-		game.adventurers[which] = createNewAdventurer(name, kind);
+		game.adventurers[which] = createNewAdventurer(name, kind, game.data.inventory.items);
 		game.data.adventurers[which] = game.adventurers[which].data;
 	}
 
