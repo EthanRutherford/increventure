@@ -17,9 +17,11 @@
     "react-jenny": "^1.1.0"
   },
   "devDependencies": {
+    "@rutherford/eslint-config": "^1.0.0",
     "@svgr/webpack": "^4.3.3",
     "cache-loader": "^4.1.0",
     "css-loader": "^1.0.1",
+    "eslint": "^6.8.0",
     "file-loader": "^4.2.0",
     "mini-css-extract-plugin": "^0.4.5",
     "webpack": "^4.39.2",
