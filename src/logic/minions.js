@@ -17,6 +17,12 @@ export const minions = {
 		baseCost: 1000,
 		baseRate: 8,
 	},
+	goblin: {
+		name: "Goblin",
+		desc: "farms goblins for you",
+		baseCost: 10000,
+		baseRate: 64,
+	},
 };
 
 export const minionKinds = Object.keys(minions);

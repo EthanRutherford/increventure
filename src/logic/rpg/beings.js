@@ -38,7 +38,7 @@ export class Being {
 		return 1 + (this.wis * .02);
 	}
 	get lvl() {
-		return Math.max(1, Math.floor(Math.log2(this.data.xp / 100)) + 2);
+		return Math.max(1, Math.floor(Math.log2(this.xp / 100)) + 2);
 	}
 	get skills() {
 		const lvl = this.lvl;

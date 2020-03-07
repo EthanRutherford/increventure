@@ -1,3 +1,5 @@
+import {minionKinds} from "./minions";
+
 export const upgrades = {
 	scissors: {
 		name: "Safety Scissors",
@@ -55,6 +57,22 @@ export const upgrades = {
 		unlock: (data) => data.minions.skeleton >= 15,
 		effect: (multipliers) => multipliers.clickBonus.skeleton += .1,
 	},
+	goblinAle: {
+		name: "Goblin Ale",
+		desc: "Goblins are a little less beligerent when drunk",
+		cost: 100000,
+		getDeps: (data) => [data.minions.goblin],
+		unlock: (data) => data.minions.goblin >= 1,
+		effect: (multipliers) => multipliers.goblin *= 2,
+	},
+	scorchedEarth: {
+		name: "Scorched Earth",
+		desc: "Little known fact, goblins hate grass",
+		cost: 200000,
+		getDeps: (data) => [data.minions.goblin],
+		unlock: (data) => data.minions.goblin >= 15,
+		effect: (multipliers) => multipliers.clickBonus.goblin += .1,
+	},
 };
 
 export const upgradeIds = Object.keys(upgrades);
@@ -70,16 +88,11 @@ for (const id of upgradeIds) {
 }
 
 export function calculateMultipliers(savedUpgrades) {
-	const base = {
-		clickBonus: {
-			grass: 0,
-			slime: 0,
-			skeleton: 0,
-		},
-		grass: 1,
-		slime: 1,
-		skeleton: 1,
-	};
+	const base = minionKinds.reduce((obj, kind) => {
+		obj.clickBonus[kind] = 0;
+		obj[kind] = 1;
+		return obj;
+	}, {clickBonus: {}});
 
 	for (const [id, owned] of Object.entries(savedUpgrades)) {
 		if (owned) {

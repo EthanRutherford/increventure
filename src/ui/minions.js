@@ -23,7 +23,7 @@ const Minion = function Minion({kind}) {
 	}}, [
 		j({div: minionStyles.titleRow}, [
 			j({h2: 0}, minions[kind].name),
-			j({h2: 0}, count),
+			j({h2: 0}, [count]),
 		]),
 		j({div: minionStyles.row}, [
 			j({div: minionStyles.cost}, [
