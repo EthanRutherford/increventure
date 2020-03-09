@@ -19,6 +19,11 @@
 	overflow: auto;
 }
 
+.action-menu {
+	display: grid;
+	grid-template: auto auto / auto auto;
+}
+
 .action {
 	flex-shrink: 0;
 }

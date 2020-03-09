@@ -10,6 +10,7 @@ export const effectKinds = {
 	damage: "damage",
 	restore: "restore",
 	buff: "buff",
+	debuff: "debuff",
 };
 
 export const statKinds = {

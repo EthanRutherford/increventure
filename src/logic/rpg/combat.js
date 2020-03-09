@@ -3,7 +3,7 @@ import {randItem} from "../util";
 import {createNewMonster} from "./beings";
 import {analyzeWords, createName, slimeWords} from "./name-gen";
 import {AI, personalities} from "./ai";
-import {doAction, actionKinds} from "./actions";
+import {doAction} from "./actions";
 
 export const encounterStates = {
 	playerTurn: "player",
@@ -29,7 +29,7 @@ function expireBuffs(being) {
 export class Encounter {
 	constructor({onVictory, onDefeat}) {
 		const enemyName = createName(analyzeWords(slimeWords));
-		this.enemy = createNewMonster(enemyName, "slime", {});
+		this.enemy = createNewMonster(enemyName, "slime", {herb: 1});
 		this.ai = new AI(this.enemy, randItem([...Object.values(personalities)]));
 		this.turn = 0;
 		this.turnOrder = [
@@ -68,12 +68,9 @@ export class Encounter {
 		expireBuffs(enemy);
 		return result;
 	}
-	playerTurn() {
-		// TODO: pass in action as a parameter
-		const {enemy} = this;
+	playerTurn(action) {
 		const player = game.adventurers[0];
 		decrementBuffs(player);
-		const action = {kind: actionKinds.attack, targets: [enemy]};
 		const result = doAction(player, action);
 		expireBuffs(player);
 		return result;

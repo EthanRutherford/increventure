@@ -1,8 +1,11 @@
-import {useState, useLayoutEffect, useCallback, useRef} from "react";
+import {useState, useLayoutEffect, useCallback, useRef, useMemo} from "react";
 import j from "react-jenny";
+import {game} from "../logic/game";
+import {randItem} from "../logic/util";
 import {encounterStates} from "../logic/rpg/combat";
 import {actionKinds} from "../logic/rpg/actions";
-import {effectKinds} from "../logic/rpg/effects";
+import {effectKinds, mapTarget} from "../logic/rpg/effects";
+import {items} from "../logic/rpg/items";
 import styles from "../styles/combat.css";
 
 function parseResult(result) {
@@ -34,12 +37,28 @@ function parseResult(result) {
 			}
 		} else if (skill.kind === effectKinds.restore) {
 			for (const {target, stat, amount} of values) {
-				lines.push(`${target.name} restoring ${amount} ${stat}.`);
+				lines.push(`${target.name} restored ${amount} ${stat}.`);
 			}
 		} else if (skill.kind === effectKinds.buff) {
 			for (const {target, stat, amount} of values) {
-				const effect = amount > 0 ? "increased" : "reduced";
-				lines.push(`${target.name}'s ${stat} is temporarily ${effect}.`);
+				lines.push(`${target.name}'s ${stat} raised by ${amount}.`);
+			}
+		} else if (skill.kind === effectKinds.debuff) {
+			for (const {target, stat, amount} of values) {
+				lines.push(`${target.name}'s ${stat} reduced by ${amount}.`);
+			}
+		}
+	} else if (kind === actionKinds.item) {
+		const item = result.item;
+		lines.push(`${source.name} used a(n) ${item.name}!`);
+
+		if (item.kind === effectKinds.restore) {
+			for (const {target, stat, amount} of values) {
+				lines.push(`${target.name} restored ${amount} ${stat}.`);
+			}
+		} else if (item.kind === effectKinds.buff) {
+			for (const {target, stat, amount} of values) {
+				lines.push(`${target.name}'s ${stat} raised by ${amount}.`);
 			}
 		}
 	} else {
@@ -47,6 +66,49 @@ function parseResult(result) {
 	}
 
 	return lines;
+}
+
+function ActionMenu({doPlayerAction, enemy}) {
+	const usableSkills = useMemo(() => game.adventurers[0].skills.filter((skill) =>
+		skill.mpCost(game.adventurers[0]) <= game.adventurers[0].mp,
+	), [game.adventurers[0].mp]);
+	const usableItems = Object.entries(game.adventurers[0].items).filter(([, count]) =>
+		count !== 0,
+	);
+
+	const attack = useCallback(() => {
+		doPlayerAction({kind: actionKinds.attack, targets: [enemy]});
+	}, []);
+	const useSkill = useCallback(() => {
+		const skill = randItem(usableSkills);
+		const {options, all} = mapTarget(skill.target, game.adventurers[0], [], [enemy]);
+		const targets = all ? options : [randItem(options)];
+		doPlayerAction({kind: actionKinds.skill, skill, targets});
+	}, [usableSkills]);
+	const useItem = useCallback(() => {
+		const [itemId] = randItem(usableItems);
+		const {options, all} = mapTarget(items[itemId].target, game.adventurers[0], []);
+		const targets = all ? options : [randItem(options)];
+		doPlayerAction({kind: actionKinds.item, itemId, targets});
+	}, []);
+
+	return j({div: styles.actionMenu}, [
+		j({button: {
+			className: styles.action,
+			onClick: attack,
+		}}, "Attack!"),
+		j({button: {
+			className: styles.action,
+			onClick: useSkill,
+			disabled: usableSkills.length === 0,
+		}}, "Skill!"),
+		j({button: {
+			className: styles.action,
+			onClick: useItem,
+			disabled: usableItems.length === 0,
+		}}, "Item!"),
+		j({button: styles.action, disabled: true}, "Run!"),
+	]);
 }
 
 export function CombatUI({encounter}) {
@@ -86,21 +148,21 @@ export function CombatUI({encounter}) {
 				setTimeout(advance, 1000);
 			}, 1000);
 		}
-	});
+	}, []);
 
-	const attack = useCallback(() => {
-		const nextLines = parseResult(encounter.playerTurn());
+	const doPlayerAction = useCallback((action) => {
+		const nextLines = parseResult(encounter.playerTurn(action));
 		setLines((lines) => [...lines, ...nextLines]);
 		advance();
-	});
+	}, []);
 
 	return j({div: styles.content}, [
 		j({div: {className: styles.infoLines, ref: lineElems}},
 			lines.map((line) => j({div: styles.infoLine}, line)),
 		),
-		isPlayerTurn && j({button: {
-			className: styles.action,
-			onClick: attack,
-		}}, "Attack!"),
+		isPlayerTurn && j([ActionMenu, {
+			doPlayerAction,
+			enemy: encounter.enemy,
+		}]),
 	]);
 }

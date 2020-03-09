@@ -1,4 +1,5 @@
-import {effectKinds} from "./effects";
+import {effectKinds, statKinds} from "./effects";
+import {items} from "./items";
 
 export const actionKinds = {
 	attack: "attack",
@@ -22,13 +23,25 @@ function doDamage(source, target, amount) {
 	};
 }
 
+function clampMaxAmount(target, stat, amount) {
+	if (stat === statKinds.hp) {
+		return Math.min(amount, target.maxHp - target.hp);
+	}
+
+	if (stat === statKinds.mp) {
+		return Math.min(amount, target.maxMp - target.mp);
+	}
+
+	return amount;
+}
+
 export function doAction(source, action) {
 	const result = {source, kind: action.kind, values: []};
 	if (action.kind === actionKinds.attack) {
 		for (const target of action.targets) {
 			result.values.push(doDamage(source, target, source.attack));
 		}
-	} else 	if (action.kind === actionKinds.skill) {
+	} else if (action.kind === actionKinds.skill) {
 		source.mp -= action.skill.mpCost(source);
 		result.skill = action.skill;
 
@@ -40,13 +53,33 @@ export function doAction(source, action) {
 		} else if (action.skill.kind === effectKinds.restore) {
 			for (const target of action.targets) {
 				const {stat, effect} = action.skill;
-				const {amount} = effect(source);
+				const amount = clampMaxAmount(target, stat, effect(source).amount);
 				target[stat] += amount;
 				result.values.push({target, stat, amount});
 			}
 		} else if (action.skill.kind === effectKinds.buff) {
 			for (const target of action.targets) {
 				const {stat, effect} = action.skill;
+				const {amount, turns} = effect(source);
+				target.buffs.add({stat, amount, turns});
+				result.values.push({target, stat, amount});
+			}
+		}
+	} else if (action.kind === actionKinds.item) {
+		const item = items[action.itemId];
+		source.items[action.itemId]--;
+		result.item = item;
+
+		if (item.kind === effectKinds.restore) {
+			for (const target of action.targets) {
+				const {stat, effect} = item;
+				const amount = clampMaxAmount(target, stat, effect(source).amount);
+				target[stat] += amount;
+				result.values.push({target, stat, amount});
+			}
+		} else if (item.kind === effectKinds.buff) {
+			for (const target of action.targets) {
+				const {stat, effect} = item;
 				const {amount, turns} = effect(source);
 				target.buffs.add({stat, amount, turns});
 				result.values.push({target, stat, amount});
