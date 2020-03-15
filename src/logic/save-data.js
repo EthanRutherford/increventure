@@ -1,5 +1,6 @@
 import {useRef, useEffect} from "react";
 import {useUpdater} from "./util";
+import {itemIds} from "./rpg/items";
 import {minionKinds} from "./minions";
 import {upgradeIds} from "./upgrades";
 
@@ -8,7 +9,10 @@ const saveData = {
 	adventurers: [],
 	inventory: {
 		money: 0,
-		items: {},
+		items: itemIds.reduce((obj, id) => {
+			obj[id] = 0;
+			return obj;
+		}, {}),
 	},
 	minions: minionKinds.reduce((obj, kind) => {
 		obj[kind] = 0;
@@ -141,12 +145,35 @@ export function saveGame() {
 	localStorage.setItem("saveGame", JSON.stringify(saveData));
 }
 
+function loadInto(target, source) {
+	if (source == null) {
+		return;
+	}
+
+	if (target instanceof Array) {
+		for (let i = 0; i < source.length; i++) {
+			if (i < target.length && typeof target[i] === "object") {
+				loadInto(target[i], source[i]);
+			} else {
+				target[i] = source[i];
+			}
+		}
+	} else {
+		for (const key of Object.keys(target)) {
+			if (source[key] == null) {
+				continue;
+			} else if (typeof target[key] === "object") {
+				loadInto(target[key], source[key]);
+			} else {
+				target[key] = source[key];
+			}
+		}
+	}
+}
+
 export function loadGame() {
 	const savedData = localStorage.getItem("saveGame");
-	const saveGame = JSON.parse(savedData) || {};
-	for (const key of Object.keys(saveGame)) {
-		Object.assign(saveData[key], saveGame[key]);
-	}
+	loadInto(saveData, JSON.parse(savedData));
 
 	return savedData != null;
 }
