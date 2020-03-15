@@ -1,4 +1,4 @@
-import j from "react-jenny";
+import React from "react";
 import {game} from "../../logic/game";
 import {useDerivedData} from "../../logic/save-data";
 import {upgrades, upgradeIds} from "../../logic/upgrades";
@@ -23,26 +23,28 @@ function Upgrade({upgradeId}) {
 
 	const coin = parseCoinsShort(upgrade.cost);
 
-	return j({button: {
-		className: storeStyles.upgradeButton,
-		onClick: () => game.buyUpgrade(upgradeId),
-		disabled,
-	}}, [
-		j({div: storeStyles.upgradeTitleRow}, [
-			j({h2: 0}, upgrade.name),
-		]),
-		j({div: storeStyles.upgradeRow}, [
-			j({div: storeStyles.upgradeCost}, [
-				j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
-				coin.value,
-			]),
-			j({div: 0}, upgrade.desc),
-		]),
-	]);
+	return (
+		<button
+			className={storeStyles.upgradeButton}
+			onClick={() => game.buyUpgrade(upgradeId)}
+			disabled={disabled}
+		>
+			<div className={storeStyles.upgradeTitleRow}>
+				<h2>{upgrade.name}</h2>
+			</div>
+			<div className={storeStyles.upgradeRow}>
+				<div className={storeStyles.upgradeCost}>
+					<div className={`${coinStyles[coin.kind]} ${coinStyles.coin}`} />
+					{coin.value}
+				</div>
+				<div>{upgrade.desc}</div>
+			</div>
+		</button>
+	);
 }
 
 export function Upgrades() {
-	return upgradeIds.map((upgradeId) =>
-		j([Upgrade, {upgradeId, key: upgradeId}]),
-	);
+	return upgradeIds.map((upgradeId) => (
+		<Upgrade upgradeId={upgradeId} key={upgradeId} />
+	));
 }

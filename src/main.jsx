@@ -1,6 +1,5 @@
 import {render} from "react-dom";
-import {useState, useCallback} from "react";
-import j from "react-jenny";
+import React, {useState, useCallback} from "react";
 import {Header} from "./ui/header";
 import {Party} from "./ui/party";
 import {Particles} from "./ui/particles";
@@ -18,11 +17,12 @@ import "./styles/reset";
 
 function renderMiddle(middle, close) {
 	if (middle === "stats") {
-		return j([Stats, {close}]);
+		return <Stats close={close} />;
 	}
 	if (middle === "options") {
-		return j([Options, {close}]);
+		return <Options close={close} />;
 	}
+
 	return null;
 }
 
@@ -30,18 +30,24 @@ function App() {
 	const [middle, setMiddle] = useState();
 	const close = useCallback(() => setMiddle(), []);
 
-	return j([Particles, {render: (createParticle) => [
-		j([Header, {setMiddle}]),
-		j([Party, {createParticle}]),
-		j({div: styles.divider1}),
-		j([Store]),
-		renderMiddle(middle, close),
-		j({div: styles.divider2}),
-		j([Minions]),
-		j([CharacterCreator]),
-		j([Overlay]),
-		j([ToastManager]),
-	]}]);
+	return (
+		<Particles
+			render={(createParticle) => (
+				<>
+					<Header setMiddle={setMiddle} />
+					<Party createParticle={createParticle} />
+					<div className={styles.divider1} />
+					<Store />
+					{renderMiddle(middle, close)}
+					<div className={styles.divider2} />
+					<Minions />
+					<CharacterCreator />
+					<Overlay />
+					<ToastManager />
+				</>
+			)}
+		/>
+	);
 }
 
-render(j(App), document.getElementById("react-root"));
+render(<App />, document.getElementById("react-root"));

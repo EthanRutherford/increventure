@@ -1,5 +1,4 @@
-import {useState, useLayoutEffect, useCallback, useRef, useMemo} from "react";
-import j from "react-jenny";
+import React, {useState, useLayoutEffect, useCallback, useRef, useMemo} from "react";
 import {game} from "../logic/game";
 import {randItem} from "../logic/util";
 import {encounterStates} from "../logic/rpg/combat";
@@ -92,23 +91,31 @@ function ActionMenu({doPlayerAction, enemy}) {
 		doPlayerAction({kind: actionKinds.item, itemId, targets});
 	}, []);
 
-	return j({div: styles.actionMenu}, [
-		j({button: {
-			className: styles.action,
-			onClick: attack,
-		}}, "Attack!"),
-		j({button: {
-			className: styles.action,
-			onClick: useSkill,
-			disabled: usableSkills.length === 0,
-		}}, "Skill!"),
-		j({button: {
-			className: styles.action,
-			onClick: useItem,
-			disabled: usableItems.length === 0,
-		}}, "Item!"),
-		j({button: styles.action, disabled: true}, "Run!"),
-	]);
+	return (
+		<div className={styles.actionMenu}>
+			<button
+				className={styles.action}
+				onClick={attack}
+			>
+				Attack!
+			</button>
+			<button
+				className={styles.action}
+				onClick={useSkill}
+				disabled={usableSkills.length === 0}
+			>
+				Skill!
+			</button>
+			<button
+				className={styles.action}
+				onClick={useItem}
+				disabled={usableItems.length === 0}
+			>
+				Item!
+			</button>
+			<button className={styles.action} disabled>Run!</button>
+		</div>
+	);
 }
 
 export function CombatUI({encounter}) {
@@ -156,13 +163,19 @@ export function CombatUI({encounter}) {
 		advance();
 	}, []);
 
-	return j({div: styles.content}, [
-		j({div: {className: styles.infoLines, ref: lineElems}},
-			lines.map((line) => j({div: styles.infoLine}, line)),
-		),
-		isPlayerTurn && j([ActionMenu, {
-			doPlayerAction,
-			enemy: encounter.enemy,
-		}]),
-	]);
+	return (
+		<div className={styles.content}>
+			<div className={styles.infoLines} ref={lineElems}>
+				{lines.map((line) => (
+					<div className={styles.infoLine} key={line}>{line}</div>
+				))}
+			</div>
+			{isPlayerTurn && (
+				<ActionMenu
+					doPlayerAction={doPlayerAction}
+					enemy={encounter.enemy}
+				/>
+			)}
+		</div>
+	);
 }

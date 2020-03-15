@@ -15,12 +15,14 @@ export function useToasts() {
 	return [...toasts.values()];
 }
 
+let next = 0;
 export function addToast({
 	title,
 	desc,
 	ttl = 5000,
 }) {
 	const toast = {
+		id: next++,
 		title: title,
 		desc: desc,
 		killMe() {

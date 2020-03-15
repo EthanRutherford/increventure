@@ -1,5 +1,4 @@
-import {Fragment, useEffect, useRef, useCallback} from "react";
-import j from "react-jenny";
+import React, {useEffect, useRef, useCallback} from "react";
 import {animationSteps} from "../logic/game-loop";
 import {randItem, randRange} from "../logic/util";
 import styles from "../styles/root";
@@ -164,8 +163,10 @@ export function Particles({render}) {
 		particles.add(new Particle(data, performance.now()));
 	}, []);
 
-	return j(Fragment, [
-		j({canvas: {className: styles.particles, ref: canvasRef}}),
-		...render(createParticle),
-	]);
+	return (
+		<>
+			<canvas className={styles.particles} ref={canvasRef} />
+			{render(createParticle)}
+		</>
+	);
 }

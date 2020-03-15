@@ -9,8 +9,11 @@ function template({template}, _, {componentName, props, jsx}) {
 }
 
 module.exports = (env) => ({
-	entry: "./src/main.js",
-	output: {filename: "main.js"},
+	entry: "./src/main.jsx",
+	output: {publicPath: "/dist/"},
+	mode: env === "prod" ? "production" : "development",
+	devtool: env === "prod" ? "" : "eval-cheap-module-source-map",
+	devServer: {open: true, publicPath: "/dist", port: 8080},
 	plugins: [new MiniCssExtractPlugin({filename: "styles.css"})],
 	module: {
 		rules: [
@@ -46,11 +49,15 @@ module.exports = (env) => ({
 						},
 					},
 				],
+			}, {
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
+				use: [
+					"cache-loader",
+					"babel-loader",
+				],
 			},
 		],
 	},
-	resolve: {extensions: [".js", ".json", ".css", ".svg"]},
-	mode: env === "prod" ? "production" : "development",
-	devtool: env === "prod" ? "" : "cheap-eval-source-map",
-	devServer: {open: true, publicPath: "/dist", port: 8080},
+	resolve: {extensions: [".js", ".jsx", ".json", ".css", ".svg"]},
 });

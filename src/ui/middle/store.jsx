@@ -1,5 +1,4 @@
-import {useState} from "react";
-import j from "react-jenny";
+import React, {useState} from "react";
 import {TiledBg} from "../tiled-bg";
 import {Upgrades} from "./upgrades";
 import rootStyles from "../../styles/root";
@@ -27,13 +26,13 @@ const tabs = {
 
 function renderSection(tab) {
 	if (tab === tabs.shop.id) {
-		return j({div: storeStyles.wip}, "Coming soon");
+		return <div className={storeStyles.wip}>Coming soon</div>;
 	}
 	if (tab === tabs.upgrade.id) {
-		return j([Upgrades]);
+		return <Upgrades />;
 	}
 	if (tab === tabs.dungeon.id) {
-		return j({div: storeStyles.wip}, "Coming soon");
+		return <div className={storeStyles.wip}>Coming soon</div>;
 	}
 
 	return "you should never see this";
@@ -42,22 +41,27 @@ function renderSection(tab) {
 export function Store() {
 	const [tab, setTab] = useState(tabs.upgrade.id);
 
-	return j({div: storeStyles.wrapper}, [
-		j([TiledBg, {
-			className: storeStyles.wood,
-			tiles,
-			width: 20,
-		}]),
-		j({div: storeStyles.content}, [
-			j({div: `${rootStyles.title} ${storeStyles.tabs}`},
-				Object.values(tabs).map(({id, name}) =>
-					j({button: {
-						className: tab === id ? selectedTab : storeStyles.tab,
-						onClick: () => setTab(id),
-					}}, name),
-				),
-			),
-			renderSection(tab),
-		]),
-	]);
+	return (
+		<div className={storeStyles.wrapper}>
+			<TiledBg
+				className={storeStyles.wood}
+				tiles={tiles}
+				width={20}
+			/>
+			<div className={storeStyles.content}>
+				<div className={`${rootStyles.title} ${storeStyles.tabs}`}>
+					{Object.values(tabs).map(({id, name}) => (
+						<button
+							className={tab === id ? selectedTab : storeStyles.tab}
+							onClick={() => setTab(id)}
+							key={id}
+						>
+							{name}
+						</button>
+					))}
+				</div>
+				{renderSection(tab)}
+			</div>
+		</div>
+	);
 }

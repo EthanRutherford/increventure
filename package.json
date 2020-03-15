@@ -8,23 +8,25 @@
   "repository": "shh",
   "scripts": {
     "build": "webpack --env prod",
-    "watch": "start webpack --watch",
-    "start": "start webpack-dev-server"
+    "start": "start webpack-dev-server",
+    "lint": "eslint **/*.js?(x)"
   },
   "dependencies": {
     "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-jenny": "^1.1.0"
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
-    "@rutherford/eslint-config": "^1.0.0",
+    "@babel/core": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
+    "@rutherford/eslint-config": "^1.0.3",
     "@svgr/webpack": "^4.3.3",
+    "babel-loader": "^8.0.6",
     "cache-loader": "^4.1.0",
     "css-loader": "^1.0.1",
     "eslint": "^6.8.0",
     "file-loader": "^4.2.0",
     "mini-css-extract-plugin": "^0.4.5",
-    "webpack": "^4.39.2",
+    "webpack": "^4.42.0",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0"
   }

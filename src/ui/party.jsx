@@ -1,5 +1,4 @@
-import {memo, useState, useEffect, useCallback, useRef} from "react";
-import j from "react-jenny";
+import React, {memo, useState, useEffect, useCallback, useRef} from "react";
 import {game} from "../logic/game";
 import {animationSteps} from "../logic/game-loop";
 import {useSaveData} from "../logic/save-data";
@@ -32,10 +31,10 @@ const tiles = [
 ];
 
 const hatMap = {
-	hero: j([HeroHat, partyStyles.heroHat]),
-	warrior: j([WarriorHat, partyStyles.hat]),
-	wizard: j([WizardHat, partyStyles.wizardHat]),
-	cleric: j([ClericHat, partyStyles.hat]),
+	hero: <HeroHat className={partyStyles.heroHat} />,
+	warrior: <WarriorHat className={partyStyles.hat} />,
+	wizard: <WizardHat className={partyStyles.wizardHat} />,
+	cleric: <ClericHat className={partyStyles.hat} />,
 };
 
 const CoinRate = memo(function CoinRate() {
@@ -44,11 +43,13 @@ const CoinRate = memo(function CoinRate() {
 	const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
 	const rateValue = parseCoinsShort(rateAmount);
 
-	return j({div: coinStyles.coinRate}, [
-		`(${rateValue.value}`,
-		j({div: `${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`}),
-		"/s)",
-	]);
+	return (
+		<div className={coinStyles.coinRate}>
+			({rateValue.value}
+			<div className={`${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`} />
+			/s)
+		</div>
+	);
 });
 
 function Coins() {
@@ -68,13 +69,17 @@ function Coins() {
 		kind: coinKinds[index], value,
 	})).reverse();
 
-	return j({div: coinStyles.coins}, [
-		...coins.map((coin) => j({div: coinStyles.coinBox}, [
-			j({div: `${coinStyles[coin.kind]} ${coinStyles.coin}`}),
-			j({div: coinStyles.coinValue}, [coin.value]),
-		])),
-		j([CoinRate]),
-	]);
+	return (
+		<div className={coinStyles.coins}>
+			{coins.map((coin) => (
+				<div className={coinStyles.coinBox} key={coin.kind}>
+					<div className={`${coinStyles[coin.kind]} ${coinStyles.coin}`} />
+					<div className={coinStyles.coinValue}>{coin.value}</div>
+				</div>
+			))}
+			<CoinRate />
+		</div>
+	);
 }
 
 function Adventurer({which}) {
@@ -110,37 +115,38 @@ function Adventurer({which}) {
 				Dead
 	;
 
-	return j({div: partyStyles.character}, [
-		j({div: partyStyles.characterTitle}, [
-			j({div: {
-				className: `${partyStyles.characterHead} ${bounceBack ? partyStyles.bounceBack : ""}`,
-				onAnimationEnd: handleAnimationEnd,
-			}}, [
-				hatMap[adventurer.class],
-				j([Face, {style: {filter: `grayscale(${1 - hpRatio})`}}]),
-			]),
-			adventurer.name,
-		]),
-		j({div: partyStyles.characterClass}, adventurer.class),
-		j({div: partyStyles.characterDetails}, [
-			j({div: partyStyles.characterBar}, [
-				j({div: {
-					className: partyStyles.characterHp,
-					style: {width: `${hpRatio * 100}%`},
-				}}),
-			]),
-			j({div: partyStyles.characterBar}, [
-				j({div: {
-					className: partyStyles.characterMp,
-					style: {width: `${mpRatio * 100}%`},
-				}}),
-			]),
-		]),
-		j({div: partyStyles.characterLevel}, [
-			"level ",
-			adventurer.lvl,
-		]),
-	]);
+	return (
+		<div className={partyStyles.character}>
+			<div className={partyStyles.characterTitle}>
+				<div
+					className={`${partyStyles.characterHead} ${bounceBack ? partyStyles.bounceBack : ""}`}
+					onAnimationEnd={handleAnimationEnd}
+				>
+					{hatMap[adventurer.class]}
+					<Face style={{filter: `grayscale(${1 - hpRatio})`}} />
+				</div>
+				{adventurer.name}
+			</div>
+			<div className={partyStyles.characterClass}>{adventurer.class}</div>
+			<div className={partyStyles.characterDetails}>
+				<div className={partyStyles.characterBar}>
+					<div
+						className={partyStyles.characterHp}
+						style={{width: `${hpRatio * 100}%`}}
+					/>
+				</div>
+				<div className={partyStyles.characterBar}>
+					<div
+						className={partyStyles.characterMp}
+						style={{width: `${mpRatio * 100}%`}}
+					/>
+				</div>
+			</div>
+			<div className={partyStyles.characterLevel}>
+				level {adventurer.lvl}
+			</div>
+		</div>
+	);
 }
 
 export function Party({createParticle}) {
@@ -160,22 +166,24 @@ export function Party({createParticle}) {
 		createParticle(grassData);
 	}, []);
 
-	return j({div: partyStyles.wrapper}, [
-		j([TiledBg, {
-			className: partyStyles.grass,
-			tiles,
-			width: 23,
-		}]),
-		j({div: partyStyles.content}, [
-			j({div: rootStyles.title}, "Party"),
-			j({button: {className: partyStyles.grassButton, onClick: handleClick}}, [
-				"cut grass",
-			]),
-			j([Coins]),
-			j([Adventurer, {which: 0}]),
-			j([Adventurer, {which: 1}]),
-			j([Adventurer, {which: 2}]),
-			j([Adventurer, {which: 3}]),
-		]),
-	]);
+	return (
+		<div className={partyStyles.wrapper}>
+			<TiledBg
+				className={partyStyles.grass}
+				tiles={tiles}
+				width={23}
+			/>
+			<div className={partyStyles.content}>
+				<div className={rootStyles.title}>Party</div>
+				<button className={partyStyles.grassButton} onClick={handleClick}>
+					cut grass
+				</button>
+				<Coins />
+				<Adventurer which={0} />
+				<Adventurer which={1} />
+				<Adventurer which={2} />
+				<Adventurer which={3} />
+			</div>
+		</div>
+	);
 }

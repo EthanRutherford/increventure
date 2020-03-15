@@ -1,5 +1,4 @@
-import {useState, useRef, useEffect} from "react";
-import j from "react-jenny";
+import React, {useState, useRef, useEffect} from "react";
 import {WeightedSet} from "../logic/util";
 
 function loadImage(url) {
@@ -84,5 +83,5 @@ export function TiledBg({className, tiles, width}) {
 		return () => window.removeEventListener("resize", build);
 	}, []);
 
-	return j({img: {className, src, ref: img}});
+	return <img className={className} src={src} ref={img} />;
 }
