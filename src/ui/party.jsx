@@ -24,10 +24,10 @@ import grass4 from "../images/pngs/grass-4.png";
 import grass5 from "../images/pngs/grass-5.png";
 const tiles = [
 	{url: grass1, weight: 16},
-	{url: grass2, weight: 1},
-	{url: grass3, weight: 1},
-	{url: grass4, weight: 1},
-	{url: grass5, weight: 1},
+	{url: grass2, weight: 1, flipX: true},
+	{url: grass3, weight: 1, flipX: true},
+	{url: grass4, weight: 1, flipX: true},
+	{url: grass5, weight: 1, flipX: true},
 ];
 
 const hatMap = {

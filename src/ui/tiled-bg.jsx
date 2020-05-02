@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from "react";
-import {WeightedSet} from "../logic/util";
+import {WeightedSet, randInt} from "../logic/util";
 
 function loadImage(url) {
 	return new Promise((resolve, reject) => {
@@ -12,13 +12,9 @@ function loadImage(url) {
 
 async function createBgDef(tiles, width) {
 	const images = await Promise.all(tiles.map((tile) => loadImage(tile.url)));
-	const tileSet = new WeightedSet(tiles.map((tile, index) => ({
-		item: {
-			url: tile.url,
-			image: images[index],
-			noFollow: tile.noFollow,
-		},
-		weight: tile.weight,
+	const tileSet = new WeightedSet(tiles.map(({weight, ...tile}, index) => ({
+		item: {...tile, image: images[index]},
+		weight: weight,
 	})));
 
 	const def = [];
@@ -41,8 +37,15 @@ async function createBgDef(tiles, width) {
 				return true;
 			}) : tileSet.getRand();
 
+			const entry = {
+				img: tile.image,
+				flipY: tile.flipY && randInt(0, 1) === 1,
+				flipX: tile.flipX && randInt(0, 1) === 1,
+				rotate: tile.rotate ? randInt(0, 3) : 0,
+			};
+
 			curCol[j] = tile.noFollow;
-			def[i][j] = tile.image;
+			def[i][j] = entry;
 		}
 
 		prevCol = curCol;
@@ -62,7 +65,18 @@ function buildBg(width, bgDef) {
 
 	for (let i = 0; i < bgDef.length; i++) {
 		for (let j = 0; j < bgDef[i].length; j++) {
-			context.drawImage(bgDef[i][j], i * ts, j * ts, ts, ts);
+			const tile = bgDef[i][j];
+			const x = (i + .5) * ts;
+			const y = (j + .5) * ts;
+			const half = ts / 2;
+
+			context.save();
+			context.translate(x, y);
+			context.scale(tile.flipX ? -1 : 1, tile.flipY ? -1 : 1);
+			context.rotate(tile.rotate * Math.PI / 2);
+
+			context.drawImage(tile.img, -half, -half, ts, ts);
+			context.restore();
 		}
 	}
 

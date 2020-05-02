@@ -11,10 +11,10 @@ import plank4 from "../../images/pngs/plank-4.png";
 import plank5 from "../../images/pngs/plank-5.png";
 const tiles = [
 	{url: plank1, weight: 92},
-	{url: plank2, weight: 5, noFollow: new Set([plank2, plank3, plank4, plank5])},
-	{url: plank3, weight: 1, noFollow: new Set([plank2, plank3, plank4, plank5])},
-	{url: plank4, weight: 1, noFollow: new Set([plank2, plank3, plank4, plank5])},
-	{url: plank5, weight: 1, noFollow: new Set([plank2, plank3, plank4, plank5])},
+	{url: plank2, weight: 5, noFollow: new Set([plank2, plank3, plank4, plank5]), flipX: true},
+	{url: plank3, weight: 1, noFollow: new Set([plank2, plank3, plank4, plank5]), flipX: true},
+	{url: plank4, weight: 1, noFollow: new Set([plank2, plank3, plank4, plank5]), flipX: true},
+	{url: plank5, weight: 1, noFollow: new Set([plank2, plank3, plank4, plank5]), flipX: true},
 ];
 
 const selectedTab = `${storeStyles.tab} ${storeStyles.selectedTab}`;
