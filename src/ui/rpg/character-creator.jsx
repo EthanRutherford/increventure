@@ -4,13 +4,25 @@ import {useDerivedData} from "../../logic/save-data";
 import {adventurerKinds, adventurers, createNewAdventurer} from "../../logic/rpg/beings";
 import {stats} from "../../logic/rpg/class-data";
 import styles from "../../styles/character-creator";
+import {CharacterHead} from "../status/character-head";
+
+const skinColors = [
+	"#ffed7c",
+	"#f7d7c4",
+	"#d8b094",
+	"#bb9167",
+	"#8e562e",
+	"#613d30",
+];
 
 function CreatorPopup({which}) {
 	const [name, setName] = useState("");
 	const [kind, setKind] = useState(adventurerKinds[which]);
+	const [skinColor, setSkinColor] = useState(skinColors[0]);
 
 	function create() {
 		game.adventurers[which] = createNewAdventurer(name, kind, game.data.inventory.items);
+		game.adventurers[which].skinColor = skinColor;
 		game.data.adventurers[which] = game.adventurers[which].data;
 	}
 
@@ -45,6 +57,21 @@ function CreatorPopup({which}) {
 					<div>intelligence: {adventurerStats.int}</div>
 					<div>wisdom: {adventurerStats.wis}</div>
 					<div>luck: {adventurerStats.luck}</div>
+				</div>
+				<div className={styles.preview}>
+					<div className={styles.headContainer}>
+						<CharacterHead adventurer={{class: kind, skinColor, hp: 1, maxHp: 1}} />
+					</div>
+					<div className={styles.skinColorButtons}>
+						{skinColors.map((color) => (
+							<button
+								className={styles.skinColorButton}
+								style={{backgroundColor: color}}
+								onClick={() => setSkinColor(color)}
+								key={color}
+							/>
+						))}
+					</div>
 				</div>
 				<input
 					className={styles.nameInput}

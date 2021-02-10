@@ -13,11 +13,12 @@
 .popup {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
-	grid-template-rows: 50px 1fr 3fr 50px 50px;
+	grid-template-rows: 50px 1fr 3fr 50px 50px 50px;
 	grid-template-areas:
 		"title title"
 		"list desc"
 		"list stats"
+		"list preview"
 		"list name"
 		"list create";
 	position: fixed;
@@ -82,6 +83,41 @@
 .stats {
 	grid-area: stats;
 	padding: 20px;
+}
+
+.preview {
+	display: flex;
+	grid-area: preview;
+	border-top: 1px solid var(--slate-light);
+	background-color: var(--slate-dark);
+}
+
+.head-container {
+	position: relative;
+	margin: 15px 20px 15px 10px;
+	height: 20px;
+	width: 20px;
+}
+
+.skin-color-buttons {
+	display: flex;
+	flex-grow: 1;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.skin-color-button {
+	border: 2px outset var(--slate-light);
+	border-radius: 10px;
+	height: 25px;
+	width: 25px;
+	transition: all .2s;
+}
+.skin-color-button:hover {
+	filter: brightness(1.1);
+}
+.skin-color-button:active {
+	filter: brightness(.9);
 }
 
 .name-input {

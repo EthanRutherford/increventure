@@ -44,7 +44,7 @@ export function CharacterHead({adventurer}) {
 	return (
 		<div
 			className={`${partyStyles.characterHead} ${bounceBack ? partyStyles.bounceBack : ""}`}
-			style={{color: "#ffed7c"}}
+			style={{color: adventurer.skinColor}}
 			onAnimationEnd={handleAnimationEnd}
 		>
 			{hatMap[adventurer.class]}
