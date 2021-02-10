@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import {game} from "../logic/game";
-import {useDerivedData} from "../logic/save-data";
-import {adventurerKinds, adventurers, createNewAdventurer} from "../logic/rpg/beings";
-import {stats} from "../logic/rpg/class-data";
-import styles from "../styles/character-creator";
+import {game} from "../../logic/game";
+import {useDerivedData} from "../../logic/save-data";
+import {adventurerKinds, adventurers, createNewAdventurer} from "../../logic/rpg/beings";
+import {stats} from "../../logic/rpg/class-data";
+import styles from "../../styles/character-creator";
 
 function CreatorPopup({which}) {
 	const [name, setName] = useState("");

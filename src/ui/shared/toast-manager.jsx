@@ -1,7 +1,7 @@
 import React from "react";
-import {useToasts} from "../logic/use-toasts";
-import Close from "../images/svgs/close.svg";
-import styles from "../styles/toast.css";
+import {useToasts} from "../../logic/use-toasts";
+import Close from "../../images/svgs/close.svg";
+import styles from "../../styles/toast.css";
 
 function Toast(toast) {
 	return (

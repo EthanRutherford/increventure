@@ -1,7 +1,8 @@
 import React from "react";
-import {game} from "../logic/game";
-import {CombatUI} from "./combat";
-import styles from "../styles/overlay.css";
+import {game} from "../../logic/game";
+import {CombatUI} from "../rpg/combat";
+// import {DungeonUI} from "../../dungeon";
+import styles from "../../styles/overlay.css";
 
 function renderOverlay(children) {
 	return (
@@ -17,6 +18,8 @@ export function Overlay() {
 	if (game.encounter != null) {
 		return renderOverlay(<CombatUI encounter={game.encounter} />);
 	}
+
+	// return renderOverlay(<DungeonUI />);
 
 	return null;
 }

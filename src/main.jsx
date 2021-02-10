@@ -1,29 +1,30 @@
 import {render} from "react-dom";
 import React, {useState, useCallback} from "react";
-import {Header} from "./ui/header";
-import {Party} from "./ui/party";
-import {Particles} from "./ui/particles";
-import {Store} from "./ui/middle/store";
-import {Stats} from "./ui/middle/stats";
-import {Options} from "./ui/middle/options";
-import {Minions} from "./ui/minions";
-import {CharacterCreator} from "./ui/character-creator";
-import {Overlay} from "./ui/overlay";
-import {ToastManager} from "./ui/toast-manager";
+import {Header} from "./ui/shared/header";
+import {Particles} from "./ui/shared/particles";
+import {ToastManager} from "./ui/shared/toast-manager";
+import {StatusPanel} from "./ui/status/status-panel";
+import {Overlay} from "./ui/shared/overlay";
+import {StorePanel} from "./ui/middle/store-panel";
+import {StatsPanel} from "./ui/middle/stats-panel";
+import {OptionsPanel} from "./ui/middle/options-panel";
+import {MinionPanel} from "./ui/minions/minion-panel";
+import {CharacterCreator} from "./ui/rpg/character-creator";
 import styles from "./styles/root";
 import "./logic/game-loop";
-import "./ui/global-handlers";
+import "./util/global-handlers";
 import "./styles/reset";
 
-function renderMiddle(middle, close) {
+function renderMiddlePanel(middle, close) {
 	if (middle === "stats") {
-		return <Stats close={close} />;
-	}
-	if (middle === "options") {
-		return <Options close={close} />;
+		return <StatsPanel close={close} />;
 	}
 
-	return null;
+	if (middle === "options") {
+		return <OptionsPanel close={close} />;
+	}
+
+	return <StorePanel />;
 }
 
 function App() {
@@ -35,12 +36,11 @@ function App() {
 			render={(createParticle) => (
 				<>
 					<Header setMiddle={setMiddle} />
-					<Party createParticle={createParticle} />
+					<StatusPanel createParticle={createParticle} />
 					<div className={styles.divider1} />
-					<Store />
-					{renderMiddle(middle, close)}
+					{renderMiddlePanel(middle, close)}
 					<div className={styles.divider2} />
-					<Minions />
+					<MinionPanel />
 					<CharacterCreator />
 					<Overlay />
 					<ToastManager />

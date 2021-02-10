@@ -1,8 +1,8 @@
 import React, {useMemo} from "react";
-import styles from "../styles/dungeon.css";
+import styles from "../../styles/dungeon.css";
 
 // temporarily testing all of the testable testinators
-import {generate} from "../logic/dungeons/generate";
+import {generate} from "../../logic/dungeons/generate";
 
 function Room({room}) {
 	if (room == null) {

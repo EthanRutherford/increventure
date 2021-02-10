@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useCallback} from "react";
-import {animationSteps} from "../logic/game-loop";
-import {randItem, randRange} from "../logic/util";
-import styles from "../styles/root";
+import {animationSteps} from "../../logic/game-loop";
+import {randItem, randRange} from "../../logic/util";
+import styles from "../../styles/root";
 
 function createSVG(size, inside) {
 	return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">${inside}</svg>`;

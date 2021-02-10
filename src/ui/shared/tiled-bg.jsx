@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from "react";
-import {WeightedSet, randInt} from "../logic/util";
+import {WeightedSet, randInt} from "../../logic/util";
 
 function loadImage(url) {
 	return new Promise((resolve, reject) => {

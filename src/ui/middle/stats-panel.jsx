@@ -3,7 +3,7 @@ import {useUpdater} from "../../logic/util";
 import {game} from "../../logic/game";
 import {minions, minionKinds} from "../../logic/minions";
 import Close from "../../images/svgs/close.svg";
-import {parseCoinsShort} from "../money";
+import {parseCoinsShort} from "../../util/money";
 import coinStyles from "../../styles/coins";
 import styles from "../../styles/middle-page";
 
@@ -57,7 +57,7 @@ function renderMoney(amount) {
 	);
 }
 
-export function Stats({close}) {
+export function StatsPanel({close}) {
 	const updater = useUpdater();
 	useEffect(() => {
 		const interval = setInterval(updater, 5000);

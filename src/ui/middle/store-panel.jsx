@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {TiledBg} from "../tiled-bg";
-import {Upgrades} from "./upgrades";
+import {TiledBg} from "../shared/tiled-bg";
+import {Upgrades} from "./upgrade-panel";
 import rootStyles from "../../styles/root";
 import storeStyles from "../../styles/store";
 
@@ -9,6 +9,7 @@ import plank2 from "../../images/pngs/plank-2.png";
 import plank3 from "../../images/pngs/plank-3.png";
 import plank4 from "../../images/pngs/plank-4.png";
 import plank5 from "../../images/pngs/plank-5.png";
+
 const tiles = [
 	{url: plank1, weight: 92},
 	{url: plank2, weight: 5, noFollow: new Set([plank2, plank3, plank4, plank5]), flipX: true},
@@ -38,7 +39,7 @@ function renderSection(tab) {
 	return "you should never see this";
 }
 
-export function Store() {
+export function StorePanel() {
 	const [tab, setTab] = useState(tabs.upgrade.id);
 
 	return (

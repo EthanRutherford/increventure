@@ -18,7 +18,7 @@ function useConfirm(onConfirm) {
 	return [confirming, handle];
 }
 
-export function Options({close}) {
+export function OptionsPanel({close}) {
 	const [confirmWipe, handleWipe] = useConfirm(() => game.delete());
 
 	return (

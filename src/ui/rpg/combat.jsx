@@ -1,11 +1,11 @@
 import React, {useState, useLayoutEffect, useCallback, useRef, useMemo} from "react";
-import {game} from "../logic/game";
-import {randItem} from "../logic/util";
-import {encounterStates} from "../logic/rpg/combat";
-import {actionKinds} from "../logic/rpg/actions";
-import {effectKinds, mapTarget} from "../logic/rpg/effects";
-import {items} from "../logic/rpg/items";
-import styles from "../styles/combat.css";
+import {game} from "../../logic/game";
+import {randItem} from "../../logic/util";
+import {encounterStates} from "../../logic/rpg/combat";
+import {actionKinds} from "../../logic/rpg/actions";
+import {effectKinds, mapTarget} from "../../logic/rpg/effects";
+import {items} from "../../logic/rpg/items";
+import styles from "../../styles/combat.css";
 
 function parseResult(result) {
 	const {source, kind, values} = result;

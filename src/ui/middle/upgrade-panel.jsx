@@ -2,7 +2,7 @@ import React from "react";
 import {game} from "../../logic/game";
 import {useDerivedData} from "../../logic/save-data";
 import {upgrades, upgradeIds} from "../../logic/upgrades";
-import {parseCoinsShort} from "../money";
+import {parseCoinsShort} from "../../util/money";
 import storeStyles from "../../styles/store";
 import coinStyles from "../../styles/coins";
 

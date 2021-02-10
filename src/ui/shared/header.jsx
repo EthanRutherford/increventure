@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/header";
+import styles from "../../styles/header";
 
 export function Header({setMiddle}) {
 	return (
