@@ -3,6 +3,7 @@ import {game} from "../../logic/game";
 import {CombatUI} from "../rpg/combat";
 // import {DungeonUI} from "../../dungeon";
 import styles from "../../styles/overlay.css";
+import {useWatchedValue} from "../../logic/use-watched-value";
 
 function renderOverlay(children) {
 	return (
@@ -13,9 +14,9 @@ function renderOverlay(children) {
 }
 
 export function Overlay() {
-	game.useEncounter();
+	const showEncounter = useWatchedValue(() => game.encounter != null);
 
-	if (game.encounter != null) {
+	if (showEncounter) {
 		return renderOverlay(<CombatUI encounter={game.encounter} />);
 	}
 
