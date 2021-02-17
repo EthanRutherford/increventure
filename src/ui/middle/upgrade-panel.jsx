@@ -1,6 +1,6 @@
 import React from "react";
 import {game} from "../../logic/game";
-import {useDerivedData} from "../../logic/save-data";
+import {useWatchedValue} from "../../logic/use-watched-value";
 import {upgrades, upgradeIds} from "../../logic/upgrades";
 import {parseCoinsShort} from "../../util/money";
 import storeStyles from "../../styles/store";
@@ -8,13 +8,10 @@ import coinStyles from "../../styles/coins";
 
 function Upgrade({upgradeId}) {
 	const upgrade = upgrades[upgradeId];
-	const shouldShow = useDerivedData(
-		upgrade.getDeps,
+	const disabled = useWatchedValue(() => game.data.inventory.money < upgrade.cost);
+	const shouldShow = useWatchedValue(
 		() => !game.data.upgrades[upgradeId] && upgrade.unlock(game.data),
-	);
-	const disabled = useDerivedData(
-		(data) => data.inventory.money,
-		() => game.data.inventory.money < upgrade.cost,
+		() => upgrade.getDeps(game.data),
 	);
 
 	if (!shouldShow) {

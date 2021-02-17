@@ -1,19 +1,14 @@
 import React from "react";
 import {game} from "../../logic/game";
-import {useSaveData, useDerivedData} from "../../logic/save-data";
+import {useWatchedValue} from "../../logic/use-watched-value";
 import {minions} from "../../logic/minions";
 import {parseCoinsShort} from "../../util/money";
 import minionStyles from "../../styles/minions";
 import coinStyles from "../../styles/coins";
 
 export function Minion({kind}) {
-	useSaveData((data) => data.minions[kind]);
-	const disabled = useDerivedData(
-		(data) => data.inventory.money,
-		() => game.data.inventory.money < game.minionCosts[kind],
-	);
-
-	const count = game.data.minions[kind];
+	const count = useWatchedValue(() => game.data.minions[kind]);
+	const disabled = useWatchedValue(() => game.data.inventory.money < game.minionCosts[kind]);
 	const coin = parseCoinsShort(game.minionCosts[kind]);
 	return (
 		<button

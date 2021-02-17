@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {game} from "../../logic/game";
-import {useDerivedData} from "../../logic/save-data";
+import {useWatchedValue} from "../../logic/use-watched-value";
 import {adventurerKinds, adventurers, createNewAdventurer} from "../../logic/rpg/beings";
 import {stats} from "../../logic/rpg/class-data";
 import styles from "../../styles/character-creator";
@@ -91,10 +91,7 @@ function CreatorPopup({which}) {
 }
 
 export function CharacterCreator() {
-	const shouldCreateFirst = useDerivedData(
-		(data) => data.adventurers[0],
-		() => game.data.adventurers[0] == null,
-	);
+	const shouldCreateFirst = useWatchedValue(() => game.adventurers[0] == null);
 
 	if (shouldCreateFirst) {
 		return <CreatorPopup which={0} />;

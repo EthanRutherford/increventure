@@ -1,7 +1,6 @@
-import React, {memo, useState, useEffect, useCallback} from "react";
+import React, {memo, useCallback} from "react";
 import {game} from "../../logic/game";
-import {animationSteps} from "../../logic/game-loop";
-import {useSaveData} from "../../logic/save-data";
+import {useWatchedValue} from "../../logic/use-watched-value";
 import {coinKinds, parseCoins, parseCoinsShort} from "../../util/money";
 import {TiledBg} from "../shared/tiled-bg";
 import {Party} from "./party";
@@ -24,32 +23,25 @@ const tiles = [
 ];
 
 const CoinRate = memo(function CoinRate() {
-	useSaveData((data) => [data.upgrades, data.minions]);
-
-	const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
-	const rateValue = parseCoinsShort(rateAmount);
+	const rate = useWatchedValue(() => {
+		const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
+		return parseCoinsShort(rateAmount);
+	}, () => game.moneyRates);
 
 	return (
 		<div className={coinStyles.coinRate}>
-			({rateValue.value}
-			<div className={`${coinStyles[rateValue.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`} />
+			({rate.value}
+			<div className={`${coinStyles[rate.kind]} ${coinStyles.coin} ${coinStyles.reverseMargin}`} />
 			/s)
 		</div>
 	);
 });
 
 function Coins() {
-	const [money, setMoney] = useState(game.data.inventory.money);
-	useEffect(() => {
-		function step(a, b, diff) {
-			const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
-			setMoney(game.data.inventory.money + (rateAmount * diff));
-		}
-
-		animationSteps.add(step);
-
-		return () => animationSteps.delete(step);
-	}, []);
+	const money = useWatchedValue((a, b, diff) => {
+		const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
+		return game.data.inventory.money + (rateAmount * diff);
+	}, null, true);
 
 	const coins = parseCoins(money).map((value, index) => ({
 		kind: coinKinds[index], value,

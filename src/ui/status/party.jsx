@@ -1,16 +1,17 @@
 import React from "react";
 import {game} from "../../logic/game";
-import {useSaveData} from "../../logic/save-data";
+import {useWatchedValue} from "../../logic/use-watched-value";
 import {CharacterHead} from "./character-head";
 import partyStyles from "../../styles/party";
 
 function Adventurer({which}) {
-	useSaveData((data) => data.adventurers[which]);
-
-	const adventurer = game.adventurers[which];
-	if (adventurer == null) {
-		return null;
-	}
+	const adventurer = useWatchedValue(() => game.adventurers[which], () => [
+		game.adventurers[which].hp,
+		game.adventurers[which].maxHp,
+		game.adventurers[which].mp,
+		game.adventurers[which].maxMp,
+		game.adventurers[which].lvl,
+	]);
 
 	const hpRatio = adventurer.hp / adventurer.maxHp;
 	const mpRatio = adventurer.mp / adventurer.maxMp;
@@ -44,12 +45,17 @@ function Adventurer({which}) {
 }
 
 export function Party() {
+	const show1 = useWatchedValue(() => game.adventurers[0] != null);
+	const show2 = useWatchedValue(() => game.adventurers[1] != null);
+	const show3 = useWatchedValue(() => game.adventurers[2] != null);
+	const show4 = useWatchedValue(() => game.adventurers[3] != null);
+
 	return (
 		<>
-			<Adventurer which={0} />
-			<Adventurer which={1} />
-			<Adventurer which={2} />
-			<Adventurer which={3} />
+			{show1 && <Adventurer which={0} />}
+			{show2 && <Adventurer which={1} />}
+			{show3 && <Adventurer which={2} />}
+			{show4 && <Adventurer which={3} />}
 		</>
 	);
 }

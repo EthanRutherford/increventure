@@ -62,6 +62,10 @@ setInterval(function() {
 		lastSave = thisTick;
 		game.save();
 	}
+
+	for (const tickStep of tickSteps) {
+		tickStep(thisTick, diff);
+	}
 }, tickInterval);
 
 // animation loop
@@ -82,4 +86,5 @@ function step() {
 
 requestAnimationFrame(step);
 
+export const tickSteps = new Set();
 export const animationSteps = new Set();
