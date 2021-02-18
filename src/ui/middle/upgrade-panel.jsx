@@ -1,17 +1,17 @@
 import React from "react";
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
-import {upgrades, upgradeIds} from "../../logic/upgrades";
+import {upgradeIds} from "../../logic/upgrades";
 import {parseCoinsShort} from "../../util/money";
 import storeStyles from "../../styles/store";
 import coinStyles from "../../styles/coins";
 
-function Upgrade({upgradeId}) {
-	const upgrade = upgrades[upgradeId];
-	const disabled = useWatchedValue(() => game.data.inventory.money < upgrade.cost);
+function Upgrade({id}) {
+	const upgrade = game.upgrades[id];
+	const disabled = useWatchedValue(() => game.inventory.money < upgrade.cost);
 	const shouldShow = useWatchedValue(
-		() => !game.data.upgrades[upgradeId] && upgrade.unlock(game.data),
-		() => upgrade.getDeps(game.data),
+		() => !upgrade.owned && upgrade.unlock(game),
+		() => upgrade.getDeps(game),
 	);
 
 	if (!shouldShow) {
@@ -23,7 +23,7 @@ function Upgrade({upgradeId}) {
 	return (
 		<button
 			className={storeStyles.upgradeButton}
-			onClick={() => game.buyUpgrade(upgradeId)}
+			onClick={() => game.buyUpgrade(upgrade)}
 			disabled={disabled}
 		>
 			<div className={storeStyles.upgradeTitleRow}>
@@ -41,7 +41,7 @@ function Upgrade({upgradeId}) {
 }
 
 export function Upgrades() {
-	return upgradeIds.map((upgradeId) => (
-		<Upgrade upgradeId={upgradeId} key={upgradeId} />
+	return upgradeIds.map((id) => (
+		<Upgrade id={id} key={id} />
 	));
 }

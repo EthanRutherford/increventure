@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useUpdater} from "../../logic/util";
 import {game} from "../../logic/game";
-import {minions, minionKinds} from "../../logic/minions";
+import {minionKinds} from "../../logic/minions";
 import Close from "../../images/svgs/close.svg";
 import {parseCoinsShort} from "../../util/money";
 import coinStyles from "../../styles/coins";
@@ -80,30 +80,30 @@ export function StatsPanel({close}) {
 			<div className={styles.wipeBorder40} />
 			<div className={styles.section}>
 				{renderStat("Game started",
-					timeSince(game.data.stats.gameStarted),
+					timeSince(game.stats.gameStarted),
 				)}
 				{renderStat("Total money earned",
-					renderMoney(game.data.stats.totalMoney),
+					renderMoney(game.stats.totalMoney),
 				)}
 				{renderStat("Most money in pocket",
-					renderMoney(game.data.stats.mostMoney),
+					renderMoney(game.stats.mostMoney),
 				)}
 				{renderStat("Total grass clicks",
-					numberFormatter.format(game.data.stats.grassClicks),
+					numberFormatter.format(game.stats.grassClicks),
 				)}
 				{renderStat("Total earned from clicking",
-					renderMoney(game.data.stats.clickMoney),
+					renderMoney(game.stats.clickMoney),
 				)}
 				{renderStat("Mouse mileage",
-					numberFormatter.format(game.data.stats.mouseDistance) + " px",
+					numberFormatter.format(game.stats.mouseDistance) + " px",
 				)}
 			</div>
 			<div className={styles.sectionHeader}>Money per Minion</div>
 			<div className={styles.wipeBorder40} />
 			<div className={styles.section}>
 				{minionKinds.map((kind) => renderStat(
-					`${minions[kind].name} minions`,
-					renderMoney(game.data.stats.minionMoney[kind]),
+					`${game.minions[kind].name} minions`,
+					renderMoney(game.stats.minionMoney[kind]),
 				))}
 			</div>
 		</div>

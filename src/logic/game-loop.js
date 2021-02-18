@@ -34,16 +34,16 @@ setInterval(function() {
 	let total = 0;
 	for (const rate of game.moneyRates) {
 		const amount = rate.amount * diff;
-		game.data.stats.minionMoney[rate.kind] += amount;
+		game.stats.minionMoney[rate.kind] += amount;
 		total += amount;
 	}
 
-	game.data.inventory.money += total;
-	game.data.stats.totalMoney += total;
+	game.inventory.money += total;
+	game.stats.totalMoney += total;
 
 	// stats tracking
-	if (game.data.inventory.money > game.data.stats.mostMoney) {
-		game.data.stats.mostMoney = game.data.inventory.money;
+	if (game.inventory.money > game.stats.mostMoney) {
+		game.stats.mostMoney = game.inventory.money;
 	}
 
 	// random encounters

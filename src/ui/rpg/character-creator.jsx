@@ -21,9 +21,8 @@ function CreatorPopup({which}) {
 	const [skinColor, setSkinColor] = useState(skinColors[0]);
 
 	function create() {
-		game.adventurers[which] = createNewAdventurer(name, kind, game.data.inventory.items);
+		game.adventurers[which] = createNewAdventurer(name, kind, game.inventory.items);
 		game.adventurers[which].skinColor = skinColor;
-		game.data.adventurers[which] = game.adventurers[which].data;
 	}
 
 	const adventurer = adventurers[kind];

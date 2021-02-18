@@ -13,6 +13,6 @@ document.addEventListener("mousemove", (event) => {
 });
 
 setInterval(() => {
-	game.data.stats.mouseDistance += acc;
+	game.stats.mouseDistance += acc;
 	acc = 0;
 }, 1000);

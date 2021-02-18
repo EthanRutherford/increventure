@@ -3,7 +3,7 @@ import {minionKinds} from "./minions";
 import {upgradeIds} from "./upgrades";
 
 // initial saveData state
-export const data = {
+const initialData = {
 	adventurers: [],
 	inventory: {
 		money: 0,
@@ -34,41 +34,17 @@ export const data = {
 	},
 };
 
-export function saveGame() {
+export function saveGame(data) {
 	localStorage.setItem("saveGame", JSON.stringify(data));
-}
-
-function loadInto(target, source) {
-	if (source == null) {
-		return;
-	}
-
-	if (target instanceof Array) {
-		for (let i = 0; i < source.length; i++) {
-			if (i < target.length && typeof target[i] === "object") {
-				loadInto(target[i], source[i]);
-			} else {
-				target[i] = source[i];
-			}
-		}
-	} else {
-		for (const key of Object.keys(target)) {
-			if (source[key] == null) {
-				continue;
-			} else if (typeof target[key] === "object") {
-				loadInto(target[key], source[key]);
-			} else {
-				target[key] = source[key];
-			}
-		}
-	}
 }
 
 export function loadGame() {
 	const savedData = localStorage.getItem("saveGame");
-	loadInto(data, JSON.parse(savedData));
+	if (savedData == null) {
+		return [false, initialData];
+	}
 
-	return savedData != null;
+	return [true, JSON.parse(savedData)];
 }
 
 export function deleteGame() {

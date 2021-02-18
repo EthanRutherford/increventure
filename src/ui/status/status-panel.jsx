@@ -40,7 +40,7 @@ const CoinRate = memo(function CoinRate() {
 function Coins() {
 	const money = useWatchedValue((a, b, diff) => {
 		const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
-		return game.data.inventory.money + (rateAmount * diff);
+		return game.inventory.money + (rateAmount * diff);
 	}, null, true);
 
 	const coins = parseCoins(money).map((value, index) => ({

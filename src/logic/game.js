@@ -1,32 +1,56 @@
-import {minions, minionKinds, costCalculator} from "./minions";
-import {upgrades, calculateMultipliers} from "./upgrades";
+import {minionKinds, Minion} from "./minions";
+import {upgradeIds, calculateMultipliers, Upgrade} from "./upgrades";
 import {Being} from "./rpg/beings";
-import {data, saveGame, loadGame, deleteGame} from "./save-data";
+import {saveGame, loadGame, deleteGame} from "./save-data";
 import {logInfo} from "./log";
 import {addToast} from "./use-toasts";
 
-function calculateRates(data, multipliers) {
+function calculateRates(minions, multipliers) {
 	return minionKinds.map((kind) => ({
-		kind,
-		amount: data.minions[kind] * minions[kind].baseRate * multipliers[kind],
+		kind: kind,
+		amount: minions[kind].computeRate(multipliers),
 	}));
 }
 
-const privates = {};
 export const game = {
-	data,
 	save() {
-		saveGame();
+		const saveData = {
+			adventurers: game.adventurers.map((adventurer) => adventurer.data),
+			inventory: game.inventory,
+			minions: minionKinds.reduce((map, kind) => {
+				map[kind] = game.minions[kind].count;
+				return map;
+			}, {}),
+			upgrades: upgradeIds.reduce((map, id) => {
+				map[id] = game.upgrades[id].owned;
+				return map;
+			}, {}),
+			stats: game.stats,
+		};
+
+		saveGame(saveData);
 		logInfo("game saved");
 		addToast({title: "Game saved"});
 	},
 	load() {
-		const didLoad = loadGame();
-		game.multipliers = calculateMultipliers(game.data.upgrades);
-		privates.moneyRates = calculateRates(game.data, game.multipliers);
-		for (const adventurer of game.data.adventurers) {
-			game.adventurers.push(new Being(adventurer, game.data.inventory.items));
+		const [didLoad, data] = loadGame();
+		game.inventory = data.inventory;
+		game.stats = data.stats;
+
+		for (const adventurer of data.adventurers) {
+			game.adventurers.push(new Being(adventurer, game.inventory.items));
 		}
+
+		for (const kind of minionKinds) {
+			game.minions[kind] = new Minion(kind, data.minions[kind]);
+		}
+
+		for (const id of upgradeIds) {
+			game.upgrades[id] = new Upgrade(id, data.upgrades[id]);
+		}
+
+		game.multipliers = calculateMultipliers(game.upgrades);
+		game.moneyRates = calculateRates(game.minions, game.multipliers);
 
 		if (didLoad) {
 			addToast({title: "Game loaded", desc: "welcome back!", ttl: 0});
@@ -36,51 +60,42 @@ export const game = {
 		deleteGame();
 	},
 	cutGrass() {
-		game.data.stats.grassClicks++;
+		game.stats.grassClicks++;
 
 		const base = game.multipliers.grass;
 		let multiplier = 1;
 		for (const kind of minionKinds) {
 			const bonus = game.multipliers.clickBonus[kind];
-			multiplier += game.data.minions[kind] * bonus;
+			multiplier += game.minions[kind].count * bonus;
 		}
 
 		const amount = base * multiplier;
-		game.data.inventory.money += amount;
-		game.data.stats.totalMoney += amount;
-		game.data.stats.clickMoney += amount;
+		game.inventory.money += amount;
+		game.stats.totalMoney += amount;
+		game.stats.clickMoney += amount;
 		return amount;
 	},
-	// minion data
-	minionCosts: minionKinds.reduce((obj, kind) => {
-		Object.defineProperty(obj, kind, {
-			get: () => costCalculator[kind](game.data.minions[kind]),
-		});
-		return obj;
-	}, {}),
-	buyMinion: minionKinds.reduce((obj, kind) => {
-		obj[kind] = () => {
-			if (game.data.inventory.money >= game.minionCosts[kind]) {
-				game.data.inventory.money -= game.minionCosts[kind];
-				game.data.minions[kind]++;
-				privates.moneyRates = calculateRates(game.data, game.multipliers);
-			}
-		};
-		return obj;
-	}, {}),
 	// adventurers
 	adventurers: [],
-	// upgrades
-	buyUpgrade(upgradeId) {
-		if (game.data.inventory.money >= upgrades[upgradeId].cost) {
-			game.data.inventory.money -= upgrades[upgradeId].cost;
-			game.data.upgrades[upgradeId] = true;
-			game.multipliers = calculateMultipliers(game.data.upgrades);
-			privates.moneyRates = calculateRates(game.data, game.multipliers);
+	// minions
+	minions: {},
+	buyMinion(minion) {
+		if (game.inventory.money >= minion.cost) {
+			game.inventory.money -= minion.cost;
+			minion.count++;
+			game.moneyRates = calculateRates(game.minions, game.multipliers);
 		}
 	},
-	// getters
-	get moneyRates() {return privates.moneyRates;},
+	// upgrades
+	upgrades: {},
+	buyUpgrade(upgrade) {
+		if (game.inventory.money >= upgrade.cost && !upgrade.owned) {
+			game.inventory.money -= upgrade.cost;
+			upgrade.owned = true;
+			game.multipliers = calculateMultipliers(game.upgrades);
+			game.moneyRates = calculateRates(game.minions, game.multipliers);
+		}
+	},
 };
 
 // load game
