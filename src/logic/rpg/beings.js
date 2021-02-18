@@ -44,6 +44,9 @@ export class Being {
 		const lvl = this.lvl;
 		return skills[this.data.kind].filter((skill) => lvl >= skill.lvl);
 	}
+	get image() {
+		return this.data.image;
+	}
 }
 
 // this is a bit messy, but hey

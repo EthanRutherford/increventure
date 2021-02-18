@@ -1,11 +1,10 @@
-import React, {useState, useLayoutEffect, useCallback, useRef, useMemo} from "react";
-import {game} from "../../logic/game";
-import {randItem} from "../../logic/util";
+import React, {useState, useLayoutEffect, useCallback, useRef} from "react";
 import {encounterStates} from "../../logic/rpg/combat";
 import {actionKinds} from "../../logic/rpg/actions";
-import {effectKinds, mapTarget} from "../../logic/rpg/effects";
-import {items} from "../../logic/rpg/items";
+import {effectKinds} from "../../logic/rpg/effects";
+import {ActionMenu} from "./action-menu";
 import styles from "../../styles/combat.css";
+import rootStyles from "../../styles/root.css";
 
 function parseResult(result) {
 	const {source, kind, values} = result;
@@ -67,57 +66,6 @@ function parseResult(result) {
 	return lines;
 }
 
-function ActionMenu({doPlayerAction, enemy}) {
-	const usableSkills = useMemo(() => game.adventurers[0].skills.filter((skill) =>
-		skill.mpCost(game.adventurers[0]) <= game.adventurers[0].mp,
-	), [game.adventurers[0].mp]);
-	const usableItems = Object.entries(game.adventurers[0].items).filter(([, count]) =>
-		count !== 0,
-	);
-
-	const attack = useCallback(() => {
-		doPlayerAction({kind: actionKinds.attack, targets: [enemy]});
-	}, []);
-	const useSkill = useCallback(() => {
-		const skill = randItem(usableSkills);
-		const {options, all} = mapTarget(skill.target, game.adventurers[0], [], [enemy]);
-		const targets = all ? options : [randItem(options)];
-		doPlayerAction({kind: actionKinds.skill, skill, targets});
-	}, [usableSkills]);
-	const useItem = useCallback(() => {
-		const [itemId] = randItem(usableItems);
-		const {options, all} = mapTarget(items[itemId].target, game.adventurers[0], []);
-		const targets = all ? options : [randItem(options)];
-		doPlayerAction({kind: actionKinds.item, itemId, targets});
-	}, []);
-
-	return (
-		<div className={styles.actionMenu}>
-			<button
-				className={styles.action}
-				onClick={attack}
-			>
-				Attack!
-			</button>
-			<button
-				className={styles.action}
-				onClick={useSkill}
-				disabled={usableSkills.length === 0}
-			>
-				Skill!
-			</button>
-			<button
-				className={styles.action}
-				onClick={useItem}
-				disabled={usableItems.length === 0}
-			>
-				Item!
-			</button>
-			<button className={styles.action} disabled>Run!</button>
-		</div>
-	);
-}
-
 export function CombatUI({encounter}) {
 	const lineElems = useRef();
 	const [isPlayerTurn, setIsPlayerTurn] = useState(true);
@@ -143,7 +91,7 @@ export function CombatUI({encounter}) {
 
 		if (turn === encounterStates.defeat) {
 			// temporary
-			setLines((lines) => [...lines, "you win!"]);
+			setLines((lines) => [...lines, "you lose!"]);
 			setTimeout(encounter.onDefeat, 1000);
 			return;
 		}
@@ -164,18 +112,26 @@ export function CombatUI({encounter}) {
 	}, []);
 
 	return (
-		<div className={styles.content}>
-			<div className={styles.infoLines} ref={lineElems}>
-				{lines.map((line) => (
-					<div className={styles.infoLine} key={line}>{line}</div>
-				))}
-			</div>
-			{isPlayerTurn && (
+		<div className={styles.container}>
+			<div className={`${rootStyles.title} ${styles.header}`} />
+			<div className={styles.content}>
+				<div className={styles.enemyArea}>
+					<div className={styles.enemySlider}>
+						<div className={styles.enemyName}>{encounter.enemy.name}</div>
+						<encounter.enemy.image className={styles.enemy} />
+					</div>
+				</div>
+				<div className={styles.infoLines} ref={lineElems}>
+					{lines.map((line, index) => (
+						<div className={styles.infoLine} key={index}>{line}</div>
+					))}
+				</div>
 				<ActionMenu
+					isPlayerTurn={isPlayerTurn}
 					doPlayerAction={doPlayerAction}
 					enemy={encounter.enemy}
 				/>
-			)}
+			</div>
 		</div>
 	);
 }

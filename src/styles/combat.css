@@ -1,31 +1,106 @@
 @import "./variables.css";
 
-.content {
-	display: flex;
-	flex-direction: column;
-	background-color: orange;
-	overflow: hidden;
+.container {
+	box-shadow: 0 1px 300px 1px rgb(0, 0, 0, .5) inset;
+	position: relative;
+	background-color: grey;
 	animation-name: smash-in;
 	animation-duration: .4s;
 	animation-fill-mode: forwards;
 	animation-timing-function: linear;
+	overflow: hidden;
+}
+
+.header {
+	position: absolute;
+	width: 100%;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	animation-name: fade-in;
+	animation-delay: .5s;
+	animation-duration: .5s;
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-in;
+}
+
+.enemy-area {
+	position: relative;
+	flex-grow: 1;
+}
+
+.enemy-name {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	color: white;
+	font-size: var(--huge);
+	text-shadow: var(--text-shadow);
+	animation-name: fade-in;
+	animation-delay: .5s;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-in;
+}
+
+.enemy {
+	position: absolute;
+	left: calc(50% - 100px);
+	top: calc(40% - 100px);
+	height: 200px;
+	animation-name: fade-in, slide-down, wobble;
+	animation-delay: .5s, .5s, 0;
+	animation-duration: 1s, 1s, 3s;
+	animation-fill-mode: forwards, forwards, forwards;
+	animation-iteration-count: 1, 1, infinite;
+	animation-timing-function: ease-in, ease-out, linear;
 }
 
 .info-lines {
 	display: flex;
 	flex-direction: column;
-	flex-grow: 1;
-	min-width: 50vw;
+	flex-shrink: 0;
+	padding: 10px;
+	height: 200px;
+	color: white;
+	text-shadow: var(--text-shadow);
+	background-color: var(--slate-dark);
 	overflow: auto;
 }
 
 .action-menu {
 	display: grid;
-	grid-template: auto auto / auto auto;
+	grid-template-columns: auto auto;
+	flex-shrink: 0;
+	height: 100px;
+	background-color: var(--slate-dark);
+	overflow: auto;
 }
 
-.action {
-	flex-shrink: 0;
+.button {
+	border: 2px outset grey;
+	padding: 10px;
+	height: 50px;
+	width: 100%;
+	background-color: var(--slate);
+	color: white;
+	text-align: left;
+	text-shadow: var(--text-shadow);
+}
+.button:hover:not(:disabled) {
+	background-color: var(--slate-light);
+}
+.button:active:not(:disabled) {
+	border-style: inset;
+	background-color: var(--slate-dark);
+}
+.button:disabled {
+	filter: brightness(.5);
 }
 
 @keyframes smash-in {
@@ -42,5 +117,35 @@
 	100% {
 		width: 100%;
 		height: 100%;
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slide-down {
+	from {
+		top: calc(40% - 200px);
+	}
+	to {
+		top: calc(40% - 100px);
+	}
+}
+
+@keyframes wobble {
+	0%, 50%, 100% {
+		transform: scale(1, 1);
+	}
+	25% {
+		transform: scale(1.05, .95);
+	}
+	75% {
+		transform: scale(.95, 1.05);
 	}
 }

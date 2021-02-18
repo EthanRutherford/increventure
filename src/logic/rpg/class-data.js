@@ -1,6 +1,8 @@
 import {randRange} from "../util";
 import {targetKinds, effectKinds, statKinds} from "./effects";
 
+import slimeIcon from "../../images/svgs/slime";
+
 /*
 	stats affect a character's abilities
 	str: affects how much damage a character does
@@ -69,6 +71,7 @@ export const stats = {
 		int: 1,
 		wis: 1,
 		luck: 1,
+		image: slimeIcon,
 	},
 	skeleton: {
 		str: 2,
