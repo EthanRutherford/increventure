@@ -1,12 +1,19 @@
-import {useState, useEffect} from "react";
+import {useRef, useEffect} from "react";
 import {animationSteps, tickSteps} from "./game-loop";
+import {useUpdater} from "./util";
 
 export function useWatchedValue(getValue, getDeps, animated = false) {
-	const [value, setValue] = useState(() => getValue(0, 0, 0));
+	const firstRender = useRef(true);
+	const value = useRef();
+	const updater = useUpdater();
+
+	if (firstRender.current) {
+		firstRender.current = false;
+		value.current = getValue(0, 0, 0);
+	}
 
 	useEffect(() => {
 		let currentDeps = getDeps && getDeps();
-		let currentValue = value;
 
 		function getDepsChanged() {
 			const prevDeps = currentDeps;
@@ -29,14 +36,15 @@ export function useWatchedValue(getValue, getDeps, animated = false) {
 				return;
 			}
 
-			setValue(getValue(...args));
+			value.current = getValue(...args);
+			updater();
 		}
 
 		function noDepsUpdate(...args) {
-			const prevValue = currentValue;
-			currentValue = getValue(...args);
-			if (prevValue !== currentValue) {
-				setValue(currentValue);
+			const prevValue = value.current;
+			value.current = getValue(...args);
+			if (prevValue !== value.current) {
+				updater();
 			}
 		}
 
@@ -47,5 +55,5 @@ export function useWatchedValue(getValue, getDeps, animated = false) {
 		return () => updateSteps.delete(update);
 	}, []);
 
-	return value;
+	return value.current;
 }
