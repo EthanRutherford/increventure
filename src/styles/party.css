@@ -109,6 +109,7 @@
 	height: 0;
 	line-height: 48px;
 	overflow: hidden;
+	white-space: nowrap;
 }
 
 .character-class, .character-level {
