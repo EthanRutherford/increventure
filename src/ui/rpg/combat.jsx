@@ -2,6 +2,7 @@ import React, {useState, useLayoutEffect, useCallback, useRef} from "react";
 import {encounterStates} from "../../logic/rpg/combat";
 import {actionKinds} from "../../logic/rpg/actions";
 import {effectKinds} from "../../logic/rpg/effects";
+import {LootPopup} from "../shared/loot-popup";
 import {ActionMenu} from "./action-menu";
 import styles from "../../styles/combat.css";
 import rootStyles from "../../styles/root.css";
@@ -59,6 +60,14 @@ function parseResult(result) {
 				lines.push(`${target.name}'s ${stat} raised by ${amount}.`);
 			}
 		}
+	} else if (kind === actionKinds.run) {
+		const [{target, success}] = values;
+		lines.push(`${source.name} tries to run...`);
+		if (success) {
+			lines.push(`and gets away safely!`);
+		} else {
+			lines.push(`but ${target.name} stops them!`);
+		}
 	} else {
 		lines.push(`${source.name} does nothing.`);
 	}
@@ -69,6 +78,7 @@ function parseResult(result) {
 export function CombatUI({encounter}) {
 	const lineElems = useRef();
 	const [isPlayerTurn, setIsPlayerTurn] = useState(true);
+	const [loot, setLoot] = useState(null);
 	const [lines, setLines] = useState(() => [
 		`${encounter.enemy.name} the ${encounter.enemy.data.kind} appears!`,
 		`${encounter.enemy.name} quivers gelatinously.`,
@@ -82,17 +92,20 @@ export function CombatUI({encounter}) {
 		const turn = encounter.advanceTurn();
 		setIsPlayerTurn(turn === encounterStates.playerTurn);
 
+		if (turn === encounterStates.flee) {
+			setTimeout(() => encounter.end(turn), 1000);
+			return;
+		}
+
 		if (turn === encounterStates.victory) {
-			// temporary
 			setLines((lines) => [...lines, "you win!"]);
-			setTimeout(encounter.onVictory, 1000);
+			setTimeout(() => setLoot(encounter.loot()), 1000);
 			return;
 		}
 
 		if (turn === encounterStates.defeat) {
-			// temporary
 			setLines((lines) => [...lines, "you lose!"]);
-			setTimeout(encounter.onDefeat, 1000);
+			setTimeout(() => encounter.end(turn), 1000);
 			return;
 		}
 
@@ -132,6 +145,9 @@ export function CombatUI({encounter}) {
 					enemy={encounter.enemy}
 				/>
 			</div>
+			{loot != null && (
+				<LootPopup loot={loot} dismiss={() => encounter.end(encounterStates.victory)} />
+			)}
 		</div>
 	);
 }

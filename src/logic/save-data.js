@@ -1,9 +1,10 @@
 import {itemIds} from "./rpg/items";
 import {minionKinds} from "./minions";
 import {upgradeIds} from "./upgrades";
+import {dungeonKinds} from "./dungeons/dungeon";
 
 // initial saveData state
-const initialData = {
+const getInitialData = () => ({
 	adventurers: [],
 	inventory: {
 		money: 0,
@@ -12,6 +13,10 @@ const initialData = {
 			return obj;
 		}, {}),
 	},
+	clearedDungeons: dungeonKinds.reduce((obj, kind) => {
+		obj[kind] = false;
+		return obj;
+	}, {}),
 	minions: minionKinds.reduce((obj, kind) => {
 		obj[kind] = 0;
 		return obj;
@@ -32,19 +37,43 @@ const initialData = {
 			return obj;
 		}, {}),
 	},
-};
+});
 
 export function saveGame(data) {
 	localStorage.setItem("saveGame", JSON.stringify(data));
 }
 
-export function loadGame() {
-	const savedData = localStorage.getItem("saveGame");
-	if (savedData == null) {
-		return [false, initialData];
+function loadInto(target, source) {
+	if (source == null) {
+		return;
 	}
 
-	return [true, JSON.parse(savedData)];
+	if (target instanceof Array) {
+		for (let i = 0; i < source.length; i++) {
+			if (i < target.length && typeof target[i] === "object") {
+				loadInto(target[i], source[i]);
+			} else {
+				target[i] = source[i];
+			}
+		}
+	} else {
+		for (const key of Object.keys(target)) {
+			if (source[key] == null) {
+				continue;
+			} else if (typeof target[key] === "object") {
+				loadInto(target[key], source[key]);
+			} else {
+				target[key] = source[key];
+			}
+		}
+	}
+}
+
+export function loadGame() {
+	const savedData = localStorage.getItem("saveGame");
+	const data = getInitialData();
+	loadInto(data, JSON.parse(savedData));
+	return [savedData != null, data];
 }
 
 export function deleteGame() {

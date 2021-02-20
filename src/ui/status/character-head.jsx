@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef} from "react";
+import React, {useState, useCallback, useRef, useEffect} from "react";
 import {randRange} from "../../logic/util";
 import Happy from "../../images/svgs/happy";
 import Meh from "../../images/svgs/meh";
@@ -33,6 +33,8 @@ export function CharacterHead({adventurer}) {
 		if (timeout.current) return;
 		timeout.current = setTimeout(animate, randRange(0, 2000));
 	}, []);
+
+	useEffect(() => () => clearTimeout(timeout.current), []);
 
 	const hpRatio = adventurer.hp / adventurer.maxHp;
 	const Face = hpRatio > 2 / 3 ? Happy :

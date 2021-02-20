@@ -5,6 +5,7 @@ import {CharacterHead} from "./character-head";
 import partyStyles from "../../styles/party";
 
 function Adventurer({which}) {
+	const isOpen = useWatchedValue(() => game.dungeon != null);
 	const adventurer = useWatchedValue(() => game.adventurers[which], () => [
 		game.adventurers[which].hp,
 		game.adventurers[which].maxHp,
@@ -17,7 +18,7 @@ function Adventurer({which}) {
 	const mpRatio = adventurer.mp / adventurer.maxMp;
 
 	return (
-		<div className={partyStyles.character}>
+		<div className={`${partyStyles.character} ${isOpen ? partyStyles.open : ""}`}>
 			<div className={partyStyles.characterTitle}>
 				<CharacterHead adventurer={adventurer} />
 				{adventurer.name}

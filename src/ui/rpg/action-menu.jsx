@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useMemo} from "react";
+import React, {useState, useCallback} from "react";
 import {game} from "../../logic/game";
 import {randItem} from "../../logic/util";
 import {actionKinds} from "../../logic/rpg/actions";
@@ -23,6 +23,9 @@ export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
 		const targets = all ? options : [randItem(options)];
 		doPlayerAction({kind: actionKinds.item, itemId, targets});
 		setMenuState("main");
+	}, []);
+	const run = useCallback(() => {
+		doPlayerAction({kind: actionKinds.run, targets: [enemy]});
 	}, []);
 
 	if (menuState === "skill") {
@@ -88,7 +91,13 @@ export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
 			>
 				Item!
 			</button>
-			<button className={styles.button} disabled={!isPlayerTurn || true}>Run!</button>
+			<button
+				className={styles.button}
+				onClick={run}
+				disabled={!isPlayerTurn}
+			>
+				Run!
+			</button>
 		</div>
 	);
 }

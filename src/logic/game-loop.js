@@ -1,29 +1,10 @@
 import {game} from "./game";
-import {Encounter} from "./rpg/combat";
-
-function doRandomEncounter() {
-	game.encounter = new Encounter({
-		onVictory() {
-			// temporary, heal the player
-			game.adventurers[0].hp = game.adventurers[0].maxHp;
-			game.adventurers[0].mp = game.adventurers[0].maxMp;
-			game.encounter = null;
-		},
-		onDefeat() {
-			// temporary, heal the player
-			game.adventurers[0].hp = game.adventurers[0].maxHp;
-			game.adventurers[0].mp = game.adventurers[0].maxMp;
-			game.encounter = null;
-		},
-	});
-}
 
 const tickInterval = 100;
 
 // main logic loop
 let lastTick = performance.now();
 let lastSave = lastTick;
-let lastEncounter = lastTick;
 setInterval(function() {
 	// timing logic
 	const thisTick = performance.now();
@@ -44,17 +25,6 @@ setInterval(function() {
 	// stats tracking
 	if (game.inventory.money > game.stats.mostMoney) {
 		game.stats.mostMoney = game.inventory.money;
-	}
-
-	// random encounters
-	if (window.doRandomEncounters && game.encounter == null) {
-		const timeSince = thisTick - lastEncounter;
-		const chanceMultiplier = timeSince / (5 * 60 * 1000);
-		if (Math.random() * chanceMultiplier > .5) {
-			doRandomEncounter();
-		}
-	} else {
-		lastEncounter = thisTick;
 	}
 
 	// save game

@@ -28,7 +28,7 @@ export class Being {
 	get attack() {
 		return this.str * this.lvl;
 	}
-	get critChance() {
+	get dexChanceMod() {
 		return this.dex * .01 + this.luckBonus;
 	}
 	get luckBonus() {

@@ -22,9 +22,12 @@
 	line-height: 1;
 	text-shadow: var(--text-shadow);
 }
-.button:hover {
+.button:hover:not(:disabled) {
 	color: white;
 }
-.button:active {
+.button:active:not(:disabled) {
 	color: var(--platinum-dark);
+}
+.button:disabled {
+	filter: brightness(.5);
 }

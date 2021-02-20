@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {TiledBg} from "../shared/tiled-bg";
 import {Upgrades} from "./upgrade-panel";
+import {Dungeons} from "./dungeon-panel";
 import rootStyles from "../../styles/root";
 import storeStyles from "../../styles/store";
 
@@ -33,7 +34,7 @@ function renderSection(tab) {
 		return <Upgrades />;
 	}
 	if (tab === tabs.dungeon.id) {
-		return <div className={storeStyles.wip}>Coming soon</div>;
+		return <Dungeons />;
 	}
 
 	return "you should never see this";

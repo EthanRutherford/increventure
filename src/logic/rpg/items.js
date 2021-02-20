@@ -9,6 +9,13 @@ export const items = {
 		stat: statKinds.hp,
 		effect: () => ({amount: randInt(10, 15)}),
 	},
+	manaCrystal: {
+		name: "Mana Crystal",
+		kind: effectKinds.restore,
+		target: targetKinds.ally,
+		stat: statKinds.mp,
+		effect: () => ({amount: randInt(10, 15)}),
+	},
 };
 
 export const itemIds = Object.keys(items);

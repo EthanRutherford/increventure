@@ -9,6 +9,7 @@ export function useUpdater() {
 export const randRange = (min, max) => min + Math.random() * (max - min);
 export const randInt = (min, max) => Math.round(randRange(min, max));
 export const randItem = (list) => list[randInt(0, list.length - 1)];
+export const popRandItem = (list) => list.splice(randInt(0, list.length - 1), 1)[0];
 
 export class WeightedSet {
 	constructor(items = []) {

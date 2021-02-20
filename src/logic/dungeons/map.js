@@ -20,12 +20,18 @@ class Room {
 		this.right = null;
 		this.up = null;
 		this.down = null;
+
+		this.distance = Infinity;
+		this.hasTreasure = false;
+		this.hasBoss = false;
+		this.visited = false;
 	}
 }
 
-export class Map {
+export class DungeonMap {
 	constructor() {
 		this.rooms = {};
+		this.roomCount = 0;
 		this.minX = Infinity;
 		this.maxX = -Infinity;
 		this.minY = Infinity;
@@ -39,6 +45,7 @@ export class Map {
 		}
 
 		this.rooms[x][y] = room;
+		this.roomCount++;
 
 		this.maxX = Math.max(this.maxX, x);
 		this.minX = Math.min(this.minX, x);
@@ -55,27 +62,39 @@ export class Map {
 		return this.rooms[x][y] || null;
 	}
 	getValidWalls(room) {
-		const {minX, maxX} = this;
+		const {minX, maxX, minY, maxY} = this;
+		const width = maxX - minX;
+		const height = maxY - minY;
+
+		const ratio = width / height;
+		const preferX = ratio < .75;
+		const preferY = ratio > 1.5;
+
 		return Object.keys(directions).filter((dir) => {
-			const {x, y} = directions[dir](room);
-			const canGrow = maxX - minX < 9;
-			return this[dir] == null &&
-				(canGrow || (x >= minX && x <= maxX)) &&
-				y >= 0 && y < 10
-			;
-		});
-	}
-	toNestedArray() {
-		const outer = [];
-		for (let y = this.maxY; y >= this.minY; y--) {
-			const inner = [];
-			for (let x = this.minX; x <= this.maxX; x++) {
-				inner.push(this.getRoom(x, y));
+			// already connected to a room
+			if (this[dir] != null) {
+				return false;
 			}
 
-			outer.push(inner);
-		}
+			const {x, y} = directions[dir](room);
 
-		return outer;
+			// never place rooms lower than the entrance at (0, 0)
+			if (y < 0) {
+				return false;
+			}
+
+			// current dungeon is too tall, don't make it taller
+			if (preferX && y > maxY) {
+				return false;
+			}
+
+			// current dungeon is too wide, don't make it wider
+			if (preferY && (x < minX || x > maxX)) {
+				return false;
+			}
+
+			// all good, wall is available for connection
+			return true;
+		});
 	}
 }

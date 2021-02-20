@@ -5,12 +5,13 @@ export const actionKinds = {
 	attack: "attack",
 	skill: "skill",
 	item: "item",
+	run: "run",
 };
 
 function doDamage(source, target, amount) {
-	const mult = Math.random() < source.critChance ? 2 : 1;
+	const mult = Math.random() < source.dexChanceMod ? 2 : 1;
 	const damage = amount * mult;
-	const dodged = Math.random() < target.critChance;
+	const dodged = Math.random() < target.dexChanceMod;
 
 	if (!dodged) {
 		target.hp -= damage;
@@ -85,6 +86,18 @@ export function doAction(source, action) {
 				result.values.push({target, stat, amount});
 			}
 		}
+	} else if (action.kind === actionKinds.run) {
+		const target = action.targets.reduce((cur, t) => {
+			if (t.dexChanceMod > cur.dexChanceMod) {
+				return t;
+			}
+
+			return cur;
+		}, {dexChanceMod: 0});
+
+		const chanceMod = 1 + source.dexChanceMod - target.dexChanceMod;
+		const success = Math.random() < .6 * chanceMod;
+		result.values.push({target, success});
 	}
 
 	return result;

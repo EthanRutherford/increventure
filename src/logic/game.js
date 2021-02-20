@@ -4,6 +4,7 @@ import {Being} from "./rpg/beings";
 import {saveGame, loadGame, deleteGame} from "./save-data";
 import {logInfo} from "./log";
 import {addToast} from "./use-toasts";
+import {Dungeon, dungeonDefs} from "./dungeons/dungeon";
 
 function calculateRates(minions, multipliers) {
 	return minionKinds.map((kind) => ({
@@ -17,6 +18,7 @@ export const game = {
 		const saveData = {
 			adventurers: game.adventurers.map((adventurer) => adventurer.data),
 			inventory: game.inventory,
+			clearedDungeons: game.clearedDungeons,
 			minions: minionKinds.reduce((map, kind) => {
 				map[kind] = game.minions[kind].count;
 				return map;
@@ -35,6 +37,7 @@ export const game = {
 	load() {
 		const [didLoad, data] = loadGame();
 		game.inventory = data.inventory;
+		game.clearedDungeons = data.clearedDungeons;
 		game.stats = data.stats;
 
 		for (const adventurer of data.adventurers) {
@@ -53,7 +56,7 @@ export const game = {
 		game.moneyRates = calculateRates(game.minions, game.multipliers);
 
 		if (didLoad) {
-			addToast({title: "Game loaded", desc: "welcome back!", ttl: 0});
+			addToast({title: "Game loaded", desc: "welcome back!", ttl: 10000});
 		}
 	},
 	delete() {
@@ -94,6 +97,20 @@ export const game = {
 			upgrade.owned = true;
 			game.multipliers = calculateMultipliers(game.upgrades);
 			game.moneyRates = calculateRates(game.minions, game.multipliers);
+		}
+	},
+	// dungeons
+	dungeon: null,
+	enterDungeon(kind) {
+		const dungeonDef = dungeonDefs[kind];
+		if (game.inventory.money >= dungeonDef.cost && game.dungeon == null) {
+			game.inventory.money -= dungeonDef.cost;
+			game.dungeon = new Dungeon(dungeonDef.level, (victory) => {
+				game.dungeon = null;
+				if (victory) {
+					game.clearedDungeons[kind] = true;
+				}
+			});
 		}
 	},
 };

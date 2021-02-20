@@ -1,0 +1,42 @@
+@import "./variables.css";
+
+.loot-popup {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	box-shadow: 0 1px 10px 2px rgba(0, 0, 0, .5);
+	width: 300px;
+	background-color: var(--carbon);
+	color: white;
+	text-shadow: var(--text-shadow);
+	transform: translate(-50%, -50%);
+}
+
+.content {
+	padding: 10px;
+}
+
+.money {
+	display: flex;
+}
+
+.button {
+	border: 2px outset grey;
+	padding: 10px;
+	height: 50px;
+	width: 100%;
+	background-color: var(--slate);
+	color: white;
+	text-align: left;
+	text-shadow: var(--text-shadow);
+}
+.button:hover:not(:disabled) {
+	background-color: var(--slate-light);
+}
+.button:active:not(:disabled) {
+	border-style: inset;
+	background-color: var(--slate-dark);
+}
+.button:disabled {
+	filter: brightness(.5);
+}

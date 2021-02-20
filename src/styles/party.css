@@ -119,32 +119,33 @@
 	transition: all 200ms ease-out;
 }
 
-.character:hover {
+.open, .character:hover {
 	padding: 10px;
 	background: rgba(0, 0, 0, .4);
 }
-.character:hover .character-title {
+.open .character-title, .character:hover .character-title {
 	padding-left: 50px;
 	width: 100%;
 	font-size: var(--medium);
 	line-height: 32px;
 }
-.character:hover .character-class {
+.open .character-class, .character:hover .character-class {
 	line-height: 32px;
 }
-.character:hover .character-head {
+.open .character-head, .character:hover .character-head {
 	width: 32px;
 	height: 32px;
 }
-.character:hover .character-details {
+.open .character-details, .character:hover .character-details {
 	height: 48px;
 	padding-left: 50px;
 	opacity: 1;
 }
-.character:hover .character-level {
+.open .character-level, .character:hover .character-level {
 	height: 48px;
 }
 
+.open .character-class, .open .character-level,
 .character:hover .character-class, .character:hover .character-level {
 	padding-right: 10px;
 	color: black;
