@@ -4,7 +4,7 @@ import {randRange, WeightedSet} from "../util";
 const lootTableDefs = [
 	{
 		itemId: "herb",
-		getWeight: (lootLevel) => lootLevel < 5 ? 5 : Math.max(1, 10 - lootLevel),
+		getWeight: (lootLevel) => lootLevel < 5 ? 10 : Math.max(1, 15 - lootLevel),
 	},
 	{
 		itemId: "manaCrystal",

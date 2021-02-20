@@ -105,7 +105,7 @@ export const game = {
 		const dungeonDef = dungeonDefs[kind];
 		if (game.inventory.money >= dungeonDef.cost && game.dungeon == null) {
 			game.inventory.money -= dungeonDef.cost;
-			game.dungeon = new Dungeon(dungeonDef.level, (victory) => {
+			game.dungeon = new Dungeon(dungeonDef, (victory) => {
 				game.dungeon = null;
 				if (victory) {
 					game.clearedDungeons[kind] = true;

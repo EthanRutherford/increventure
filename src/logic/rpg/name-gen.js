@@ -75,6 +75,7 @@ export function createName(phonemes) {
 		name += "e";
 	}
 
+	name = name[0].toUpperCase() + name.substr(1);
 	return name;
 }
 

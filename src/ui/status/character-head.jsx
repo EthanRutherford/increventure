@@ -49,7 +49,7 @@ export function CharacterHead({adventurer}) {
 			style={{color: adventurer.skinColor}}
 			onAnimationEnd={handleAnimationEnd}
 		>
-			{hatMap[adventurer.class]}
+			{hatMap[adventurer.kind]}
 			<Face style={{filter: `grayscale(${1 - hpRatio})`}} />
 		</div>
 	);

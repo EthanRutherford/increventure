@@ -2,6 +2,7 @@ import {randRange} from "../util";
 import {targetKinds, effectKinds, statKinds} from "./effects";
 
 import slimeIcon from "../../images/svgs/slime";
+import slimeKingIcon from "../../images/svgs/slime-king";
 
 /*
 	stats affect a character's abilities
@@ -73,6 +74,15 @@ export const stats = {
 		luck: 1,
 		image: slimeIcon,
 	},
+	slimeKing: {
+		str: 2,
+		dex: 2,
+		con: 2,
+		int: 2,
+		wis: 2,
+		luck: 2,
+		image: slimeKingIcon,
+	},
 	skeleton: {
 		str: 2,
 		dex: 1,
@@ -98,7 +108,7 @@ export const skills = {
 					hero.con + hero.int * hero.wis
 				;
 				return {
-					damage: multiplier,
+					amount: multiplier,
 				};
 			},
 		},
@@ -130,7 +140,7 @@ export const skills = {
 			mpCost: () => 10,
 			effect(hero) {
 				return {
-					damage: hero.int * 5,
+					amount: hero.int * 5,
 				};
 			},
 		},
@@ -197,6 +207,35 @@ export const skills = {
 			effect(slime) {
 				return {
 					amount: slime.str * 3,
+				};
+			},
+		},
+	],
+	slimeKing: [
+		{
+			lvl: 5,
+			name: "Sludge",
+			desc: "Tosses toxic sludge",
+			kind: effectKinds.damage,
+			target: targetKinds.enemy,
+			mpCost: () => 10,
+			effect(slimeKing) {
+				return {
+					amount: slimeKing.str * 4,
+				};
+			},
+		},
+		{
+			lvl: 8,
+			name: "Marinate",
+			desc: "Soaks in it's own sludge",
+			kind: effectKinds.restore,
+			target: targetKinds.self,
+			stat: statKinds.hp,
+			mpCost: () => 15,
+			effect(slimeKing) {
+				return {
+					amount: slimeKing.con * 4,
 				};
 			},
 		},

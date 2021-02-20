@@ -59,7 +59,7 @@ function CreatorPopup({which}) {
 				</div>
 				<div className={styles.preview}>
 					<div className={styles.headContainer}>
-						<CharacterHead adventurer={{class: kind, skinColor, hp: 1, maxHp: 1}} />
+						<CharacterHead adventurer={{kind, skinColor, hp: 1, maxHp: 1}} />
 					</div>
 					<div className={styles.skinColorButtons}>
 						{skinColors.map((color) => (

@@ -29,10 +29,10 @@ function expireBuffs(being) {
 }
 
 export class Encounter {
-	constructor(end) {
+	constructor(enemyKind, xp, end) {
 		const enemyName = createName(analyzeWords(slimeWords));
-		// TODO: multiple enemies, enemies passed in
-		this.enemy = createNewMonster(enemyName, "slime", {herb: 1});
+		// TODO: multiple enemies
+		this.enemy = createNewMonster(enemyName, enemyKind, xp, {herb: 1});
 		this.ai = new AI(this.enemy, randItem([...Object.values(personalities)]));
 		this.turn = 0;
 		this.playerFlee = false;
@@ -89,6 +89,6 @@ export class Encounter {
 	}
 	loot() {
 		// TODO: handle multiple enemies
-		return lootEnemy(this.enemy.class, this.enemy.lvl);
+		return lootEnemy(this.enemy.kind, this.enemy.lvl);
 	}
 }

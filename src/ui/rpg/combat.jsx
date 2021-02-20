@@ -80,7 +80,7 @@ export function CombatUI({encounter}) {
 	const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 	const [loot, setLoot] = useState(null);
 	const [lines, setLines] = useState(() => [
-		`${encounter.enemy.name} the ${encounter.enemy.data.kind} appears!`,
+		`${encounter.enemy.name} the ${encounter.enemy.class} appears!`,
 		`${encounter.enemy.name} quivers gelatinously.`,
 	]);
 
@@ -129,10 +129,10 @@ export function CombatUI({encounter}) {
 			<div className={`${rootStyles.title} ${styles.header}`} />
 			<div className={styles.content}>
 				<div className={styles.enemyArea}>
-					<div className={styles.enemySlider}>
-						<div className={styles.enemyName}>{encounter.enemy.name}</div>
-						<encounter.enemy.image className={styles.enemy} />
+					<div className={styles.enemyName}>
+						{encounter.enemy.name} - level {encounter.enemy.lvl}
 					</div>
+					<encounter.enemy.image className={styles.enemy} />
 				</div>
 				<div className={styles.infoLines} ref={lineElems}>
 					{lines.map((line, index) => (

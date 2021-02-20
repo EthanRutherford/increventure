@@ -10,8 +10,12 @@ export class Being {
 	get name() {
 		return this.data.name;
 	}
-	get class() {
+	get kind() {
 		return this.data.kind;
+	}
+	get class() {
+		const className = this.data.kind.replace(/[A-Z]/g, (s) => " " + s);
+		return className[0].toUpperCase() + className.substr(1);
 	}
 	set hp(hp) {
 		this.data.hp = Math.max(0, Math.min(this.maxHp, hp));
@@ -124,12 +128,16 @@ export function createNewAdventurer(name, kind, items) {
 	return adventurer;
 }
 
-export function createNewMonster(name, kind, items) {
+export function createNewMonster(name, kind, xp, items = {}) {
 	const monster = new Being({...stats[kind]}, items);
-	monster.data.xp = 0;
+	monster.data.xp = xp;
 	monster.data.name = name;
 	monster.data.kind = kind;
 	monster.data.hp = monster.maxHp;
 	monster.data.mp = monster.maxMp;
 	return monster;
+}
+
+export function levelToXp(lvl) {
+	return (2 ** (lvl - 2)) * 100;
 }
