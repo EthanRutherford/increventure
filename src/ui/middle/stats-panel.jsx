@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useUpdater} from "../../logic/util";
 import {game} from "../../logic/game";
 import {minionKinds} from "../../logic/minions";
-import Close from "../../images/svgs/close.svg";
+import Close from "../../images/svgs/close";
 import {parseCoinsShort} from "../../util/money";
 import coinStyles from "../../styles/coins";
 import styles from "../../styles/middle-page";

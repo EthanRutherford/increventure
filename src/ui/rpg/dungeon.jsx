@@ -2,7 +2,7 @@ import React, {useState, useRef, useLayoutEffect, useCallback} from "react";
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {CharacterHead} from "../status/character-head";
-import Chest from "../../images/svgs/chest.svg";
+import Chest from "../../images/svgs/chest";
 import styles from "../../styles/dungeon.css";
 import {LootPopup} from "../shared/loot-popup";
 
