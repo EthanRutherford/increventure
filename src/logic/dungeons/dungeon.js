@@ -46,6 +46,7 @@ export class Dungeon {
 		this.end = end;
 	}
 	goToRoom(room) {
+		const prevRoom = this.curRoom;
 		this.curRoom = room;
 		this.curRoom.visited = true;
 		const roomsToAdd = [room, room.left, room.right, room.up, room.down].filter(
@@ -66,8 +67,10 @@ export class Dungeon {
 			this.encounter = new Encounter(this.bossKind, xp, (endState) => {
 				if (endState === encounterStates.defeat) {
 					this.end(false);
-				} else {
+				} else if (endState === encounterStates.victory) {
 					this.end(true);
+				} else {
+					this.goToRoom(prevRoom);
 				}
 			});
 		} else if (Math.random() < this.threatValue) {

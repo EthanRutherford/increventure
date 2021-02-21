@@ -14,6 +14,12 @@ export function LootPopup({loot, dismiss}) {
 		for (const [itemId, count] of Object.entries(loot.items)) {
 			game.inventory.items[itemId] += count;
 		}
+
+		if (loot.xp != null) {
+			for (const adventurer of game.adventurers) {
+				adventurer.gainXp(loot.xp);
+			}
+		}
 	}, []);
 
 	return (
@@ -29,6 +35,11 @@ export function LootPopup({loot, dismiss}) {
 						{items[itemId].name} ({count})
 					</div>
 				))}
+				{loot.xp != null && (
+					<div className={styles.xp}>
+						{loot.xp} xp
+					</div>
+				)}
 			</div>
 			<button className={styles.button} onClick={dismiss}>
 				Nice!

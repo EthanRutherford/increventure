@@ -7,14 +7,14 @@ export const items = {
 		kind: effectKinds.restore,
 		target: targetKinds.ally,
 		stat: statKinds.hp,
-		effect: () => ({amount: randInt(10, 15)}),
+		effect: () => ({amount: randInt(15, 30)}),
 	},
 	manaCrystal: {
 		name: "Mana Crystal",
 		kind: effectKinds.restore,
 		target: targetKinds.ally,
 		stat: statKinds.mp,
-		effect: () => ({amount: randInt(10, 15)}),
+		effect: () => ({amount: randInt(15, 30)}),
 	},
 };
 

@@ -81,6 +81,7 @@ export const stats = {
 		int: 2,
 		wis: 2,
 		luck: 2,
+		xpMod: 2,
 		image: slimeKingIcon,
 	},
 	skeleton: {

@@ -24,7 +24,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="31.678384"
-     inkscape:cx="8.5998893"
+     inkscape:cx="3.4702084"
      inkscape:cy="9.8974154"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,22 +56,22 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#00c50f;stroke:#00e60f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       d="m 1,13 c 0,0 0,-11 9,-11 9,0 9,11 9,11 0,0 1,5 -9,5 C 0,18 1,13 1,13 Z"
+       style="fill:#00c50f;fill-opacity:1;stroke:#00e60f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1,14 c 0,0 0,-11 9,-11 9,0 9,11 9,11 0,0 1,5 -9,5 C 0,19 1,14 1,14 Z"
        id="path4789"
        inkscape:connector-curvature="0" />
     <ellipse
        style="fill:#00e60f;fill-opacity:1;stroke:#00e60f;stroke-width:1.89999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
        id="path4798"
        cx="7.5"
-       cy="10"
+       cy="11"
        rx="0.5"
        ry="2" />
     <ellipse
        style="fill:#00e60f;fill-opacity:1;stroke:#00e60f;stroke-width:1.89999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
        id="path4808"
        cx="12.5"
-       cy="10"
+       cy="11"
        rx="0.5"
        ry="2" />
   </g>

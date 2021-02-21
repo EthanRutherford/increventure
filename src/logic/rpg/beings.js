@@ -38,7 +38,7 @@ export class Being {
 	get luckBonus() {
 		return this.luck * .005;
 	}
-	get expRate() {
+	get xpRate() {
 		return 1 + (this.wis * .02);
 	}
 	get lvl() {
@@ -50,6 +50,16 @@ export class Being {
 	}
 	get image() {
 		return this.data.image;
+	}
+	gainXp(amount) {
+		const prevLvl = this.lvl;
+		this.data.xp += amount * this.xpRate;
+		if (this.lvl > prevLvl) {
+			this.hp = this.maxHp;
+			return true;
+		}
+
+		return false;
 	}
 }
 

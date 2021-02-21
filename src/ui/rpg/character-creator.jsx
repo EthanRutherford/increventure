@@ -3,8 +3,8 @@ import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {adventurerKinds, adventurers, createNewAdventurer} from "../../logic/rpg/beings";
 import {stats} from "../../logic/rpg/class-data";
-import styles from "../../styles/character-creator";
 import {CharacterHead} from "../status/character-head";
+import styles from "../../styles/character-creator";
 
 const skinColors = [
 	"#ffed7c",

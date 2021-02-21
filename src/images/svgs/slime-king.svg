@@ -56,38 +56,38 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#00c50f;stroke:#00e60f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       d="m 1,13 c 0,0 0,-11 9,-11 9,0 9,11 9,11 0,0 1,5 -9,5 C 0,18 1,13 1,13 Z"
+       style="fill:#00c50f;fill-opacity:1;stroke:#00e60f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1,14 c 0,0 0,-11 9,-11 9,0 9,11 9,11 0,0 1,5 -9,5 C 0,19 1,14 1,14 Z"
        id="path4789"
        inkscape:connector-curvature="0" />
     <ellipse
        style="fill:#00e60f;fill-opacity:1;stroke:#00e60f;stroke-width:1.89999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
        id="path4798"
        cx="7.5"
-       cy="10"
+       cy="11"
        rx="0.5"
        ry="2" />
     <ellipse
        style="fill:#00e60f;fill-opacity:1;stroke:#00e60f;stroke-width:1.89999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
        id="path4808"
        cx="12.5"
-       cy="10"
+       cy="11"
        rx="0.5"
        ry="2" />
     <path
        style="fill:#00c50f;fill-opacity:1;stroke:#00e60f;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-       d="m 12,4 3,-4 v 3 l 3,-2 -2,3 h 3 l -4,3"
+       d="m 12,5 3,-4 v 3 l 3,-2 -2,3 h 3 l -4,3"
        id="path836"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccc" />
     <path
-       style="fill:none;stroke:#00e60f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;fill-opacity:1"
-       d="M 6,5 9,7 7,5 Z"
+       style="fill:none;fill-opacity:1;stroke:#00e60f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
+       d="M 6,6 9,8 7,6 Z"
        id="path842"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#00e60f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="M 14,5 11,7 13,5 Z"
+       d="M 14,6 11,8 13,6 Z"
        id="path844"
        inkscape:connector-curvature="0" />
   </g>

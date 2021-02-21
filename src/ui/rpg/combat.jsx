@@ -133,6 +133,7 @@ export function CombatUI({encounter}) {
 						{encounter.enemy.name} - level {encounter.enemy.lvl}
 					</div>
 					<encounter.enemy.image className={styles.enemy} />
+					<div className={styles.shadow} />
 				</div>
 				<div className={styles.infoLines} ref={lineElems}>
 					{lines.map((line, index) => (

@@ -26,6 +26,10 @@ function Room({dungeon, room, setTreasure}) {
 			className={styles.room}
 			style={style}
 			onClick={() => {
+				if (dungeon.encounter != null) {
+					return;
+				}
+
 				if (distance === 1) {
 					dungeon.goToRoom(room);
 				} else if (distance === 0) {
@@ -61,6 +65,10 @@ export function DungeonUI({dungeon}) {
 		});
 
 		const keyUp = (event) => {
+			if (dungeon.encounter != null) {
+				return;
+			}
+
 			const upKeys = new Set(["w", "ArrowUp"]);
 			const leftKeys = new Set(["a", "ArrowLeft"]);
 			const downKeys = new Set(["s", "ArrowDown"]);
