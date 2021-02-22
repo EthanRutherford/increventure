@@ -2,7 +2,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 function template({template}, _, {componentName, props, jsx}) {
 	return template.ast`
-		import React from "react";
 		const ${componentName} = (${props}) => ${jsx};
 		export default ${componentName};
 	`;
@@ -24,9 +23,10 @@ module.exports = (env) => ({
 					"cache-loader",
 					{
 						loader: "css-loader", options: {
-							camelCase: "only",
-							localIdentName: "[name]__[local]--[hash:base64:5]",
-							modules: true,
+							modules: {
+								exportLocalsConvention: "camelCaseOnly",
+								localIdentName: "[name]__[local]--[hash:base64:5]",
+							},
 						},
 					},
 				],
@@ -34,9 +34,10 @@ module.exports = (env) => ({
 				test: /.svg$/,
 				use: [
 					"cache-loader",
+					"babel-loader",
 					{
 						loader: "@svgr/webpack",
-						options: {template},
+						options: {babel: false, template},
 					},
 				],
 			}, {

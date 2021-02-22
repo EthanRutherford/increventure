@@ -1,4 +1,3 @@
-import React from "react";
 import {minionKinds} from "../../logic/minions";
 import {TiledBg} from "../shared/tiled-bg";
 import {Minion} from "./minion";

@@ -1,5 +1,5 @@
 import {render} from "react-dom";
-import React, {useState, useCallback} from "react";
+import {useState, useCallback} from "react";
 import {Header} from "./ui/shared/header";
 import {Particles} from "./ui/shared/particles";
 import {ToastManager} from "./ui/shared/toast-manager";

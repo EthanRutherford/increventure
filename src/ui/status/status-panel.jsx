@@ -1,4 +1,4 @@
-import React, {memo, useCallback} from "react";
+import {memo, useCallback} from "react";
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {coinKinds, parseCoins, parseCoinsShort} from "../../util/money";

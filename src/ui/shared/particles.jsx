@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useCallback} from "react";
+import {useEffect, useRef, useCallback} from "react";
 import {animationSteps} from "../../logic/game-loop";
 import {randItem, randRange} from "../../logic/util";
 import styles from "../../styles/root";

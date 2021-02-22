@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import {useUpdater} from "../../logic/util";
 import {game} from "../../logic/game";
 import {minionKinds} from "../../logic/minions";

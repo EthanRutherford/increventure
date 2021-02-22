@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef, useEffect} from "react";
+import {useState, useCallback, useRef, useEffect} from "react";
 import {randRange} from "../../logic/util";
 import Happy from "../../images/svgs/happy";
 import Meh from "../../images/svgs/meh";

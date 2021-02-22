@@ -1,4 +1,3 @@
-import React from "react";
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {parseCoinsShort} from "../../util/money";

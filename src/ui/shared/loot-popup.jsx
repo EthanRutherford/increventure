@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import {game} from "../../logic/game";
 import {items} from "../../logic/rpg/items";
 import {parseCoinsShort} from "../../util/money";

@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect, useCallback, useRef} from "react";
+import {useState, useLayoutEffect, useCallback, useRef} from "react";
 import {encounterStates} from "../../logic/rpg/combat";
 import {actionKinds} from "../../logic/rpg/actions";
 import {effectKinds} from "../../logic/rpg/effects";

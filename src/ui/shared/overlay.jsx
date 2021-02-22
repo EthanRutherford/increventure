@@ -1,4 +1,3 @@
-import React from "react";
 import {game} from "../../logic/game";
 import {CombatUI} from "../rpg/combat";
 import {DungeonUI} from "../rpg/dungeon";

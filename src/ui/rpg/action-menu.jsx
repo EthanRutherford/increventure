@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import {useState, useCallback} from "react";
 import {game} from "../../logic/game";
 import {randItem} from "../../logic/util";
 import {actionKinds} from "../../logic/rpg/actions";

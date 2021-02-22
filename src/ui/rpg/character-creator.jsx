@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {adventurerKinds, adventurers, createNewAdventurer} from "../../logic/rpg/beings";

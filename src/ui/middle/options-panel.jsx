@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import {useState, useCallback} from "react";
 import {game} from "../../logic/game";
 import Close from "../../images/svgs/close";
 import styles from "../../styles/middle-page";
