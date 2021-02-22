@@ -39,7 +39,11 @@ const CoinRate = memo(function CoinRate() {
 
 function Coins() {
 	const money = useWatchedValue((a, b, diff) => {
-		const rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
+		let rateAmount = game.moneyRates.reduce((total, rate) => total + rate.amount, 0);
+		if (game.dungeon != null) {
+			rateAmount /= 1000;
+		}
+
 		return game.inventory.money + (rateAmount * diff);
 	}, null, true);
 

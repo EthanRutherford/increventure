@@ -11,12 +11,19 @@ setInterval(function() {
 	const diff = (thisTick - lastTick) / 1000;
 	lastTick = thisTick;
 
+	const isInDungeon = game.dungeon != null;
+
 	// update money
 	let total = 0;
 	for (const rate of game.moneyRates) {
 		const amount = rate.amount * diff;
 		game.stats.minionMoney[rate.kind] += amount;
 		total += amount;
+	}
+
+	// money gain is reduced while in dungeon
+	if (isInDungeon) {
+		total /= 1000;
 	}
 
 	game.inventory.money += total;
@@ -28,7 +35,7 @@ setInterval(function() {
 	}
 
 	// save game
-	if (thisTick - lastSave > 60000) {
+	if (!isInDungeon && thisTick - lastSave > 60000) {
 		lastSave = thisTick;
 		game.save();
 	}

@@ -16,6 +16,15 @@ function calculateRates(minions, multipliers) {
 
 export const game = {
 	save() {
+		if (game.dungeon != null) {
+			addToast({
+				title: "Save Prohibited",
+				desc: "saving the game is disabled while in a dungeon",
+			});
+
+			return;
+		}
+
 		const saveData = {
 			adventurers: game.adventurers.map((adventurer) => adventurer.data),
 			inventory: game.inventory,
