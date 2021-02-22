@@ -53,7 +53,9 @@ function Room({dungeon, room, setTreasure, exit}) {
 			{room.x === 0 && room.y === 0 && (
 				<Door className={styles.door} />
 			)}
-			{room.hasBoss && "I has boss!"}
+			{room.hasBoss && (
+				<dungeon.boss.image className={styles.boss} />
+			)}
 		</button>
 	);
 }

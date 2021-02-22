@@ -1,7 +1,5 @@
 import {game} from "../game";
 import {randItem} from "../util";
-import {createNewMonster} from "./beings";
-import {analyzeWords, createName, slimeWords} from "./name-gen";
 import {AI, personalities} from "./ai";
 import {actionKinds, doAction} from "./actions";
 import {lootEnemy} from "./loot";
@@ -29,10 +27,8 @@ function expireBuffs(being) {
 }
 
 export class Encounter {
-	constructor(enemyKind, xp, end) {
-		const enemyName = createName(analyzeWords(slimeWords));
-		// TODO: multiple enemies
-		this.enemy = createNewMonster(enemyName, enemyKind, xp, {herb: 1});
+	constructor(enemy, end) {
+		this.enemy = enemy;
 		this.ai = new AI(this.enemy, randItem([...Object.values(personalities)]));
 		this.turn = 0;
 		this.playerFlee = false;

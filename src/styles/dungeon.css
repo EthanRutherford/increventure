@@ -41,7 +41,7 @@
 	z-index: 1;
 }
 
-.character-wrapper>div, .chest {
+.character-wrapper>div, .chest, .door, .boss {
 	width: 32px;
 	height: 32px;
 }

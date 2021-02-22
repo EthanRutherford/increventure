@@ -1,5 +1,7 @@
 import {levelToXp} from "../rpg/beings";
 import {Encounter, encounterStates} from "../rpg/combat";
+import {createNewMonster} from "../rpg/beings";
+import {analyzeWords, createName, slimeWords} from "../rpg/name-gen";
 import {randItem, randRange} from "../util";
 import {generate} from "./generate";
 import {lootTreasure} from "./treasure";
@@ -26,17 +28,24 @@ export const dungeonDefs = {
 
 export const dungeonKinds = Object.keys(dungeonDefs);
 
+function createEnemy(enemyKind, xp) {
+	const enemyName = createName(analyzeWords(slimeWords));
+	return createNewMonster(enemyName, enemyKind, xp, {herb: 1});
+}
+
 export class Dungeon {
 	constructor(def, end) {
 		this.level = def.level;
 		this.enemyXp = levelToXp(this.level);
 		this.enemyKinds = def.enemyKinds;
-		this.bossKind = def.bossKind;
 
 		const roomCount = Math.floor(10 * Math.sqrt(this.level));
 		const treasureCount = Math.floor(roomCount * randRange(.2, .5));
 		this.map = generate(roomCount, treasureCount);
 		this.threatValue = .0625;
+
+		const bossXp = this.enemyXp * randRange(8, 10);
+		this.boss = createEnemy(def.bossKind, bossXp);
 
 		this.curRoom = null;
 		this.encounter = null;
@@ -63,14 +72,16 @@ export class Dungeon {
 		}
 
 		if (room.hasBoss) {
-			const xp = this.enemyXp * randRange(8, 10);
-			this.encounter = new Encounter(this.bossKind, xp, (endState) => {
+			this.encounter = new Encounter(this.boss, (endState) => {
 				if (endState === encounterStates.defeat) {
 					this.end(false);
 				} else if (endState === encounterStates.victory) {
 					this.end(true);
 				} else {
+					this.encounter = null;
 					this.goToRoom(prevRoom);
+					this.boss.hp = this.boss.maxHp;
+					this.boss.mp = this.boss.maxMp;
 				}
 			});
 		} else if (Math.random() < this.threatValue) {
@@ -78,7 +89,8 @@ export class Dungeon {
 
 			const enemyKind = randItem(this.enemyKinds);
 			const xp = this.enemyXp * randRange(.9, 1.2);
-			this.encounter = new Encounter(enemyKind, xp, (endState) => {
+			const enemy = createEnemy(enemyKind, xp);
+			this.encounter = new Encounter(enemy, (endState) => {
 				if (endState === encounterStates.defeat) {
 					this.end(false);
 				} else {
