@@ -78,8 +78,8 @@ export class Dungeon {
 				} else if (endState === encounterStates.victory) {
 					this.end(true);
 				} else {
+					this.curRoom = prevRoom;
 					this.encounter = null;
-					this.goToRoom(prevRoom);
 					this.boss.hp = this.boss.maxHp;
 					this.boss.mp = this.boss.maxMp;
 				}
