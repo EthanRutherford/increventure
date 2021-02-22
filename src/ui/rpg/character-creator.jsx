@@ -22,7 +22,7 @@ function CreatorPopup({which}) {
 
 	function create() {
 		game.adventurers[which] = createNewAdventurer(name, kind, game.inventory.items);
-		game.adventurers[which].skinColor = skinColor;
+		game.adventurers[which].data.skinColor = skinColor;
 	}
 
 	const adventurer = adventurers[kind];

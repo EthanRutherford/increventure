@@ -17,6 +17,9 @@ export class Being {
 		const className = this.data.kind.replace(/[A-Z]/g, (s) => " " + s);
 		return className[0].toUpperCase() + className.substr(1);
 	}
+	get skinColor() {
+		return this.data.skinColor;
+	}
 	set hp(hp) {
 		this.data.hp = Math.max(0, Math.min(this.maxHp, hp));
 	}
