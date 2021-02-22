@@ -115,6 +115,18 @@ export const skills = {
 				return {amount: Math.round(base * lvlMod)};
 			},
 		},
+		{
+			lvl: 2,
+			name: "Inspire",
+			desc: "Inspires allies to fight their hardest",
+			kind: effectKinds.buff,
+			target: targetKinds.allies,
+			stats: [statKinds.str, statKinds.dex, statKinds.int, statKinds.wis],
+			mpCost: () => 15,
+			effect() {
+				return {str: 1, dex: 1, int: 1, wis: 1, turns: 3};
+			},
+		},
 	],
 	warrior: [
 		{
@@ -123,10 +135,22 @@ export const skills = {
 			desc: "Throw more of your weight into your attacks for a few turns",
 			kind: effectKinds.buff,
 			target: targetKinds.self,
-			stat: statKinds.str,
+			stats: [statKinds.str],
 			mpCost: () => 10,
 			effect(hero) {
-				return {amount: hero.con, turns: 3};
+				return {str: hero.con, turns: 3};
+			},
+		},
+		{
+			lvl: 2,
+			name: "Slam",
+			desc: "Slam into your enemy for high damage",
+			kind: effectKinds.damage,
+			target: targetKinds.enemy,
+			mpCost: () => 15,
+			effect(hero) {
+				const lvlMod = hero.lvl ** lvlModPower;
+				return {amount: hero.str * lvlMod * 4};
 			},
 		},
 	],
@@ -140,7 +164,19 @@ export const skills = {
 			mpCost: () => 10,
 			effect(hero) {
 				const lvlMod = hero.lvl ** lvlModPower;
-				return {amount: Math.round(hero.int * lvlMod)};
+				return {amount: Math.round(hero.int * lvlMod * 3)};
+			},
+		},
+		{
+			lvl: 2,
+			name: "Sap",
+			desc: "Sap some mp from your foe",
+			kind: effectKinds.drain,
+			target: targetKinds.enemy,
+			stat: statKinds.mp,
+			mpCost: () => 5,
+			effect(hero) {
+				return {amount: hero.wis * hero.lvl * 2};
 			},
 		},
 	],
@@ -156,6 +192,18 @@ export const skills = {
 			effect(hero) {
 				const lvlMod = hero.lvl ** lvlModPower;
 				return {amount: Math.round(hero.wis * lvlMod * 3)};
+			},
+		},
+		{
+			lvl: 2,
+			name: "Curse",
+			desc: "Temporarily reduce one enemy's stats",
+			kind: effectKinds.debuff,
+			target: targetKinds.enemy,
+			stats: [statKinds.str, statKinds.dex, statKinds.int, statKinds.wis],
+			mpCost: () => 15,
+			effect() {
+				return {str: 2, dex: 2, int: 2, wis: 2, turns: 3};
 			},
 		},
 	],
@@ -175,6 +223,19 @@ export const skills = {
 				return {amount: Math.round(randRange(min, max) * scale)};
 			},
 		},
+		{
+			lvl: 2,
+			name: "Flourish",
+			desc: "Perform a fancy attack, might fail",
+			kind: effectKinds.damage,
+			target: targetKinds.enemy,
+			mpCost: () => 15,
+			effect(hero) {
+				const chance = .5 + hero.luckBonus * hero.lvl;
+				const success = Math.random() < chance;
+				return {amount: success ? hero.lvl * 25 : 0};
+			},
+		},
 	],
 	savant: [
 		{
@@ -187,6 +248,18 @@ export const skills = {
 			effect(hero) {
 				const lvlMod = hero.lvl ** lvlModPower;
 				return {amount: Math.round(hero.int * lvlMod * 10)};
+			},
+		},
+		{
+			lvl: 1,
+			name: "Heal",
+			desc: "Restore health",
+			kind: effectKinds.restore,
+			target: targetKinds.self,
+			mpCost: () => 10,
+			effect(hero) {
+				const lvlMod = hero.lvl ** lvlModPower;
+				return {amount: Math.round(hero.int * lvlMod * 2)};
 			},
 		},
 	],
@@ -204,6 +277,18 @@ export const skills = {
 				return {amount: Math.round(slime.str * lvlMod * 3)};
 			},
 		},
+		{
+			lvl: 4,
+			name: "Glump",
+			desc: "Glumps gloobery goo on grep",
+			kind: effectKinds.buff,
+			target: targetKinds.self,
+			stats: [statKinds.str],
+			mpCost: () => 10,
+			effect() {
+				return {str: 3, turns: 3};
+			},
+		},
 	],
 	slimeKing: [
 		{
@@ -212,7 +297,7 @@ export const skills = {
 			desc: "Tosses toxic sludge",
 			kind: effectKinds.damage,
 			target: targetKinds.enemy,
-			mpCost: () => 10,
+			mpCost: () => 15,
 			effect(slimeKing) {
 				const lvlMod = slimeKing.lvl ** lvlModPower;
 				return {amount: Math.round(slimeKing.str * lvlMod * 4)};
@@ -225,7 +310,7 @@ export const skills = {
 			kind: effectKinds.restore,
 			target: targetKinds.self,
 			stat: statKinds.hp,
-			mpCost: () => 15,
+			mpCost: () => 30,
 			effect(slimeKing) {
 				const lvlMod = slimeKing.lvl ** lvlModPower;
 				return {amount: Math.round(slimeKing.con * lvlMod * 4)};

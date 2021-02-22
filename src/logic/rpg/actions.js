@@ -46,24 +46,37 @@ export function doAction(source, action) {
 		source.mp -= action.skill.mpCost(source);
 		result.skill = action.skill;
 
-		if (action.skill.kind === effectKinds.damage) {
+		const effectKind = action.skill.kind;
+		if (effectKind === effectKinds.damage) {
 			for (const target of action.targets) {
 				const {amount} = action.skill.effect(source);
 				result.values.push(doDamage(source, target, amount));
 			}
-		} else if (action.skill.kind === effectKinds.restore) {
+		} else if (effectKind === effectKinds.restore) {
 			for (const target of action.targets) {
 				const {stat, effect} = action.skill;
 				const amount = clampMaxAmount(target, stat, effect(source).amount);
 				target[stat] += amount;
 				result.values.push({target, stat, amount});
 			}
-		} else if (action.skill.kind === effectKinds.buff) {
+		} else if (effectKind === effectKinds.buff || effectKind === effectKinds.debuff) {
+			const multiplier = effectKind === effectKinds.debuff ? -1 : 1;
+			const {stats, effect} = action.skill;
+			const result = effect(source);
 			for (const target of action.targets) {
-				const {stat, effect} = action.skill;
-				const {amount, turns} = effect(source);
-				target.buffs.add({stat, amount, turns});
-				result.values.push({target, stat, amount});
+				for (const stat of stats) {
+					const amount = result[stat] * multiplier;
+					target.buffs.add({stat, amount, turns: result.turns});
+					result.values.push({target, stat, amount});
+				}
+			}
+		} else if (effectKind === effectKinds.drain) {
+			const {stat, effect} = action.skill;
+			const {amount} = effect(source);
+			for (const target of action.targets) {
+				const actualAmount = Math.min(amount, target[stat]);
+				target[stat] -= actualAmount;
+				result.values.push({target, stat, amount: actualAmount});
 			}
 		}
 	} else if (action.kind === actionKinds.item) {

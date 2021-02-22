@@ -11,6 +11,7 @@ export const effectKinds = {
 	restore: "restore",
 	buff: "buff",
 	debuff: "debuff",
+	drain: "drain",
 };
 
 export const statKinds = {

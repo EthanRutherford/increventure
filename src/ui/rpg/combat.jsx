@@ -36,7 +36,7 @@ function parseResult(result) {
 			}
 		} else if (skill.kind === effectKinds.restore) {
 			for (const {target, stat, amount} of values) {
-				lines.push(`${target.name} restored ${amount} ${stat}.`);
+				lines.push(`${target.name} gained ${amount} ${stat}.`);
 			}
 		} else if (skill.kind === effectKinds.buff) {
 			for (const {target, stat, amount} of values) {
@@ -45,6 +45,10 @@ function parseResult(result) {
 		} else if (skill.kind === effectKinds.debuff) {
 			for (const {target, stat, amount} of values) {
 				lines.push(`${target.name}'s ${stat} reduced by ${amount}.`);
+			}
+		} else if (skill.kind === effectKinds.drain) {
+			for (const {target, stat, amount} of values) {
+				lines.push(`Absorbed ${amount} ${stat} from ${target.name}.`);
 			}
 		}
 	} else if (kind === actionKinds.item) {
