@@ -94,6 +94,11 @@ export const stats = {
 	},
 };
 
+// lvlMod = being level raised to the .8th power
+// this ensures skills continue to improve as you level up, but gradually fall behind,
+// ensuring that higher-leveled skills are always an upgrade when they unlock.
+const lvlModPower = .8;
+
 export const skills = {
 	// adventurers
 	hero: [
@@ -105,12 +110,9 @@ export const skills = {
 			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(hero) {
-				const multiplier = hero.str + hero.dex +
-					hero.con + hero.int * hero.wis
-				;
-				return {
-					amount: multiplier,
-				};
+				const base = hero.str + hero.dex + hero.con + hero.int + hero.wis;
+				const lvlMod = hero.lvl ** lvlModPower;
+				return {amount: Math.round(base * lvlMod)};
 			},
 		},
 	],
@@ -124,10 +126,7 @@ export const skills = {
 			stat: statKinds.str,
 			mpCost: () => 10,
 			effect(hero) {
-				return {
-					amount: hero.con,
-					turns: 3,
-				};
+				return {amount: hero.con, turns: 3};
 			},
 		},
 	],
@@ -140,9 +139,8 @@ export const skills = {
 			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(hero) {
-				return {
-					amount: hero.int * 5,
-				};
+				const lvlMod = hero.lvl ** lvlModPower;
+				return {amount: Math.round(hero.int * lvlMod)};
 			},
 		},
 	],
@@ -156,9 +154,8 @@ export const skills = {
 			stat: statKinds.hp,
 			mpCost: () => 10,
 			effect(hero) {
-				return {
-					amount: hero.wis * 3,
-				};
+				const lvlMod = hero.lvl ** lvlModPower;
+				return {amount: Math.round(hero.wis * lvlMod * 3)};
 			},
 		},
 	],
@@ -175,9 +172,7 @@ export const skills = {
 				const min = hero.lvl;
 				const max = hero.lvl + hero.luck;
 				const scale = hero.wis;
-				return {
-					amount: Math.floor(randRange(min, max) * scale),
-				};
+				return {amount: Math.round(randRange(min, max) * scale)};
 			},
 		},
 	],
@@ -190,9 +185,8 @@ export const skills = {
 			target: targetKinds.enemies,
 			mpCost: () => 10,
 			effect(hero) {
-				return {
-					amount: hero.int * 10,
-				};
+				const lvlMod = hero.lvl ** lvlModPower;
+				return {amount: Math.round(hero.int * lvlMod * 10)};
 			},
 		},
 	],
@@ -206,28 +200,26 @@ export const skills = {
 			target: targetKinds.enemy,
 			mpCost: () => 5,
 			effect(slime) {
-				return {
-					amount: slime.str * 3,
-				};
+				const lvlMod = slime.lvl ** lvlModPower;
+				return {amount: Math.round(slime.str * lvlMod * 3)};
 			},
 		},
 	],
 	slimeKing: [
 		{
-			lvl: 5,
+			lvl: 2,
 			name: "Sludge",
 			desc: "Tosses toxic sludge",
 			kind: effectKinds.damage,
 			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(slimeKing) {
-				return {
-					amount: slimeKing.str * 4,
-				};
+				const lvlMod = slimeKing.lvl ** lvlModPower;
+				return {amount: Math.round(slimeKing.str * lvlMod * 4)};
 			},
 		},
 		{
-			lvl: 8,
+			lvl: 5,
 			name: "Marinate",
 			desc: "Soaks in it's own sludge",
 			kind: effectKinds.restore,
@@ -235,9 +227,8 @@ export const skills = {
 			stat: statKinds.hp,
 			mpCost: () => 15,
 			effect(slimeKing) {
-				return {
-					amount: slimeKing.con * 4,
-				};
+				const lvlMod = slimeKing.lvl ** lvlModPower;
+				return {amount: Math.round(slimeKing.con * lvlMod * 4)};
 			},
 		},
 	],
@@ -250,9 +241,8 @@ export const skills = {
 			target: targetKinds.enemy,
 			mpCost: () => 10,
 			effect(skeleton) {
-				return {
-					amount: skeleton.str * 4,
-				};
+				const lvlMod = skeleton.lvl ** lvlModPower;
+				return {amount: Math.round(skeleton.str * lvlMod * 4)};
 			},
 		},
 	],
