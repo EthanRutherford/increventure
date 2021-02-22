@@ -2,6 +2,7 @@ import {useState} from "react";
 import {TiledBg} from "../shared/tiled-bg";
 import {Upgrades} from "./upgrade-panel";
 import {Dungeons} from "./dungeon-panel";
+import {Shop} from "./shop-panel";
 import rootStyles from "../../styles/root";
 import storeStyles from "../../styles/store";
 
@@ -28,7 +29,7 @@ const tabs = {
 
 function renderSection(tab) {
 	if (tab === tabs.shop.id) {
-		return <div className={storeStyles.wip}>Coming soon</div>;
+		return <Shop />;
 	}
 	if (tab === tabs.upgrade.id) {
 		return <Upgrades />;

@@ -4,6 +4,7 @@ import {targetKinds, effectKinds, statKinds} from "./effects";
 export const items = {
 	herb: {
 		name: "Herb",
+		cost: 100,
 		kind: effectKinds.restore,
 		target: targetKinds.ally,
 		stat: statKinds.hp,
@@ -11,6 +12,7 @@ export const items = {
 	},
 	manaCrystal: {
 		name: "Mana Crystal",
+		cost: 100,
 		kind: effectKinds.restore,
 		target: targetKinds.ally,
 		stat: statKinds.mp,

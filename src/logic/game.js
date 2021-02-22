@@ -5,6 +5,7 @@ import {saveGame, loadGame, deleteGame} from "./save-data";
 import {logInfo} from "./log";
 import {addToast} from "./use-toasts";
 import {Dungeon, dungeonDefs} from "./dungeons/dungeon";
+import {items} from "./rpg/items";
 
 function calculateRates(minions, multipliers) {
 	return minionKinds.map((kind) => ({
@@ -97,6 +98,14 @@ export const game = {
 			upgrade.owned = true;
 			game.multipliers = calculateMultipliers(game.upgrades);
 			game.moneyRates = calculateRates(game.minions, game.multipliers);
+		}
+	},
+	// items
+	buyItem(itemId) {
+		const item = items[itemId];
+		if (game.inventory.money >= item.cost) {
+			game.inventory.money -= item.cost;
+			game.inventory.items[itemId]++;
 		}
 	},
 	// dungeons

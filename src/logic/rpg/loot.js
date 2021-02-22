@@ -20,8 +20,8 @@ const enemyLootTables = {
 	slimeKing: {
 		lootCount: [1, 3],
 		items: [
-			{itemId: "herb", weight: 2},
-			{itemId: "manaCrystal", weight: 1},
+			{itemId: "herb", weight: 3},
+			{itemId: "manaCrystal", weight: 2},
 		],
 	},
 };
