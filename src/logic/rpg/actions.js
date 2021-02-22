@@ -62,11 +62,11 @@ export function doAction(source, action) {
 		} else if (effectKind === effectKinds.buff || effectKind === effectKinds.debuff) {
 			const multiplier = effectKind === effectKinds.debuff ? -1 : 1;
 			const {stats, effect} = action.skill;
-			const result = effect(source);
+			const data = effect(source);
 			for (const target of action.targets) {
 				for (const stat of stats) {
-					const amount = result[stat] * multiplier;
-					target.buffs.add({stat, amount, turns: result.turns});
+					const amount = data[stat];
+					target.buffs.add({stat, amount: amount * multiplier, turns: data.turns});
 					result.values.push({target, stat, amount});
 				}
 			}

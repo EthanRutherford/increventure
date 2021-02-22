@@ -24,7 +24,7 @@ export class Being {
 		this.data.hp = Math.max(0, Math.min(this.maxHp, hp));
 	}
 	get maxHp() {
-		return this.con * this.lvl * 20;
+		return this.con * this.lvl * 10;
 	}
 	set mp(mp) {
 		this.data.mp = Math.max(0, Math.min(this.maxMp, mp));
@@ -45,7 +45,7 @@ export class Being {
 		return 1 + (this.wis * .02);
 	}
 	get lvl() {
-		return Math.max(1, Math.floor(Math.log2(this.xp / 100)) + 2);
+		return Math.max(1, Math.floor(Math.log2(this.xp / 50)) + 2);
 	}
 	get skills() {
 		const lvl = this.lvl;
@@ -152,5 +152,5 @@ export function createNewMonster(name, kind, xp, items = {}) {
 }
 
 export function levelToXp(lvl) {
-	return (2 ** (lvl - 2)) * 100;
+	return (2 ** (lvl - 2)) * 50;
 }
