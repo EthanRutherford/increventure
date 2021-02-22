@@ -76,6 +76,7 @@ export function doAction(source, action) {
 			for (const target of action.targets) {
 				const actualAmount = Math.min(amount, target[stat]);
 				target[stat] -= actualAmount;
+				source[stat] += actualAmount;
 				result.values.push({target, stat, amount: actualAmount});
 			}
 		}
