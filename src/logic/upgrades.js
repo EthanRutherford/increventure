@@ -59,7 +59,7 @@ const upgradeDefs = {
 	},
 	goblinAle: {
 		name: "Goblin Ale",
-		desc: "Goblins are a little less beligerent when drunk",
+		desc: "Goblins are a little less belligerent when drunk",
 		cost: 100000,
 		getDeps: (game) => [game.minions.goblin.count],
 		unlock: (game) => game.minions.goblin.count >= 1,
