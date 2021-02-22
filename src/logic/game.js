@@ -118,6 +118,12 @@ export const game = {
 				game.dungeon = null;
 				if (victory) {
 					game.clearedDungeons[kind] = true;
+				} else {
+					for (const adventurer of game.adventurers) {
+						if (adventurer.hp === 0) {
+							adventurer.hp = 1;
+						}
+					}
 				}
 			});
 		}

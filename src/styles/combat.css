@@ -102,7 +102,7 @@
 
 .action-menu {
 	display: grid;
-	grid-template-columns: auto auto;
+	grid-template-columns: 1fr 1fr;
 	flex-shrink: 0;
 	height: 100px;
 	background-color: var(--slate-dark);

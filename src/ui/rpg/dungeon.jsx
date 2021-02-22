@@ -3,10 +3,11 @@ import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {CharacterHead} from "../status/character-head";
 import Chest from "../../images/svgs/chest";
+import Door from "../../images/svgs/door";
 import styles from "../../styles/dungeon.css";
 import {LootPopup} from "../shared/loot-popup";
 
-function Room({dungeon, room, setTreasure}) {
+function Room({dungeon, room, setTreasure, exit}) {
 	const style = {
 		top: `${-room.y * 100}%`,
 		left: `${room.x * 100}%`,
@@ -33,7 +34,11 @@ function Room({dungeon, room, setTreasure}) {
 				if (distance === 1) {
 					dungeon.goToRoom(room);
 				} else if (distance === 0) {
-					setTreasure(dungeon.getTreasure(room));
+					if (room.hasTreasure) {
+						setTreasure(dungeon.getTreasure(room));
+					} else if (room.x === 0 && room.y === 0) {
+						exit();
+					}
 				}
 			}}
 		>
@@ -44,6 +49,9 @@ function Room({dungeon, room, setTreasure}) {
 			)}
 			{room.hasTreasure && (
 				<Chest className={styles.chest} />
+			)}
+			{room.x === 0 && room.y === 0 && (
+				<Door className={styles.door} />
 			)}
 			{room.hasBoss && "I has boss!"}
 		</button>
@@ -82,7 +90,11 @@ export function DungeonUI({dungeon}) {
 			} else if (dungeon.curRoom.right != null && rightKeys.has(event.key)) {
 				dungeon.goToRoom(dungeon.curRoom.right);
 			} else if (event.key === "Enter") {
-				setTreasure(dungeon.getTreasure(dungeon.curRoom));
+				if (dungeon.curRoom.hasTreasure) {
+					setTreasure(dungeon.getTreasure(dungeon.curRoom));
+				} else if (dungeon.curRoom.x === 0 && dungeon.curRoom.y === 0) {
+					dungeon.end(false);
+				}
 			}
 		};
 
@@ -119,7 +131,13 @@ export function DungeonUI({dungeon}) {
 		<div className={styles.wrapper} onMouseDown={onMouseDown}>
 			<div className={styles.content} style={position} ref={dungeonRef}>
 				{[...dungeon.visibleRooms].map((room, i) => (
-					<Room dungeon={dungeon} room={room} setTreasure={setTreasure} key={i} />
+					<Room
+						dungeon={dungeon}
+						room={room}
+						setTreasure={setTreasure}
+						exit={() => dungeon.end(false)}
+						key={i}
+					/>
 				))}
 			</div>
 			{treasure != null && (

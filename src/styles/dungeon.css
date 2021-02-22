@@ -27,10 +27,18 @@
 	height: 100%;
 }
 
+.door {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+}
+
 .character-wrapper {
 	position: relative;
 	width: 32px;
 	height: 40px;
+	z-index: 1;
 }
 
 .character-wrapper>div, .chest {

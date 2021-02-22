@@ -10,6 +10,7 @@
 	color: white;
 	text-shadow: var(--text-shadow);
 	transform: translate(-50%, -50%);
+	z-index: 100;
 }
 
 .content {
