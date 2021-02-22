@@ -306,7 +306,7 @@ export const skills = {
 		{
 			lvl: 5,
 			name: "Marinate",
-			desc: "Soaks in it's own sludge",
+			desc: "Soaks in its own sludge",
 			kind: effectKinds.restore,
 			target: targetKinds.self,
 			stat: statKinds.hp,
