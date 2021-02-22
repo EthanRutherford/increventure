@@ -150,7 +150,7 @@ export const skills = {
 			mpCost: () => 15,
 			effect(hero) {
 				const lvlMod = hero.lvl ** lvlModPower;
-				return {amount: hero.str * lvlMod * 4};
+				return {amount: Math.round(hero.str * lvlMod * 4)};
 			},
 		},
 	],
