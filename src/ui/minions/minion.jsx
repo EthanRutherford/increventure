@@ -7,7 +7,12 @@ import coinStyles from "../../styles/coins";
 export function Minion({kind}) {
 	const minion = game.minions[kind];
 	const count = useWatchedValue(() => minion.count);
+	const unlocked = useWatchedValue(() => minion.unlock(game));
 	const disabled = useWatchedValue(() => game.inventory.money < minion.cost);
+	if (!unlocked) {
+		return null;
+	}
+
 	const coin = parseCoinsShort(minion.cost);
 	return (
 		<button
