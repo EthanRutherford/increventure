@@ -1,28 +1,28 @@
 const minionDefs = {
 	grass: {
 		name: "Grass",
-		desc: "cuts grass for you",
+		desc: "Hire an intern",
 		baseCost: 10,
 		baseRate: .1,
 		unlock: (game) => game.stats.grassClicks > 5,
 	},
 	slime: {
 		name: "Slime",
-		desc: "farms slimes for you",
+		desc: "Hire a slime",
 		baseCost: 100,
 		baseRate: 1,
 		unlock: (game) => game.clearedDungeons.slime,
 	},
 	skeleton: {
 		name: "Skeleton",
-		desc: "farms skeletons for you",
+		desc: "Hire a skeleton",
 		baseCost: 1000,
 		baseRate: 8,
 		unlock: (game) => game.clearedDungeons.skeleton,
 	},
 	goblin: {
 		name: "Goblin",
-		desc: "farms goblins for you",
+		desc: "Hire a goblin",
 		baseCost: 10000,
 		baseRate: 64,
 		unlock: (game) => game.clearedDungeons.goblin,

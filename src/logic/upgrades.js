@@ -3,7 +3,7 @@ import {minionKinds} from "./minions";
 const upgradeDefs = {
 	scissors: {
 		name: "Safety Scissors",
-		desc: "Cutting grass is easier with something to cut with",
+		desc: "Cutting grass is easier with an actual cutting tool",
 		cost: 100,
 		getDeps: (game) => [game.minions.grass.count],
 		unlock: (game) => game.minions.grass.count >= 1,
@@ -19,7 +19,7 @@ const upgradeDefs = {
 	},
 	scythes: {
 		name: "Scythes",
-		desc: "Congrats! You've learned to use an actual grass cutting tool!",
+		desc: "Congrats! You've learned to use an actual lawn care tool!",
 		cost: 10000,
 		getDeps: (game) => [game.upgrades.shears.owned, game.stats.grassClicks],
 		unlock: (game) => game.upgrades.shears.owned && game.stats.grassClicks >= 1000,
@@ -27,7 +27,7 @@ const upgradeDefs = {
 	},
 	slimeCandy: {
 		name: "Slime Candy",
-		desc: "It sounds gross, but slimes love this stuff",
+		desc: "Sounds gross, but slimes love this stuff",
 		cost: 1000,
 		getDeps: (game) => [game.minions.slime.count],
 		unlock: (game) => game.minions.slime.count >= 1,
@@ -51,7 +51,7 @@ const upgradeDefs = {
 	},
 	skeletonMowers: {
 		name: "Skeleton lawn mowers",
-		desc: "Your skeletons will help cut grass",
+		desc: "The mowers may or may not be made of skeletons",
 		cost: 20000,
 		getDeps: (game) => [game.minions.skeleton.count],
 		unlock: (game) => game.minions.skeleton.count >= 15,
