@@ -85,15 +85,12 @@ for (const stat of Object.keys(statKinds)) {
 	});
 }
 
-export const monsters = {
-	// ideas for futher monsters (which have corresponding dungeons/minions)
-	// in no particular order yet (in fact, might allow user to decide order):
-	// skeletons - nyeh!
-	// golems - perhaps even of more than one type
-	// drakes - small dragons yeh
-	// necromancers - can summon skellies
-	// chimera - cockatrice, manticore, etc. (maybe)
-};
+// ideas for futher monsters (which have corresponding dungeons/minions)
+// in no particular order
+// golems - perhaps even of more than one type
+// drakes - small dragons yeh
+// necromancers - can summon skellies
+// chimera - cockatrice, manticore, etc. (maybe)
 
 export function createNewAdventurer(name, kind, skinColor, items) {
 	const def = adventurerDefs[kind];
