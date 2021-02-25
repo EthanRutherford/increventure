@@ -85,6 +85,6 @@ export class Encounter {
 	}
 	loot() {
 		// TODO: handle multiple enemies
-		return lootEnemy(this.enemy.kind, this.enemy.lvl);
+		return lootEnemy(this.enemy);
 	}
 }

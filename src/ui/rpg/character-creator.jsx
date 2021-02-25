@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
-import {adventurerKinds, adventurers, createNewAdventurer} from "../../logic/rpg/beings";
-import {stats} from "../../logic/rpg/class-data";
+import {statDefs, adventurerDefs, adventurerKinds} from "../../logic/classes/classes";
+import {createNewAdventurer} from "../../logic/rpg/beings";
 import {CharacterHead} from "../status/character-head";
 import styles from "../../styles/character-creator";
 
@@ -21,13 +21,10 @@ function CreatorPopup({which}) {
 	const [skinColor, setSkinColor] = useState(skinColors[0]);
 
 	function create() {
-		game.adventurers[which] = createNewAdventurer(name, kind, game.inventory.items);
-		game.adventurers[which].data.skinColor = skinColor;
+		game.adventurers[which] = createNewAdventurer(name, kind, skinColor, game.inventory.items);
 	}
 
-	const adventurer = adventurers[kind];
-	const adventurerStats = stats[kind];
-
+	const def = adventurerDefs[kind];
 	return (
 		<div className={styles.container}>
 			<div className={styles.popup}>
@@ -40,22 +37,19 @@ function CreatorPopup({which}) {
 								className={styles.button}
 								onClick={() => setKind(kind)}
 							>
-								{adventurers[kind].name}
+								{def.name}
 							</button>
 						</li>
 					))}
 				</ul>
 				<div className={styles.desc}>
-					<h1>Class: {adventurer.name}</h1>
-					<div>{adventurer.desc}</div>
+					<h1>Class: {def.name}</h1>
+					<div>{def.desc}</div>
 				</div>
 				<div className={styles.stats}>
-					<div>strength: {adventurerStats.str}</div>
-					<div>dexterity: {adventurerStats.dex}</div>
-					<div>constitution: {adventurerStats.con}</div>
-					<div>intelligence: {adventurerStats.int}</div>
-					<div>wisdom: {adventurerStats.wis}</div>
-					<div>luck: {adventurerStats.luck}</div>
+					{Object.entries(statDefs).map(([key, stat]) => (
+						<div key={key}>{stat.name}: {def.baseStats[key]}</div>
+					))}
 				</div>
 				<div className={styles.preview}>
 					<div className={styles.headContainer}>

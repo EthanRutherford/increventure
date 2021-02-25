@@ -1,11 +1,17 @@
+import {adventurerDefs, monsterDefs} from "../classes/classes";
 import {statKinds} from "./effects";
-import {stats, skills} from "./class-data";
 
-export class Being {
-	constructor(data, items) {
+class Being {
+	constructor(data, skills, items) {
 		this.data = data;
 		this.items = items;
 		this.buffs = new Set();
+		Object.defineProperty(this, "skills", {
+			get() {
+				const lvl = this.lvl;
+				return skills.filter((skill) => lvl >= skill.lvl);
+			},
+		});
 	}
 	get name() {
 		return this.data.name;
@@ -20,12 +26,16 @@ export class Being {
 	get skinColor() {
 		return this.data.skinColor;
 	}
+	// this is fine, the getter is defined below
+	// eslint-disable-next-line accessor-pairs
 	set hp(hp) {
 		this.data.hp = Math.max(0, Math.min(this.maxHp, hp));
 	}
 	get maxHp() {
 		return this.con * this.lvl * 10;
 	}
+	// this is fine, the getter is defined below
+	// eslint-disable-next-line accessor-pairs
 	set mp(mp) {
 		this.data.mp = Math.max(0, Math.min(this.maxMp, mp));
 	}
@@ -46,13 +56,6 @@ export class Being {
 	}
 	get lvl() {
 		return Math.max(1, Math.floor(Math.log2(this.xp / 50)) + 2);
-	}
-	get skills() {
-		const lvl = this.lvl;
-		return skills[this.data.kind].filter((skill) => lvl >= skill.lvl);
-	}
-	get image() {
-		return this.data.image;
 	}
 	gainXp(amount) {
 		const prevLvl = this.lvl;
@@ -82,35 +85,6 @@ for (const stat of Object.keys(statKinds)) {
 	});
 }
 
-export const adventurers = {
-	hero: {
-		name: "Hero",
-		desc: "A well-rounded adventurer that can handle most any situation",
-	},
-	warrior: {
-		name: "Warrior",
-		desc: "A brutish adventurer keen on smashing skulls and making mad gainz",
-	},
-	wizard: {
-		name: "Wizard",
-		desc: "An adventurer skilled in the arcane arts, but lacking in athleticism",
-	},
-	cleric: {
-		name: "Cleric",
-		desc: "A helpful adventurer, dedicated to keeping the party in top condition",
-	},
-	prodigy: {
-		name: "Prodigy",
-		desc: "The most clever adventurer learns quickly, despite their young age",
-	},
-	savant: {
-		name: "Savant",
-		desc: "An adventurer of incredible skill, but low aptitude for learning new tricks",
-	},
-};
-
-export const adventurerKinds = Object.keys(adventurers);
-
 export const monsters = {
 	// ideas for futher monsters (which have corresponding dungeons/minions)
 	// in no particular order yet (in fact, might allow user to decide order):
@@ -119,35 +93,43 @@ export const monsters = {
 	// drakes - small dragons yeh
 	// necromancers - can summon skellies
 	// chimera - cockatrice, manticore, etc. (maybe)
-	slime: {
-		name: "Slime",
-		desc: "",
-	},
-	skeleton: {
-		name: "Skeleton",
-		desc: "",
-	},
 };
 
-export const monsterKinds = Object.keys(monsters);
+export function createNewAdventurer(name, kind, skinColor, items) {
+	const def = adventurerDefs[kind];
+	const adventurer = new Being({
+		name,
+		kind,
+		skinColor,
+		xp: 0,
+		...def.baseStats,
+	}, def.skills, items);
 
-export function createNewAdventurer(name, kind, items) {
-	const adventurer = new Being({...stats[kind]}, items);
-	adventurer.data.xp = 0;
-	adventurer.data.name = name;
-	adventurer.data.kind = kind;
-	adventurer.data.hp = adventurer.maxHp;
-	adventurer.data.mp = adventurer.maxMp;
+	adventurer.hp = adventurer.maxHp;
+	adventurer.mp = adventurer.maxMp;
 	return adventurer;
 }
 
-export function createNewMonster(name, kind, xp, items = {}) {
-	const monster = new Being({...stats[kind]}, items);
-	monster.data.xp = xp;
-	monster.data.name = name;
-	monster.data.kind = kind;
-	monster.data.hp = monster.maxHp;
-	monster.data.mp = monster.maxMp;
+export function loadAdventurer(data, items) {
+	const def = adventurerDefs[data.kind];
+	return new Being(data, def.skills, items);
+}
+
+export function createNewMonster(kind, xp, items = {}) {
+	const def = monsterDefs[kind];
+	const monster = new Being({
+		name: def.createName(),
+		kind,
+		xp,
+		...def.baseStats,
+	}, def.skills, items);
+
+	monster.hp = monster.maxHp;
+	monster.mp = monster.maxMp;
+	monster.image = def.image;
+	monster.icon = def.image; // TODO: these will eventually be different
+	monster.lootTable = def.lootTable;
+	monster.xpMod = def.xpMod;
 	return monster;
 }
 

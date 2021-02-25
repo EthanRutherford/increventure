@@ -1,7 +1,6 @@
 import {levelToXp} from "../rpg/beings";
 import {Encounter, encounterStates} from "../rpg/combat";
 import {createNewMonster} from "../rpg/beings";
-import {analyzeWords, createName, slimeWords} from "../rpg/name-gen";
 import {randItem, randRange} from "../util";
 import {generate} from "./generate";
 import {lootTreasure} from "./treasure";
@@ -18,6 +17,8 @@ export const dungeonDefs = {
 		name: "Skeleton Dungeon",
 		level: 10,
 		cost: 5000,
+		enemyKinds: ["skeleton"],
+		bossKind: "skeletonKing",
 	},
 	goblin: {
 		name: "Goblin Dungeon",
@@ -27,11 +28,6 @@ export const dungeonDefs = {
 };
 
 export const dungeonKinds = Object.keys(dungeonDefs);
-
-function createEnemy(enemyKind, xp) {
-	const enemyName = createName(analyzeWords(slimeWords));
-	return createNewMonster(enemyName, enemyKind, xp, {herb: 1});
-}
 
 export class Dungeon {
 	constructor(def, end) {
@@ -45,7 +41,7 @@ export class Dungeon {
 		this.threatValue = .0625;
 
 		const bossXp = this.enemyXp * randRange(8, 10);
-		this.boss = createEnemy(def.bossKind, bossXp);
+		this.boss = createNewMonster(def.bossKind, bossXp, {herb: 1});
 
 		this.curRoom = null;
 		this.encounter = null;
@@ -89,7 +85,7 @@ export class Dungeon {
 
 			const enemyKind = randItem(this.enemyKinds);
 			const xp = this.enemyXp * randRange(.9, 1.2);
-			const enemy = createEnemy(enemyKind, xp);
+			const enemy = createNewMonster(enemyKind, xp, {herb: 1});
 			this.encounter = new Encounter(enemy, (endState) => {
 				if (endState === encounterStates.defeat) {
 					this.end(false);

@@ -26,7 +26,7 @@ export function analyzeWords(words) {
 	return {consonant, vowel};
 }
 
-export function createName(phonemes) {
+export function construct(phonemes) {
 	const wordLength = randInt(4, 10);
 
 	let useVowel = randItem([true, false]);
@@ -45,7 +45,8 @@ export function createName(phonemes) {
 		name.startsWith("dg") ||
 		name.startsWith("rb") ||
 		name.startsWith("mp") ||
-		name.startsWith("ct")
+		name.startsWith("ct") ||
+		name.startsWith("rt")
 	) {
 		if (randItem([true, false])) {
 			name = name.slice(1);
@@ -78,36 +79,3 @@ export function createName(phonemes) {
 	name = name[0].toUpperCase() + name.substr(1);
 	return name;
 }
-
-export const slimeWords = [
-	"slime",
-	"goo",
-	"gunk",
-	"mucus",
-	"mud",
-	"sludge",
-	"fungus",
-	"glop",
-	"mire",
-	"ooze",
-	"scum",
-	"rot",
-	"nasty",
-	"sewage",
-	"muck",
-	"gross",
-	"garbage",
-	"filth",
-	"ugliness",
-	"trash",
-	"bog",
-	"marsh",
-	"glob",
-	"blob",
-	"smear",
-	"stain",
-	"dump",
-	"grump",
-	"sleaze",
-	"ectoplasm",
-];

@@ -1,6 +1,6 @@
 import {minionKinds, Minion} from "./minions";
 import {upgradeIds, calculateMultipliers, Upgrade} from "./upgrades";
-import {Being} from "./rpg/beings";
+import {loadAdventurer} from "./rpg/beings";
 import {saveGame, loadGame, deleteGame} from "./save-data";
 import {logInfo} from "./log";
 import {addToast} from "./use-toasts";
@@ -51,7 +51,7 @@ export const game = {
 		game.stats = data.stats;
 
 		for (const adventurer of data.adventurers) {
-			game.adventurers.push(new Being(adventurer, game.inventory.items));
+			game.adventurers.push(loadAdventurer(adventurer, game.inventory.items));
 		}
 
 		for (const kind of minionKinds) {
