@@ -31,7 +31,7 @@ export const skeletonDef = {
 	desc: "Spooky Scary!",
 	image: SkeletonIcon,
 	xpMod: 1,
-	createName: construct(phonemes),
+	createName: () => construct(phonemes),
 	baseStats: {
 		str: 2,
 		dex: 1,
