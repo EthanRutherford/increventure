@@ -3,7 +3,7 @@ import {game} from "../../logic/game";
 import {randItem} from "../../logic/util";
 import {actionKinds} from "../../logic/rpg/actions";
 import {mapTarget} from "../../logic/rpg/effects";
-import {items, itemIds} from "../../logic/rpg/items";
+import {itemDefs, itemIds} from "../../logic/rpg/items";
 import styles from "../../styles/combat.css";
 
 export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
@@ -19,7 +19,7 @@ export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
 		setMenuState("main");
 	}, []);
 	const useItem = useCallback((itemId) => {
-		const {options, all} = mapTarget(items[itemId].target, game.adventurers[0], []);
+		const {options, all} = mapTarget(itemDefs[itemId].target, game.adventurers[0], []);
 		const targets = all ? options : [randItem(options)];
 		doPlayerAction({kind: actionKinds.item, itemId, targets});
 		setMenuState("main");
@@ -58,7 +58,7 @@ export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
 						disabled={game.adventurers[0].items[itemId] === 0}
 						key={itemId}
 					>
-						{items[itemId].name} ({game.adventurers[0].items[itemId]})
+						{itemDefs[itemId].name} ({game.adventurers[0].items[itemId]})
 					</button>
 				))}
 				<button className={styles.button} onClick={() => setMenuState("main")}>

@@ -1,7 +1,7 @@
 import {randItem, WeightedSet} from "../util";
 import {effectKinds, mapTarget} from "./effects";
 import {actionKinds} from "./actions";
-import {items} from "./items";
+import {itemDefs} from "./items";
 
 // personalities are collections of effect weights
 // for pseudo-balance, the weights should total to 20
@@ -32,7 +32,7 @@ function mapSkill(skill, self, allies, enemies) {
 	return {kind: actionKinds.skill, skill, targets};
 }
 function mapItem(itemId, self, allies) {
-	const {options, all} = mapTarget(items[itemId].target, self, allies);
+	const {options, all} = mapTarget(itemDefs[itemId].target, self, allies);
 	const targets = all ? options : [randItem(options)];
 	return {kind: actionKinds.item, itemId, targets};
 }
@@ -79,7 +79,7 @@ export class AI {
 				continue;
 			}
 
-			const item = items[itemId];
+			const item = itemDefs[itemId];
 			if (item.kind === effectKinds.restore) {
 				restoreItems.push(itemId);
 			} else if (item.kind === effectKinds.buff) {

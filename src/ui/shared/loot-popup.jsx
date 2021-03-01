@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {game} from "../../logic/game";
-import {items} from "../../logic/rpg/items";
+import {itemDefs} from "../../logic/rpg/items";
 import {parseCoinsShort} from "../../util/money";
 import styles from "../../styles/loot-popup.css";
 import coinStyles from "../../styles/coins";
@@ -32,7 +32,7 @@ export function LootPopup({loot, dismiss}) {
 				</div>
 				{Object.entries(loot.items).map(([itemId, count]) => (
 					<div className={styles.item} key={itemId}>
-						{items[itemId].name} ({count})
+						{itemDefs[itemId].name} ({count})
 					</div>
 				))}
 				{loot.xp != null && (

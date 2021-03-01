@@ -1,13 +1,13 @@
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {parseCoinsShort} from "../../util/money";
-import {itemIds, items} from "../../logic/rpg/items";
+import {itemDefs, itemIds} from "../../logic/rpg/items";
 import storeStyles from "../../styles/store";
 import coinStyles from "../../styles/coins";
 
 function Item({id}) {
-	const item = items[id];
-	const disabled = useWatchedValue(() => game.inventory.money < item.cost);
+	const item = itemDefs[id];
+	const disabled = useWatchedValue(() => game.inventory.money < item.cost || game.inventory.items[id] >= item.max);
 	const count = useWatchedValue(() => game.inventory.items[id]);
 	const coin = parseCoinsShort(item.cost);
 

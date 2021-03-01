@@ -1,5 +1,5 @@
 import {effectKinds, statKinds} from "./effects";
-import {items} from "./items";
+import {itemDefs} from "./items";
 
 export const actionKinds = {
 	attack: "attack",
@@ -81,7 +81,7 @@ export function doAction(source, action) {
 			}
 		}
 	} else if (action.kind === actionKinds.item) {
-		const item = items[action.itemId];
+		const item = itemDefs[action.itemId];
 		source.items[action.itemId]--;
 		result.item = item;
 
