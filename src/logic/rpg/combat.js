@@ -1,6 +1,4 @@
 import {game} from "../game";
-import {randItem} from "../util";
-import {AI, personalities} from "./ai";
 import {actionKinds, doAction} from "./actions";
 import {lootEnemy} from "./loot";
 
@@ -29,7 +27,6 @@ function expireBuffs(being) {
 export class Encounter {
 	constructor(enemy, end) {
 		this.enemy = enemy;
-		this.ai = new AI(this.enemy, randItem([...Object.values(personalities)]));
 		this.turn = 0;
 		this.playerFlee = false;
 		this.turnOrder = [
@@ -64,11 +61,10 @@ export class Encounter {
 		return this.turnOrder[this.turn];
 	}
 	enemyTurn() {
-		const {enemy, ai} = this;
-		decrementBuffs(enemy);
-		const action = ai.decide([], game.adventurers);
-		const result = doAction(enemy, action);
-		expireBuffs(enemy);
+		decrementBuffs(this.enemy);
+		const action = this.enemy.ai.decide([], game.adventurers);
+		const result = doAction(this.enemy, action);
+		expireBuffs(this.enemy);
 		// TODO: handle enemy flee (once support for more than one enemy is added)
 		return result;
 	}

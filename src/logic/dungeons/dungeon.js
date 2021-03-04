@@ -1,6 +1,7 @@
 import {levelToXp} from "../rpg/beings";
 import {Encounter, encounterStates} from "../rpg/combat";
 import {createNewMonster} from "../rpg/beings";
+import {AI, personalities} from "../rpg/ai";
 import {randItem, randRange} from "../util";
 import {generate} from "./generate";
 import {lootTreasure} from "./treasure";
@@ -42,6 +43,7 @@ export class Dungeon {
 
 		const bossXp = this.enemyXp * randRange(8, 10);
 		this.boss = createNewMonster(def.bossKind, bossXp, {herb: 1});
+		this.boss.ai = new AI(this.boss, randItem([...Object.values(personalities)]));
 
 		this.curRoom = null;
 		this.encounter = null;
@@ -86,6 +88,7 @@ export class Dungeon {
 			const enemyKind = randItem(this.enemyKinds);
 			const xp = this.enemyXp * randRange(.9, 1.2);
 			const enemy = createNewMonster(enemyKind, xp, {herb: 1});
+			enemy.ai = new AI(this.enemy, randItem([...Object.values(personalities)]));
 			this.encounter = new Encounter(enemy, (endState) => {
 				if (endState === encounterStates.defeat) {
 					this.end(false);
