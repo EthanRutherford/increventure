@@ -15,14 +15,14 @@ export const dungeonDefs = {
 	},
 	skeleton: {
 		name: "Skeleton Dungeon",
-		level: 10,
+		level: 5,
 		cost: 5000,
 		enemyKinds: ["skeleton"],
-		bossKind: "skeletonKing",
+		bossKind: "skeleton", // TODO: actual boss pls
 	},
 	goblin: {
 		name: "Goblin Dungeon",
-		level: 100,
+		level: 10,
 		cost: 50000,
 	},
 };
