@@ -26,23 +26,20 @@ export const itemIds = Object.keys(itemDefs);
 
 export class ItemCollection {
 	constructor(items) {
-		for (const [id, count] of Object.entries(items)) {
-			this[id] = count;
+		for (const id of itemIds) {
+			const def = itemDefs[id];
+			let innerValue = items[id];
+			Object.defineProperty(this, id, {
+				enumerable: true,
+				get() {
+					return innerValue;
+				},
+				set(v) {
+					innerValue = Math.max(0, Math.min(v, def.max));
+					return innerValue;
+				},
+			});
 		}
 	}
 }
 
-// add getters to prototype
-for (const id of itemIds) {
-	const def = itemDefs[id];
-	let innerValue = 0;
-	Object.defineProperty(ItemCollection.prototype, id, {
-		get() {
-			return innerValue;
-		},
-		set(v) {
-			innerValue = Math.max(0, Math.min(v, def.max));
-			return innerValue;
-		},
-	});
-}
