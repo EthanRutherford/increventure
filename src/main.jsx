@@ -15,7 +15,7 @@ import "./logic/game-loop";
 import "./util/global-handlers";
 import "./styles/reset";
 
-function renderMiddlePanel(middle, close) {
+function renderMiddle(middle, close) {
 	if (middle === "stats") {
 		return <StatsPanel close={close} />;
 	}
@@ -24,7 +24,7 @@ function renderMiddlePanel(middle, close) {
 		return <OptionsPanel close={close} />;
 	}
 
-	return <StorePanel />;
+	return null;
 }
 
 function App() {
@@ -38,7 +38,8 @@ function App() {
 					<Header setMiddle={setMiddle} />
 					<StatusPanel createParticle={createParticle} />
 					<div className={styles.divider1} />
-					{renderMiddlePanel(middle, close)}
+					<StorePanel />
+					{renderMiddle(middle, close)}
 					<div className={styles.divider2} />
 					<MinionPanel />
 					<CharacterCreator />
