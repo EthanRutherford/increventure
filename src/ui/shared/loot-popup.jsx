@@ -2,8 +2,9 @@ import {useEffect} from "react";
 import {game} from "../../logic/game";
 import {itemDefs} from "../../logic/rpg/items";
 import {parseCoinsShort} from "../../util/money";
-import styles from "../../styles/loot-popup.css";
+import {Button} from "./button";
 import coinStyles from "../../styles/coins";
+import styles from "./loot-popup.css";
 
 export function LootPopup({loot, dismiss}) {
 	const coin = parseCoinsShort(loot.money);
@@ -41,9 +42,9 @@ export function LootPopup({loot, dismiss}) {
 					</div>
 				)}
 			</div>
-			<button className={styles.button} onClick={dismiss}>
+			<Button width="100%" height="50px" onClick={dismiss}>
 				Nice!
-			</button>
+			</Button>
 		</div>
 	);
 }

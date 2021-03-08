@@ -1,9 +1,7 @@
 import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {upgradeIds} from "../../logic/upgrades";
-import {parseCoinsShort} from "../../util/money";
-import storeStyles from "../../styles/store";
-import coinStyles from "../../styles/coins";
+import {DetailButton} from "../shared/detail-button";
 
 function Upgrade({id}) {
 	const upgrade = game.upgrades[id];
@@ -17,25 +15,16 @@ function Upgrade({id}) {
 		return null;
 	}
 
-	const coin = parseCoinsShort(upgrade.cost);
-
 	return (
-		<button
-			className={storeStyles.upgradeButton}
+		<DetailButton
+			borderColor="steel-blue-pale"
+			baseColor="steel-blue"
+			title={upgrade.name}
+			cost={upgrade.cost}
+			desc={upgrade.desc}
 			onClick={() => game.buyUpgrade(upgrade)}
 			disabled={disabled}
-		>
-			<div className={storeStyles.upgradeTitleRow}>
-				<h2>{upgrade.name}</h2>
-			</div>
-			<div className={storeStyles.upgradeRow}>
-				<div className={storeStyles.upgradeCost}>
-					<div className={`${coinStyles[coin.kind]} ${coinStyles.coin}`} />
-					{coin.value}
-				</div>
-				<div>{upgrade.desc}</div>
-			</div>
-		</button>
+		/>
 	);
 }
 

@@ -1,6 +1,7 @@
 import {useState, useCallback} from "react";
 import {game} from "../../logic/game";
 import Close from "../../images/svgs/close";
+import {Button} from "../shared/button";
 import styles from "../../styles/middle-page";
 
 function useConfirm(onConfirm) {
@@ -35,23 +36,27 @@ export function OptionsPanel({close}) {
 			<div className={styles.wipeBorder} />
 			<div className={styles.section}>
 				<div className={styles.buttonRow}>
-					<button
-						className={styles.button}
+					<Button
+						margin="0 10px 0 0"
+						padding="0 10px"
 						onClick={game.save}
 					>
 						save
-					</button>
+					</Button>
 					<span className={styles.grey}>
 						the game saves automatically every minute
 					</span>
 				</div>
 				<div className={styles.buttonRow}>
-					<button
-						className={`${styles.button} ${styles.red}`}
+					<Button
+						borderColor="red"
+						textColor="red"
+						margin="0 10px 0 0"
+						padding="0 10px"
 						onClick={handleWipe}
 					>
 						{confirmWipe ? "really?" : "wipe save"}
-					</button>
+					</Button>
 					<span className={styles.red}>
 						reset save data completely
 					</span>

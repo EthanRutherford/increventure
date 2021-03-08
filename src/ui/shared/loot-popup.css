@@ -1,0 +1,22 @@
+@import "../../styles/variables.css";
+
+.loot-popup {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	box-shadow: 0 1px 10px 2px rgba(0, 0, 0, .5);
+	width: 300px;
+	background-color: var(--carbon);
+	color: white;
+	text-shadow: var(--text-shadow);
+	transform: translate(-50%, -50%);
+	z-index: 100;
+}
+
+.content {
+	padding: 10px;
+}
+
+.money {
+	display: flex;
+}

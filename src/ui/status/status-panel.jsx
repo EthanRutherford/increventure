@@ -3,6 +3,7 @@ import {game} from "../../logic/game";
 import {useWatchedValue} from "../../logic/use-watched-value";
 import {coinKinds, parseCoins, parseCoinsShort} from "../../util/money";
 import {TiledBg} from "../shared/tiled-bg";
+import {Button} from "../shared/button";
 import {Party} from "./party";
 import rootStyles from "../../styles/root";
 import partyStyles from "../../styles/party";
@@ -90,9 +91,17 @@ export function StatusPanel({createParticle}) {
 			/>
 			<div className={partyStyles.content}>
 				<div className={rootStyles.title}>Party</div>
-				<button className={partyStyles.grassButton} onClick={handleClick}>
+				<Button
+					borderColor="olive-pale"
+					baseColor="olive"
+					margin="0 20px"
+					width="calc(100% - 40px)"
+					height="100px"
+					fontSize="large"
+					onClick={handleClick}
+				>
 					cut grass
-				</button>
+				</Button>
 				<Coins />
 				<Party />
 			</div>

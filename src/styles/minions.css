@@ -18,34 +18,3 @@
 	height: 100%;
 	z-index: 1;
 }
-.button {
-	border: 2px outset grey;
-	padding: 20px;
-	height: 100px;
-	width: 100%;
-	background-color: var(--slate);
-	color: white;
-	text-align: left;
-	text-shadow: var(--text-shadow);
-}
-.button:hover:not(:disabled) {
-	background-color: var(--slate-light);
-}
-.button:active:not(:disabled) {
-	border-style: inset;
-	background-color: var(--slate-dark);
-}
-.button:disabled {
-	filter: brightness(.5);
-}
-.row, .title-row {
-	display: flex;
-	justify-content: space-between;
-}
-.title-row {
-	font-size: var(--large);
-}
-.cost {
-	display: flex;
-	align-items: center;
-}

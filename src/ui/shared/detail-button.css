@@ -1,0 +1,31 @@
+@import "../../styles/variables.css";
+
+.button {
+	padding: 20px;
+	width: 100%;
+	height: 100px;
+}
+
+.button-row {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	overflow: hidden;
+}
+
+.title, .count {
+	font-size: var(--large);
+}
+
+.cost {
+	display: flex;
+	min-width: 80px;
+	align-items: center;
+}
+
+.desc {
+	min-width: 0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

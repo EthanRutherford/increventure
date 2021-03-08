@@ -4,7 +4,19 @@ import {randItem} from "../../logic/util";
 import {actionKinds} from "../../logic/rpg/actions";
 import {mapTarget} from "../../logic/rpg/effects";
 import {itemDefs, itemIds} from "../../logic/rpg/items";
+import {Button} from "../shared/button";
 import styles from "../../styles/combat.css";
+
+function ActionButton(props) {
+	return (
+		<Button
+			padding="10px"
+			width="100%"
+			height="50px"
+			{...props}
+		/>
+	);
+}
 
 export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
 	const [menuState, setMenuState] = useState("main");
@@ -32,18 +44,17 @@ export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
 		return (
 			<div className={styles.actionMenu}>
 				{game.adventurers[0].skills.map((skill) => (
-					<button
-						className={styles.button}
+					<ActionButton
 						onClick={() => useSkill(skill)}
 						disabled={game.adventurers[0].mp < skill.mpCost(game.adventurers[0])}
 						key={skill.name}
 					>
 						{skill.name}
-					</button>
+					</ActionButton>
 				))}
-				<button className={styles.button} onClick={() => setMenuState("main")}>
+				<ActionButton onClick={() => setMenuState("main")}>
 					Back
-				</button>
+				</ActionButton>
 			</div>
 		);
 	}
@@ -52,52 +63,47 @@ export function ActionMenu({isPlayerTurn, doPlayerAction, enemy}) {
 		return (
 			<div className={styles.actionMenu}>
 				{itemIds.map((itemId) => (
-					<button
-						className={styles.button}
+					<ActionButton
 						onClick={() => useItem(itemId)}
 						disabled={game.adventurers[0].items[itemId] === 0}
 						key={itemId}
 					>
 						{itemDefs[itemId].name} ({game.adventurers[0].items[itemId]})
-					</button>
+					</ActionButton>
 				))}
-				<button className={styles.button} onClick={() => setMenuState("main")}>
+				<ActionButton onClick={() => setMenuState("main")}>
 					Back
-				</button>
+				</ActionButton>
 			</div>
 		);
 	}
 
 	return (
 		<div className={styles.actionMenu}>
-			<button
-				className={styles.button}
+			<ActionButton
 				onClick={attack}
 				disabled={!isPlayerTurn}
 			>
 				Attack!
-			</button>
-			<button
-				className={styles.button}
+			</ActionButton>
+			<ActionButton
 				onClick={() => setMenuState("skill")}
 				disabled={!isPlayerTurn}
 			>
 				Skill!
-			</button>
-			<button
-				className={styles.button}
+			</ActionButton>
+			<ActionButton
 				onClick={() => setMenuState("items")}
 				disabled={!isPlayerTurn}
 			>
 				Item!
-			</button>
-			<button
-				className={styles.button}
+			</ActionButton>
+			<ActionButton
 				onClick={run}
 				disabled={!isPlayerTurn}
 			>
 				Run!
-			</button>
+			</ActionButton>
 		</div>
 	);
 }

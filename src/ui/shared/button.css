@@ -1,0 +1,22 @@
+@import "../../styles/variables.css";
+
+.button {
+	--base-color: var(--slate);
+	--light-color: var(--slate-light);
+	--dark-color: var(--slate-dark);
+
+	border: 2px outset var(--grey);
+	background-color: var(--base-color);
+	color: white;
+	text-shadow: var(--text-shadow);
+}
+.button:hover:not(:disabled) {
+	background-color: var(--light-color);
+}
+.button:active:not(:disabled) {
+	border-style: inset;
+	background-color: var(--dark-color);
+}
+.button:disabled {
+	filter: brightness(.5);
+}

@@ -4,6 +4,7 @@ import {useWatchedValue} from "../../logic/use-watched-value";
 import {statDefs, adventurerDefs, adventurerKinds} from "../../logic/classes/classes";
 import {createNewAdventurer} from "../../logic/rpg/beings";
 import {CharacterHead} from "../status/character-head";
+import {Button} from "../shared/button";
 import styles from "../../styles/character-creator";
 
 const skinColors = [
@@ -33,12 +34,9 @@ function CreatorPopup({which}) {
 					<li className={styles.listTitle}>Adventurers</li>
 					{adventurerKinds.map((kind) => (
 						<li key={kind}>
-							<button
-								className={styles.button}
-								onClick={() => setKind(kind)}
-							>
+							<Button width="100%" height="50px" onClick={() => setKind(kind)}>
 								{def.name}
-							</button>
+							</Button>
 						</li>
 					))}
 				</ul>
@@ -72,12 +70,14 @@ function CreatorPopup({which}) {
 					onChange={(event) => setName(event.target.value)}
 					value={name}
 				/>
-				<button
+				<Button
 					className={styles.createButton}
+					borderColor="olive-pale"
+					baseColor="olive"
 					onClick={create}
 				>
 					Create!
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

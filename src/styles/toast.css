@@ -43,8 +43,8 @@
 	height: 24px;
 }
 .close-button:hover {
-	box-shadow: 0 0 4px 2px grey; 
-	background-color: grey;
+	box-shadow: 0 0 4px 2px var(--grey); 
+	background-color: var(--grey);
 }
 .close-button:active {
 	box-shadow: 0 0 4px 2px var(--slate); 

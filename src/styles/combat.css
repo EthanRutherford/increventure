@@ -3,7 +3,7 @@
 .container {
 	box-shadow: 0 1px 25px 1px rgb(0, 0, 0, .5) inset;
 	position: relative;
-	background-color: grey;
+	background-color: var(--grey);
 	animation-name: smash-in;
 	animation-duration: .4s;
 	animation-fill-mode: forwards;
@@ -107,27 +107,6 @@
 	height: 100px;
 	background-color: var(--slate-dark);
 	overflow: auto;
-}
-
-.button {
-	border: 2px outset grey;
-	padding: 10px;
-	height: 50px;
-	width: 100%;
-	background-color: var(--slate);
-	color: white;
-	text-align: left;
-	text-shadow: var(--text-shadow);
-}
-.button:hover:not(:disabled) {
-	background-color: var(--slate-light);
-}
-.button:active:not(:disabled) {
-	border-style: inset;
-	background-color: var(--slate-dark);
-}
-.button:disabled {
-	filter: brightness(.5);
 }
 
 @keyframes smash-in {

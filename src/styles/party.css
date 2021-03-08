@@ -19,24 +19,6 @@
 	z-index: 1;
 }
 
-.grass-button {
-	border: 2px outset var(--olive-pale);
-	margin: 0 20px;
-	width: calc(100% - 40px);
-	height: 100px;
-	background-color: var(--olive);
-	color: white;
-	font-size: var(--large);
-	text-shadow: var(--text-shadow);
-}
-.grass-button:hover {
-	background-color: var(--olive-light);
-}
-.grass-button:active {
-	border-style: inset;
-	background-color: var(--olive-dark);
-}
-
 .character {
 	display: grid;
 	grid-template-columns: auto min-content;

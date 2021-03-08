@@ -17,6 +17,7 @@
 
 	/* greys */
 	--light-grey: hsl(0, 0%, 80%);
+	--grey: grey;
 	--slate-light: hsl(0, 0%, 40%);
 	--slate: hsl(0, 0%, 30%);
 	--slate-dark: hsl(0, 0%, 20%);
@@ -35,4 +36,7 @@
 	--steel-blue-light: hsl(220, 30%, 40%);
 	--steel-blue: hsl(220, 40%, 30%);
 	--steel-blue-dark: hsl(220, 30%, 20%);
+
+	/* reds */
+	--red: red;
 }
